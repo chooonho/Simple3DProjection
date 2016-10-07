@@ -8,6 +8,18 @@ MeshSphere::MeshSphere()
 	setIsWireFrame(false);
 }
 
+MeshSphere::MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount,
+						Transform translate, Transform rotate, Transform scale, bool isWireFrame)
+{
+	mRadius = radius;
+	mSliceCount = sliceCount;
+	mStackCount = stackCount;
+	setTranslate(translate);
+	setRotate(rotate);
+	setScale(scale);
+	setIsWireFrame(isWireFrame);
+}
+
 GLdouble MeshSphere::getRadius()
 {
 	return mRadius;

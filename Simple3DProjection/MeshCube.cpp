@@ -6,6 +6,15 @@ MeshCube::MeshCube()
 	setIsWireFrame(false);
 }
 
+MeshCube::MeshCube(GLdouble size, Transform translate, Transform rotate, Transform scale, bool isWireFrame)
+{
+	mSize = size;
+	setTranslate(translate);
+	setRotate(rotate);
+	setScale(scale);
+	setIsWireFrame(isWireFrame);
+}
+
 GLdouble MeshCube::getSize()
 {
 	return mSize;

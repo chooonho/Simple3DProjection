@@ -11,6 +11,7 @@ class MeshCube : Mesh {
 		GLdouble mSize;
 	public:
 		MeshCube();
+		MeshCube(GLdouble, Transform, Transform, Transform, bool);
 		GLdouble getSize();
 		void setSize(GLdouble);
 		virtual void draw();
