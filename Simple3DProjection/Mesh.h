@@ -1,6 +1,7 @@
 #pragma once
 
-class Mesh {
+class Mesh
+{
 	public:
 		virtual void draw() = 0;
 };
