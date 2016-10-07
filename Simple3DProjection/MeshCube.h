@@ -9,9 +9,10 @@
 class MeshCube : Mesh {
 	private:
 		GLdouble mSize;
-		bool mIsWireFrame;
 	public:
 		MeshCube();
+		GLdouble getSize();
+		void setSize(GLdouble);
 		virtual void draw();
 };
 

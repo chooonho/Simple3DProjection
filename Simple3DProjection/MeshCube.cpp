@@ -3,12 +3,22 @@
 MeshCube::MeshCube()
 {
 	mSize = 0.0;
-	mIsWireFrame = false;
+	setIsWireFrame(false);
+}
+
+GLdouble MeshCube::getSize()
+{
+	return mSize;
+}
+
+void MeshCube::setSize(GLdouble size)
+{
+	mSize = size;
 }
 
 void MeshCube::draw()
 {
-	if (mIsWireFrame)
+	if (getIsWireFrame())
 	{
 		glutWireCube(mSize);
 	}
