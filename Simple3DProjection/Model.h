@@ -16,10 +16,11 @@ class Model
 		Transform mTranslate;
 		Transform mRotate;
 		Transform mScale;
-		std::vector<Mesh> mMeshes;
+		std::vector<Mesh*> mMeshes;
 	public:
 		Model();
-		Model(Transform, Transform, Transform, std::vector<Mesh>);
+		Model(Transform, Transform, Transform, std::vector<Mesh*>);
+		~Model();
 		Transform getTranslate();
 		double getTranslateX();
 		double getTranslateY();
@@ -44,7 +45,7 @@ class Model
 		void setSclaeX(double scaleX);
 		void setScaleY(double scaleY);
 		void setScaleZ(double scaleZ);
-		void setMeshes(std::vector<Mesh> meshes);
+		void setMeshes(std::vector<Mesh*> meshes);
 		void addMesh(Mesh*);
 		void clearMesh();
 		void draw();

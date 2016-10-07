@@ -7,12 +7,21 @@ Model::Model()
 	mScale = { 0.0, 0.0, 0.0 };
 }
 
-Model::Model(Transform translate, Transform rotate, Transform scale, std::vector<Mesh> meshes)
+Model::Model(Transform translate, Transform rotate, Transform scale, std::vector<Mesh*> meshes)
 {
 	mTranslate = translate;
 	mRotate = rotate;
 	mScale = scale;
 	mMeshes = meshes;
+}
+
+Model::~Model()
+{
+	while (!mMeshes.empty())
+	{
+		delete mMeshes.back();
+		mMeshes.pop_back();
+	}
 }
 
 Transform Model::getTranslate()
@@ -134,9 +143,14 @@ void Model::setScaleZ(double scaleZ)
 	mScale.z = scaleZ;
 }
 
+void Model::setMeshes(std::vector<Mesh*> meshes)
+{
+	mMeshes = meshes;
+}
+
 void Model::addMesh(Mesh* mesh)
 {
-	mMeshes.push_back(*(mesh));
+	mMeshes.push_back(mesh);
 }
 
 void Model::clearMesh()
@@ -148,6 +162,6 @@ void Model::draw()
 {
 	for (int i = 0; i < mMeshes.size(); i++)
 	{
-		mMeshes[i].draw();
+		mMeshes[i]->draw();
 	}
 }
