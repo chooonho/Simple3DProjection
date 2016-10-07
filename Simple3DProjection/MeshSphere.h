@@ -13,7 +13,7 @@ class MeshSphere : Mesh {
 		GLint mStackCount;
 	public:
 		MeshSphere();
-		MeshSphere(GLdouble, GLint, GLint, Transform, Transform, Transform, bool);
+		MeshSphere(GLdouble, GLint, GLint, ColorRGB3F, Transform, Transform, Transform, bool);
 		GLdouble getRadius();
 		GLint getSliceCount();
 		GLint getStackCount();

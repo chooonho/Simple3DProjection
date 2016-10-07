@@ -4,6 +4,12 @@
 #define MESH_H
 #include "Transform.h"
 
+struct ColorRGB3F {
+	double red;
+	double green;
+	double blue;
+};
+
 class Mesh
 {
 	private:
@@ -11,6 +17,7 @@ class Mesh
 		Transform mTranslate;
 		Transform mRotate;
 		Transform mScale;
+		ColorRGB3F mColor;
 	public:
 		Transform getTranslate() { return mTranslate; }
 		double getTranslateX() { return mTranslate.getX(); }
@@ -24,6 +31,10 @@ class Mesh
 		double getScaleX() { return mScale.getX(); }
 		double getScaleY() { return mScale.getY(); }
 		double getScaleZ() { return mScale.getZ(); }
+		ColorRGB3F getColor() { return mColor;  }
+		double getColorR() { return mColor.red; }
+		double getColorG() { return mColor.green; }
+		double getColorB() { return mColor.blue; }
 		void setTranslate(Transform translate) { mTranslate = translate; }
 		void setTranslateX(double translateX) { mTranslate.setX(translateX); }
 		void setTranslateY(double translateY) { mTranslate.setY(translateY); }
@@ -36,6 +47,10 @@ class Mesh
 		void setSclaeX(double scaleX) { mScale.setX(scaleX); }
 		void setScaleY(double scaleY) { mScale.setY(scaleY); }
 		void setScaleZ(double scaleZ) { mScale.setZ(scaleZ); }
+		void setColor(ColorRGB3F color) { mColor = color; }
+		void setColorR(double red) { mColor.red = red; }
+		void setColorG(double green) { mColor.green = green; }
+		void setColorB(double blue) { mColor.blue = blue; }
 		bool getIsWireFrame() { return mIsWireFrame; }
 		void setIsWireFrame(bool isWireFrame) { mIsWireFrame = isWireFrame; }
 		virtual void draw() = 0;

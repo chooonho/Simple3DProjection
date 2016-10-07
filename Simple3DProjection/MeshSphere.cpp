@@ -3,17 +3,18 @@
 MeshSphere::MeshSphere()
 {
 	mRadius = 0.0;
-	mSliceCount = 0.0;
-	mStackCount = 0.0;
+	mSliceCount = 0;
+	mStackCount = 0;
 	setIsWireFrame(false);
 }
 
-MeshSphere::MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount,
+MeshSphere::MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount, ColorRGB3F color,
 						Transform translate, Transform rotate, Transform scale, bool isWireFrame)
 {
 	mRadius = radius;
 	mSliceCount = sliceCount;
 	mStackCount = stackCount;
+	setColor(color);
 	setTranslate(translate);
 	setRotate(rotate);
 	setScale(scale);
