@@ -1,11 +1,6 @@
 #include "Model.h"
 
-Model::Model()
-{
-	mTranslate = { 0.0, 0.0, 0.0 };
-	mRotate = { 0.0, 0.0, 0.0 };
-	mScale = { 0.0, 0.0, 0.0 };
-}
+Model::Model() { }
 
 Model::Model(Transform translate, Transform rotate, Transform scale, std::vector<Mesh*> meshes)
 {
