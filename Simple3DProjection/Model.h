@@ -1,14 +1,10 @@
 #pragma once
 
+#ifndef MODEL_H
+#define MODEL_H
 #include <vector>
+#include "Transform.h"
 #include "Mesh.h"
-
-struct Transform
-{
-	double x;
-	double y;
-	double z;
-};
 
 class Model
 {
@@ -33,20 +29,22 @@ class Model
 		double getScaleX();
 		double getScaleY();
 		double getScaleZ();
-		void setTranslate(Transform translate);
-		void setTranslateX(double translateX);
-		void setTranslateY(double translateY);
-		void setTranslateZ(double translateZ);
-		void setRotate(Transform rotate);
-		void setRotateX(double rotateX);
-		void setRotateY(double rotateY);
-		void setRotateZ(double rotateZ);
-		void setScale(Transform scale);
-		void setSclaeX(double scaleX);
-		void setScaleY(double scaleY);
-		void setScaleZ(double scaleZ);
+		void setTranslate(Transform);
+		void setTranslateX(double);
+		void setTranslateY(double);
+		void setTranslateZ(double);
+		void setRotate(Transform);
+		void setRotateX(double);
+		void setRotateY(double);
+		void setRotateZ(double);
+		void setScale(Transform);
+		void setSclaeX(double);
+		void setScaleY(double);
+		void setScaleZ(double);
 		void setMeshes(std::vector<Mesh*> meshes);
 		void addMesh(Mesh*);
 		void clearMesh();
 		void draw();
 };
+
+#endif

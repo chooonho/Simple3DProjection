@@ -31,17 +31,17 @@ Transform Model::getTranslate()
 
 double Model::getTranslateX()
 {
-	return mTranslate.x;
+	return mTranslate.getX();
 }
 
 double Model::getTranslateY()
 {
-	return mTranslate.y;
+	return mTranslate.getY();
 }
 
 double Model::getTranslateZ()
 {
-	return mTranslate.z;
+	return mTranslate.getZ();
 }
 
 Transform Model::getRotate()
@@ -51,17 +51,17 @@ Transform Model::getRotate()
 
 double Model::getRotateX()
 {
-	return mRotate.x;
+	return mRotate.getX();
 }
 
 double Model::getRotateY()
 {
-	return mRotate.y;
+	return mRotate.getY();
 }
 
 double Model::getRotateZ()
 {
-	return mRotate.z;
+	return mRotate.getZ();
 }
 
 Transform Model::getScale()
@@ -71,16 +71,16 @@ Transform Model::getScale()
 
 double Model::getScaleX()
 {
-	return mScale.x;
+	return mScale.getX();
 }
 double Model::getScaleY()
 {
-	return mScale.y;
+	return mScale.getY();
 }
 
 double Model::getScaleZ()
 {
-	return mScale.z;
+	return mScale.getZ();
 }
 
 void Model::setTranslate(Transform translate)
@@ -90,17 +90,17 @@ void Model::setTranslate(Transform translate)
 
 void Model::setTranslateX(double translateX)
 {
-	mTranslate.x = translateX;
+	mTranslate.setX(translateX);
 }
 
 void Model::setTranslateY(double translateY)
 {
-	mTranslate.y = translateY;
+	mTranslate.setY(translateY);
 }
 
 void Model::setTranslateZ(double translateZ)
 {
-	mTranslate.z = translateZ;
+	mTranslate.setZ(translateZ);
 }
 
 void Model::setRotate(Transform rotate)
@@ -110,17 +110,17 @@ void Model::setRotate(Transform rotate)
 
 void Model::setRotateX(double rotateX)
 {
-	mRotate.x = rotateX;
+	mRotate.setX(rotateX);
 }
 
 void Model::setRotateY(double rotateY)
 {
-	mRotate.y = rotateY;
+	mRotate.setY(rotateY);
 }
 
 void Model::setRotateZ(double rotateZ)
 {
-	mRotate.z = rotateZ;
+	mRotate.setZ(rotateZ);
 }
 
 void Model::setScale(Transform scale)
@@ -130,17 +130,17 @@ void Model::setScale(Transform scale)
 
 void Model::setSclaeX(double scaleX)
 {
-	mScale.x = scaleX;
+	mScale.setX(scaleX);
 }
 
 void Model::setScaleY(double scaleY)
 {
-	mScale.y = scaleY;
+	mScale.setY(scaleY);
 }
 
 void Model::setScaleZ(double scaleZ)
 {
-	mScale.z = scaleZ;
+	mScale.setY(scaleZ);
 }
 
 void Model::setMeshes(std::vector<Mesh*> meshes)
