@@ -3,6 +3,8 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include <GL/glut.h>
+
 class Transform
 {
 	private:
