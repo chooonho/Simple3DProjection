@@ -2,14 +2,18 @@
 #include <GL/glut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
+#include <vector>
+#include "Model.h"
+#include "ModelCreator.h"
 
 #define DEG_TO_RAD 0.0174533
 
 float eyeX = 0.0;
-float eyeY = 0.0;
-float eyeZ = 5;
-float z = 5;
+float eyeY = 5.0;
+float eyeZ = 25;
+float z = 25;
 float angleX = 0.0;
+std::vector<Model*> models;
 
 void init(void)
 {
@@ -27,24 +31,28 @@ void display(void)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 5.0, 0.0, 0.0, 1.0, 0.0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix();
-		glRotatef(45, 1, 0, 0);
-		glColor3f(1.0, 0.0, 0.0);
-		glutSolidCube(1.0);
-			glPushMatrix();
-				glColor3f(2.0, 1.0, 0.0);
-				glTranslatef(1.0, 0, 0.0);
-				glutSolidCube(0.5);
-			glPopMatrix();
-			glPushMatrix();
-				glColor3f(1.0, 0.0, 1.0);
-				glTranslatef(2.0, 0, 0);
-				glutSolidCube(1.0);
-			glPopMatrix();
+		for (int i = 0; i < models.size(); i++)
+		{
+			models[i]->draw();
+		}
+		//glRotatef(45, 1, 0, 0);
+		//glColor3f(1.0, 0.0, 0.0);
+		//glutSolidCube(1.0);
+		//	glPushMatrix();
+		//		glColor3f(2.0, 1.0, 0.0);
+		//		glTranslatef(1.0, 0, 0.0);
+		//		glutSolidCube(1.0);
+		//	glPopMatrix();
+		//	glPushMatrix();
+		//		glColor3f(1.0, 0.0, 1.0);
+		//		glTranslatef(2.0, 0, 0);
+		//		glutSolidCube(1.0);
+		//	glPopMatrix();
 	glPopMatrix();
 
 	glutSwapBuffers();
@@ -65,22 +73,16 @@ void MyKeyboard(int Key, int m, int n)
 		eyeX = z * sin(DEG_TO_RAD * angleX);
 		eyeZ = z * cos(DEG_TO_RAD * angleX);
 		break;
-
-	//	//Use F1 key to toggle between fullscreen and regular window
-	//case GLUT_KEY_F1:
-	//	fullscreen = !fullscreen;
-	//	if (fullscreen)
-	//		glutFullScreen();			//use full screen
-	//	else
-	//		glutReshapeWindow(960, 540);	//resize display window
-
-	//	break;
-
-	//	//Use F2 key to toggle between wireframe or solid rendering
-	//case GLUT_KEY_F2:
-	//	solid = !solid;
-	//	break;
 	}
+}
+
+void createModels()
+{
+	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-6.0, 0.0, -10.0), Rotate(0.0, 0.0, 0.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 1.0, 1.0, 0.0 }, horizontal));
+	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-7.0, 0.0, 0.0), Rotate(90.0, 0.0, 1.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{1.0, 0.0, 0.0}, vertical));
+	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-6.0, 10.0, -10.0), Rotate(0.0, 0.0, 0.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 0.0, 0.0, 1.0 }, horizontal));
+	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(5.0, 0.0, 0.0), Rotate(90.0, 0.0, 1.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 0.0, 1.0, 0.0 }, vertical));
+	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-6.0, 0.0, -10.0), Rotate(0.0, 0.0, 0.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 1.0, 0.0, 1.0 }, vertical));
 }
 
 int main(int argc, char** argv)
@@ -92,6 +94,8 @@ int main(int argc, char** argv)
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Simple 3D Projection");
 	init();
+
+	createModels();
 
 	glutDisplayFunc(display);
 	glutIdleFunc(display);

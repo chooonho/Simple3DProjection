@@ -7,7 +7,7 @@
 
 class Transform
 {
-	private:
+	protected:
 		GLdouble mX;
 		GLdouble mY;
 		GLdouble mZ;

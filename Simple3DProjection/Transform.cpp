@@ -8,39 +8,39 @@ Transform::Transform()
 	mZ = 0;
 }
 
-Transform::Transform(double x, double y, double z)
+Transform::Transform(GLdouble x, GLdouble y, GLdouble z)
 {
 	mX = x;
 	mY = y;
 	mZ = z;
 }
 
-double Transform::getX()
+GLdouble Transform::getX()
 {
 	return mX;
 }
 
-double Transform::getY()
+GLdouble Transform::getY()
 {
 	return mY;
 }
 
-double Transform::getZ()
+GLdouble Transform::getZ()
 {
 	return mZ;
 }
 
-void Transform::setX(double x)
+void Transform::setX(GLdouble x)
 {
 	mX = x;
 }
 
-void Transform::setY(double y)
+void Transform::setY(GLdouble y)
 {
 	mY = y;
 }
 
-void Transform::setZ(double z)
+void Transform::setZ(GLdouble z)
 {
 	mZ = z;
 }

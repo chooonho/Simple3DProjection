@@ -6,7 +6,7 @@ MeshCube::MeshCube()
 	setIsWireFrame(false);
 }
 
-MeshCube::MeshCube(GLdouble size, ColorRGB3F color, Transform translate, Transform rotate, Transform scale, bool isWireFrame)
+MeshCube::MeshCube(GLdouble size, ColorRGB3F color, Transform translate, Rotate rotate, Transform scale, bool isWireFrame)
 {
 	mSize = size;
 	setColor(color);
@@ -28,12 +28,19 @@ void MeshCube::setSize(GLdouble size)
 
 void MeshCube::draw()
 {
-	if (getIsWireFrame())
-	{
-		glutWireCube(mSize);
-	}
-	else
-	{
-		glutSolidCube(mSize);
-	}
+	glPushMatrix();
+		glColor3f(getColor().red, getColor().blue, getColor().green);
+		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
+		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
+		glScaled(getScaleX(), getScaleY(), getScaleZ());
+
+		if (getIsWireFrame())
+		{
+			glutWireCube(mSize);
+		}
+		else
+		{
+			glutSolidCube(mSize);
+		}
+	glPopMatrix();
 }

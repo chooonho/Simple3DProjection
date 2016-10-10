@@ -5,14 +5,14 @@
 
 #include "Mesh.h"
 
-class MeshSphere : Mesh {
+class MeshSphere : public Mesh {
 	private:
 		GLdouble mRadius;
 		GLint mSliceCount;
 		GLint mStackCount;
 	public:
 		MeshSphere();
-		MeshSphere(GLdouble, GLint, GLint, ColorRGB3F, Transform, Transform, Transform, bool);
+		MeshSphere(GLdouble, GLint, GLint, ColorRGB3F, Transform, Rotate, Transform, bool);
 		GLdouble getRadius();
 		GLint getSliceCount();
 		GLint getStackCount();

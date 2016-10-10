@@ -10,18 +10,19 @@ class Model
 {
 	private:
 		Transform mTranslate;
-		Transform mRotate;
+		Rotate mRotate;
 		Transform mScale;
 		std::vector<Mesh*> mMeshes;
 	public:
 		Model();
-		Model(Transform, Transform, Transform, std::vector<Mesh*>);
+		Model(Transform, Rotate, Transform, std::vector<Mesh*>);
 		~Model();
 		Transform getTranslate();
 		GLdouble getTranslateX();
 		GLdouble getTranslateY();
 		GLdouble getTranslateZ();
-		Transform getRotate();
+		Rotate getRotate();
+		GLdouble getRotateAngle();
 		GLdouble getRotateX();
 		GLdouble getRotateY();
 		GLdouble getRotateZ();
@@ -33,7 +34,8 @@ class Model
 		void setTranslateX(GLdouble);
 		void setTranslateY(GLdouble);
 		void setTranslateZ(GLdouble);
-		void setRotate(Transform);
+		void setRotate(Rotate);
+		void setRotateAngle(GLdouble);
 		void setRotateX(GLdouble);
 		void setRotateY(GLdouble);
 		void setRotateZ(GLdouble);

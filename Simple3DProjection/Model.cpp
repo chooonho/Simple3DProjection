@@ -1,8 +1,11 @@
 #include "Model.h"
 
-Model::Model() { }
+Model::Model()
+{ 
+	mScale = Transform(1.0, 1.0, 1.0);
+}
 
-Model::Model(Transform translate, Transform rotate, Transform scale, std::vector<Mesh*> meshes)
+Model::Model(Transform translate, Rotate rotate, Transform scale, std::vector<Mesh*> meshes)
 {
 	mTranslate = translate;
 	mRotate = rotate;
@@ -39,9 +42,14 @@ GLdouble Model::getTranslateZ()
 	return mTranslate.getZ();
 }
 
-Transform Model::getRotate()
+Rotate Model::getRotate()
 {
 	return mRotate;
+}
+
+GLdouble Model::getRotateAngle()
+{
+	return mRotate.getAngle();
 }
 
 GLdouble Model::getRotateX()
@@ -99,9 +107,14 @@ void Model::setTranslateZ(GLdouble translateZ)
 	mTranslate.setZ(translateZ);
 }
 
-void Model::setRotate(Transform rotate)
+void Model::setRotate(Rotate rotate)
 {
 	mRotate = rotate;
+}
+
+void Model::setRotateAngle(GLdouble angle)
+{
+	mRotate.setAngle(angle);
 }
 
 void Model::setRotateX(GLdouble rotateX)
@@ -156,8 +169,14 @@ void Model::clearMesh()
 
 void Model::draw()
 {
-	for (int i = 0; i < mMeshes.size(); i++)
-	{
-		mMeshes[i]->draw();
-	}
+	glPushMatrix();
+		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
+		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
+		glScaled(getScaleX(), getScaleY(), getScaleZ());
+
+		for (int i = 0; i < mMeshes.size(); i++)
+		{
+			mMeshes[i]->draw();
+		}
+	glPopMatrix();
 }

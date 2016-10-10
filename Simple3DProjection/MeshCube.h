@@ -5,12 +5,12 @@
 
 #include "Mesh.h"
 
-class MeshCube : Mesh {
+class MeshCube : public Mesh {
 	private:
 		GLdouble mSize;
 	public:
 		MeshCube();
-		MeshCube(GLdouble, ColorRGB3F, Transform, Transform, Transform, bool);
+		MeshCube(GLdouble, ColorRGB3F, Transform, Rotate, Transform, bool);
 		GLdouble getSize();
 		void setSize(GLdouble);
 		virtual void draw();

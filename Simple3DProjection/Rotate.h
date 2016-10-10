@@ -15,6 +15,7 @@ class Rotate : public Transform
 		Rotate(GLdouble, GLdouble, GLdouble, GLdouble);
 		GLdouble getAngle();
 		void setAngle(GLdouble);
+		Rotate& operator=(const Rotate&);
 };
 
 #endif

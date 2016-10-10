@@ -4,6 +4,7 @@
 #define MESH_H
 #include <GL/glut.h>
 #include "Transform.h"
+#include "Rotate.h"
 
 struct ColorRGB3F {
 	double red;
@@ -16,15 +17,17 @@ class Mesh
 	private:
 		bool mIsWireFrame;
 		Transform mTranslate;
-		Transform mRotate;
+		Rotate mRotate;
 		Transform mScale;
 		ColorRGB3F mColor;
 	public:
+		Mesh() { mScale.setX(1.0); mScale.setY(1.0); mScale.setZ(1.0); }
 		Transform getTranslate() { return mTranslate; }
 		GLdouble getTranslateX() { return mTranslate.getX(); }
 		GLdouble getTranslateY() { return mTranslate.getY(); }
 		GLdouble getTranslateZ() { return mTranslate.getZ(); }
-		Transform getRotate() { return mRotate; }
+		Rotate getRotate() { return mRotate; }
+		GLdouble getRotateAngle() { return mRotate.getAngle(); }
 		GLdouble getRotateX() { return mRotate.getX(); }
 		GLdouble getRotateY() { return mRotate.getY(); }
 		GLdouble getRotateZ() { return mRotate.getZ(); }
@@ -40,7 +43,8 @@ class Mesh
 		void setTranslateX(GLdouble translateX) { mTranslate.setX(translateX); }
 		void setTranslateY(GLdouble translateY) { mTranslate.setY(translateY); }
 		void setTranslateZ(GLdouble translateZ) { mTranslate.setZ(translateZ); }
-		void setRotate(Transform rotate) { mRotate = rotate; }
+		void setRotate(Rotate rotate) { mRotate = rotate; }
+		void setRotateAngle(GLdouble angle) { mRotate.setAngle(angle); }
 		void setRotateX(GLdouble rotateX) { mRotate.setX(rotateX); }
 		void setRotateY(GLdouble rotateY) { mRotate.setY(rotateY); }
 		void setRotateZ(GLdouble rotateZ) { mRotate.setZ(rotateZ); }
