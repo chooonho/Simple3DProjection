@@ -31,13 +31,20 @@ void display(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glColor3f(1.0, 0.0, 0.0);
-	glutSolidCube(1.0);
-
 	glPushMatrix();
-	glTranslatef(1.0, 0, 0.0);
-	glColor3f(1.0, 1.0, 0.0);
-	glutSolidCube(0.5);
+		glRotatef(45, 1, 0, 0);
+		glColor3f(1.0, 0.0, 0.0);
+		glutSolidCube(1.0);
+			glPushMatrix();
+				glColor3f(2.0, 1.0, 0.0);
+				glTranslatef(1.0, 0, 0.0);
+				glutSolidCube(0.5);
+			glPopMatrix();
+			glPushMatrix();
+				glColor3f(1.0, 0.0, 1.0);
+				glTranslatef(2.0, 0, 0);
+				glutSolidCube(1.0);
+			glPopMatrix();
 	glPopMatrix();
 
 	glutSwapBuffers();
