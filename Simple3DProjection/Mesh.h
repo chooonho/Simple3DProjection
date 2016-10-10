@@ -2,6 +2,7 @@
 
 #ifndef MESH_H
 #define MESH_H
+#include <GL/glut.h>
 #include "Transform.h"
 
 struct ColorRGB3F {
@@ -20,33 +21,33 @@ class Mesh
 		ColorRGB3F mColor;
 	public:
 		Transform getTranslate() { return mTranslate; }
-		double getTranslateX() { return mTranslate.getX(); }
-		double getTranslateY() { return mTranslate.getY(); }
-		double getTranslateZ() { return mTranslate.getZ(); }
+		GLdouble getTranslateX() { return mTranslate.getX(); }
+		GLdouble getTranslateY() { return mTranslate.getY(); }
+		GLdouble getTranslateZ() { return mTranslate.getZ(); }
 		Transform getRotate() { return mRotate; }
-		double getRotateX() { return mRotate.getX(); }
-		double getRotateY() { return mRotate.getY(); }
-		double getRotateZ() { return mRotate.getZ(); }
+		GLdouble getRotateX() { return mRotate.getX(); }
+		GLdouble getRotateY() { return mRotate.getY(); }
+		GLdouble getRotateZ() { return mRotate.getZ(); }
 		Transform getScale() { return mScale; }
-		double getScaleX() { return mScale.getX(); }
-		double getScaleY() { return mScale.getY(); }
-		double getScaleZ() { return mScale.getZ(); }
+		GLdouble getScaleX() { return mScale.getX(); }
+		GLdouble getScaleY() { return mScale.getY(); }
+		GLdouble getScaleZ() { return mScale.getZ(); }
 		ColorRGB3F getColor() { return mColor;  }
 		double getColorR() { return mColor.red; }
 		double getColorG() { return mColor.green; }
 		double getColorB() { return mColor.blue; }
 		void setTranslate(Transform translate) { mTranslate = translate; }
-		void setTranslateX(double translateX) { mTranslate.setX(translateX); }
-		void setTranslateY(double translateY) { mTranslate.setY(translateY); }
-		void setTranslateZ(double translateZ) { mTranslate.setZ(translateZ); }
+		void setTranslateX(GLdouble translateX) { mTranslate.setX(translateX); }
+		void setTranslateY(GLdouble translateY) { mTranslate.setY(translateY); }
+		void setTranslateZ(GLdouble translateZ) { mTranslate.setZ(translateZ); }
 		void setRotate(Transform rotate) { mRotate = rotate; }
-		void setRotateX(double rotateX) { mRotate.setX(rotateX); }
-		void setRotateY(double rotateY) { mRotate.setY(rotateY); }
-		void setRotateZ(double rotateZ) { mRotate.setZ(rotateZ); }
+		void setRotateX(GLdouble rotateX) { mRotate.setX(rotateX); }
+		void setRotateY(GLdouble rotateY) { mRotate.setY(rotateY); }
+		void setRotateZ(GLdouble rotateZ) { mRotate.setZ(rotateZ); }
 		void setScale(Transform scale) { mScale = scale; }
-		void setSclaeX(double scaleX) { mScale.setX(scaleX); }
-		void setScaleY(double scaleY) { mScale.setY(scaleY); }
-		void setScaleZ(double scaleZ) { mScale.setZ(scaleZ); }
+		void setSclaeX(GLdouble scaleX) { mScale.setX(scaleX); }
+		void setScaleY(GLdouble scaleY) { mScale.setY(scaleY); }
+		void setScaleZ(GLdouble scaleZ) { mScale.setZ(scaleZ); }
 		void setColor(ColorRGB3F color) { mColor = color; }
 		void setColorR(double red) { mColor.red = red; }
 		void setColorG(double green) { mColor.green = green; }

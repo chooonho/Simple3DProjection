@@ -8,18 +8,18 @@
 class Transform
 {
 	private:
-		double mX;
-		double mY;
-		double mZ;
+		GLdouble mX;
+		GLdouble mY;
+		GLdouble mZ;
 	public:
 		Transform();
-		Transform(double, double, double);
-		double getX();
-		double getY();
-		double getZ();
-		void setX(double);
-		void setY(double);
-		void setZ(double);
+		Transform(GLdouble, GLdouble, GLdouble);
+		GLdouble getX();
+		GLdouble getY();
+		GLdouble getZ();
+		void setX(GLdouble);
+		void setY(GLdouble);
+		void setZ(GLdouble);
 		Transform& operator=(const Transform&);
 };
 

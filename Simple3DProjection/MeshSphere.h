@@ -3,7 +3,6 @@
 #ifndef MESH_SPHERE_H
 #define MESH_SPHERE_H
 
-#include <GL/glut.h>
 #include "Mesh.h"
 
 class MeshSphere : Mesh {

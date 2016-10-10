@@ -24,17 +24,17 @@ Transform Model::getTranslate()
 	return mTranslate;
 }
 
-double Model::getTranslateX()
+GLdouble Model::getTranslateX()
 {
 	return mTranslate.getX();
 }
 
-double Model::getTranslateY()
+GLdouble Model::getTranslateY()
 {
 	return mTranslate.getY();
 }
 
-double Model::getTranslateZ()
+GLdouble Model::getTranslateZ()
 {
 	return mTranslate.getZ();
 }
@@ -44,17 +44,17 @@ Transform Model::getRotate()
 	return mRotate;
 }
 
-double Model::getRotateX()
+GLdouble Model::getRotateX()
 {
 	return mRotate.getX();
 }
 
-double Model::getRotateY()
+GLdouble Model::getRotateY()
 {
 	return mRotate.getY();
 }
 
-double Model::getRotateZ()
+GLdouble Model::getRotateZ()
 {
 	return mRotate.getZ();
 }
@@ -64,16 +64,17 @@ Transform Model::getScale()
 	return mScale;
 }
 
-double Model::getScaleX()
+GLdouble Model::getScaleX()
 {
 	return mScale.getX();
 }
-double Model::getScaleY()
+
+GLdouble Model::getScaleY()
 {
 	return mScale.getY();
 }
 
-double Model::getScaleZ()
+GLdouble Model::getScaleZ()
 {
 	return mScale.getZ();
 }
@@ -83,17 +84,17 @@ void Model::setTranslate(Transform translate)
 	mTranslate = translate;
 }
 
-void Model::setTranslateX(double translateX)
+void Model::setTranslateX(GLdouble translateX)
 {
 	mTranslate.setX(translateX);
 }
 
-void Model::setTranslateY(double translateY)
+void Model::setTranslateY(GLdouble translateY)
 {
 	mTranslate.setY(translateY);
 }
 
-void Model::setTranslateZ(double translateZ)
+void Model::setTranslateZ(GLdouble translateZ)
 {
 	mTranslate.setZ(translateZ);
 }
@@ -103,17 +104,17 @@ void Model::setRotate(Transform rotate)
 	mRotate = rotate;
 }
 
-void Model::setRotateX(double rotateX)
+void Model::setRotateX(GLdouble rotateX)
 {
 	mRotate.setX(rotateX);
 }
 
-void Model::setRotateY(double rotateY)
+void Model::setRotateY(GLdouble rotateY)
 {
 	mRotate.setY(rotateY);
 }
 
-void Model::setRotateZ(double rotateZ)
+void Model::setRotateZ(GLdouble rotateZ)
 {
 	mRotate.setZ(rotateZ);
 }
@@ -123,17 +124,17 @@ void Model::setScale(Transform scale)
 	mScale = scale;
 }
 
-void Model::setSclaeX(double scaleX)
+void Model::setSclaeX(GLdouble scaleX)
 {
 	mScale.setX(scaleX);
 }
 
-void Model::setScaleY(double scaleY)
+void Model::setScaleY(GLdouble scaleY)
 {
 	mScale.setY(scaleY);
 }
 
-void Model::setScaleZ(double scaleZ)
+void Model::setScaleZ(GLdouble scaleZ)
 {
 	mScale.setY(scaleZ);
 }

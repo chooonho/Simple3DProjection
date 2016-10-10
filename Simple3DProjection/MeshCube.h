@@ -3,7 +3,6 @@
 #ifndef MESH_CUBE_H
 #define MESH_CUBE_H
 
-#include <GL/glut.h>
 #include "Mesh.h"
 
 class MeshCube : Mesh {
