@@ -76,23 +76,33 @@ void createRoom()
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(0.0, 0.0, roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 1.0, 0.0 }, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 1.0, 1.0 }, horizontal));
 
 	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(0.0, 0.0, ((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{1.0, 0.0, 0.0}, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{0.6, 0.6, 0.6}, vertical));
 
 	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(0.0, 0.0, roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 0.0, 0.0, 1.0 }, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 1.0, 1.0 }, horizontal));
 
 	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(0.0, 0.0, ((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{ 0.0, 1.0, 0.0 }, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{ 0.6, 0.6, 0.6 }, vertical));
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(0.0, 0.0, roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 0.0, 1.0 }, vertical));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 0.8, 0.8, 0.8 }, vertical));
+}
+
+void createProps()
+{
+	Transform translate;
+	Rotate rotate;
+	Transform scale = Transform(1.0, 1.0, 1.0);
+
+	translate = Transform(-10.0, 0.0, 5.0);
+	models.push_back(createTable(21, 11, 5, translate, rotate, scale, ColorRGB3F{ 0.545, 0.271, 0.075 }));
 }
 
 int main(int argc, char** argv)
@@ -106,6 +116,7 @@ int main(int argc, char** argv)
 	init();
 
 	createRoom();
+	createProps();
 
 	glutDisplayFunc(display);
 	glutIdleFunc(display);

@@ -13,7 +13,8 @@ enum Orientation
 	vertical,
 }; 
 
-Model* createWall(double, double, int, int, Transform, Rotate, Transform, ColorRGB3F, Orientation);
+Model* createWall(int, int, Transform, Rotate, Transform, ColorRGB3F, Orientation);
+Model* createTable(int, int, int, Transform, Rotate, Transform, ColorRGB3F);
 void createRobot();
 
 #endif

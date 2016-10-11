@@ -29,7 +29,7 @@ void MeshCube::setSize(GLdouble size)
 void MeshCube::draw()
 {
 	glPushMatrix();
-		glColor3f(getColor().red, getColor().blue, getColor().green);
+		glColor3f(getColor().red, getColor().green, getColor().blue);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());
