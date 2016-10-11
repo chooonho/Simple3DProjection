@@ -9,9 +9,9 @@
 #define DEG_TO_RAD 0.0174533
 
 float eyeX = 0.0;
-float eyeY = 5.0;
-float eyeZ = 25;
-float z = 25;
+float eyeY = 10.0;
+float eyeZ = 40;
+float z = 40;
 float angleX = 0.0;
 std::vector<Model*> models;
 
@@ -24,7 +24,7 @@ void init(void)
 	glDepthFunc(GL_LEQUAL);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(60, 1.78, 1.0, 50);
+	gluPerspective(60, 1.78, 1.0, 100);
 }
 
 void display(void)
@@ -40,19 +40,6 @@ void display(void)
 		{
 			models[i]->draw();
 		}
-		//glRotatef(45, 1, 0, 0);
-		//glColor3f(1.0, 0.0, 0.0);
-		//glutSolidCube(1.0);
-		//	glPushMatrix();
-		//		glColor3f(2.0, 1.0, 0.0);
-		//		glTranslatef(1.0, 0, 0.0);
-		//		glutSolidCube(1.0);
-		//	glPopMatrix();
-		//	glPushMatrix();
-		//		glColor3f(1.0, 0.0, 1.0);
-		//		glTranslatef(2.0, 0, 0);
-		//		glutSolidCube(1.0);
-		//	glPopMatrix();
 	glPopMatrix();
 
 	glutSwapBuffers();
@@ -76,13 +63,36 @@ void MyKeyboard(int Key, int m, int n)
 	}
 }
 
-void createModels()
+void createRoom()
 {
-	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-6.0, 0.0, -10.0), Rotate(0.0, 0.0, 0.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 1.0, 1.0, 0.0 }, horizontal));
-	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-7.0, 0.0, 0.0), Rotate(90.0, 0.0, 1.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{1.0, 0.0, 0.0}, vertical));
-	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-6.0, 10.0, -10.0), Rotate(0.0, 0.0, 0.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 0.0, 0.0, 1.0 }, horizontal));
-	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(5.0, 0.0, 0.0), Rotate(90.0, 0.0, 1.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 0.0, 1.0, 0.0 }, vertical));
-	models.push_back(createWall(0.0, 0.0, 11, 11, Transform(-6.0, 0.0, -10.0), Rotate(0.0, 0.0, 0.0, 0.0), Transform(1.0, 1.0, 1.0), ColorRGB3F{ 1.0, 0.0, 1.0 }, vertical));
+	// Make sure that:
+	// - roomWidth % 2 = 1
+	// - roomHeight % 2 = 1
+	int roomWidth = 41;
+	int roomHeight = 21;
+	Transform translate;
+	Rotate rotate;
+	Transform scale = Transform(1.0, 1.0, 1.0);
+
+	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	models.push_back(createWall(0.0, 0.0, roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 1.0, 0.0 }, horizontal));
+
+	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
+	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
+	models.push_back(createWall(0.0, 0.0, ((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{1.0, 0.0, 0.0}, vertical));
+
+	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	models.push_back(createWall(0.0, 0.0, roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 0.0, 0.0, 1.0 }, horizontal));
+
+	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
+	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
+	models.push_back(createWall(0.0, 0.0, ((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{ 0.0, 1.0, 0.0 }, vertical));
+
+	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	models.push_back(createWall(0.0, 0.0, roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 0.0, 1.0 }, vertical));
 }
 
 int main(int argc, char** argv)
@@ -95,7 +105,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("Simple 3D Projection");
 	init();
 
-	createModels();
+	createRoom();
 
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
