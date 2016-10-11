@@ -157,6 +157,14 @@ void Model::setMeshes(std::vector<Mesh*> meshes)
 	mMeshes = meshes;
 }
 
+void Model::setIsWireFrame(bool isWireFrame)
+{
+	for (int i = 0; i < mMeshes.size(); i++)
+	{
+		mMeshes[i]->setIsWireFrame(isWireFrame);
+	}
+}
+
 void Model::addMesh(Mesh* mesh)
 {
 	mMeshes.push_back(mesh);

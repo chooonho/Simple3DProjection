@@ -44,6 +44,7 @@ class Model
 		void setScaleY(GLdouble);
 		void setScaleZ(GLdouble);
 		void setMeshes(std::vector<Mesh*> meshes);
+		void setIsWireFrame(bool);
 		void addMesh(Mesh*);
 		void clearMesh();
 		void draw();
