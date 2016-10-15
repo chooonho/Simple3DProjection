@@ -113,6 +113,7 @@
     <ClCompile Include="MeshCone.cpp" />
     <ClCompile Include="MeshCube.cpp" />
     <ClCompile Include="MeshSphere.cpp" />
+    <ClCompile Include="MeshTeapot.cpp" />
     <ClCompile Include="MeshTorus.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="main.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="MeshSphere.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Rotate.h" />
+    <ClInclude Include="MeshTeapot.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
