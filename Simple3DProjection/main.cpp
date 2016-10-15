@@ -68,8 +68,8 @@ void createRoom()
 	// Make sure that:
 	// - roomWidth % 2 = 1
 	// - roomHeight % 2 = 1
-	int roomWidth = 41;
-	int roomHeight = 21;
+	int roomWidth = 61;
+	int roomHeight = 31;
 	Transform translate;
 	Rotate rotate;
 	Transform scale = Transform(1.0, 1.0, 1.0);
@@ -102,7 +102,11 @@ void createProps()
 	Transform scale = Transform(1.0, 1.0, 1.0);
 
 	translate = Transform(-10.0, 0.0, 5.0);
-	models.push_back(createTable(21, 11, 5, translate, rotate, scale));
+	models.push_back(createTable(25, 15, 7, translate, rotate, scale));
+
+	rotate = Rotate(45, 0.0, 1.0, 0.0);
+	translate = Transform(-20.0, 0.0, 12.0);
+	models.push_back(createChair(5, 5, 9, translate, rotate, scale));
 }
 
 int main(int argc, char** argv)

@@ -13,8 +13,12 @@ enum Orientation
 	vertical,
 }; 
 
-Model* createWall(int, int, Transform, Rotate, Transform, ColorRGB3F, Orientation);
-Model* createTable(int, int, int, Transform, Rotate, Transform);
+const ColorRGB3F COLOR_SADDLE_BROWN = { 0.545, 0.271, 0.075 };
+const ColorRGB3F COLOR_DARK_BROWN = { 0.2, 0.09, 0.0 };
+
+Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3F color, Orientation orientation);
+Model* createTable(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale);
+Model* createChair(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale);
 void createRobot();
 
 #endif

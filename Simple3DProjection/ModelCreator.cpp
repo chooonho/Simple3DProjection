@@ -18,14 +18,14 @@ Model* createWall(int width, int height, Transform translate, Rotate rotate, Tra
 			meshCube->setSize(1.0);
 			meshCube->setColor(color);
 
-			meshCube->setTranslateX(1.0 * w);
+			meshCube->setTranslateX(w);
 			if (orientation == horizontal)
 			{
-				meshCube->setTranslateZ(1.0 * h );
+				meshCube->setTranslateZ(h);
 			}
 			else if (orientation == vertical)
 			{
-				meshCube->setTranslateY(1.0 * h);
+				meshCube->setTranslateY(h);
 			}
 
 			model->addMesh(meshCube);
@@ -37,8 +37,6 @@ Model* createWall(int width, int height, Transform translate, Rotate rotate, Tra
 
 Model* createTable(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale)
 {
-	const ColorRGB3F colorSaddleBrown = { 0.545, 0.271, 0.075 };
-	const ColorRGB3F colorDarkBrown = { 0.2, 0.09, 0.0 };
 	const int LEG_COUNT = 4;
 
 	Model* model = new Model();
@@ -52,10 +50,10 @@ Model* createTable(int width, int depth, int height, Transform translate, Rotate
 		{
 			MeshCube* meshCube = new MeshCube;
 			meshCube->setSize(1.0);
-			meshCube->setColor(colorSaddleBrown);
+			meshCube->setColor(COLOR_SADDLE_BROWN);
 			meshCube->setTranslateY(height);
-			meshCube->setTranslateX(1.0 * w);
-			meshCube->setTranslateZ(1.0 * d);
+			meshCube->setTranslateX(w);
+			meshCube->setTranslateZ(d);
 
 			model->addMesh(meshCube);
 		}
@@ -63,50 +61,42 @@ Model* createTable(int width, int depth, int height, Transform translate, Rotate
 
 	for (int w = 2; w < ((width - 2) * 2); w++)
 	{
-		MeshCube* meshCube = new MeshCube;
-		meshCube->setSize(0.5);
-		meshCube->setColor(colorDarkBrown);
-		meshCube->setTranslateY(height - 1);
-		meshCube->setTranslateX(0.5 * w);
-		meshCube->setTranslateZ(depth - 2);
+		MeshCube* meshCubeFront = new MeshCube;
+		meshCubeFront->setSize(0.5);
+		meshCubeFront->setColor(COLOR_DARK_BROWN);
+		meshCubeFront->setTranslateY(height - 1);
+		meshCubeFront->setTranslateX(w * 0.5);
+		meshCubeFront->setTranslateZ(depth - 2);
 
-		model->addMesh(meshCube);
-	}
+		MeshCube* meshCubeBack = new MeshCube;
+		meshCubeBack->setSize(0.5);
+		meshCubeBack->setColor(COLOR_DARK_BROWN);
+		meshCubeBack->setTranslateY(height - 1);
+		meshCubeBack->setTranslateX(w * 0.5);
+		meshCubeBack->setTranslateZ(1);
 
-	for (int w = 2; w < ((width - 2) * 2); w++)
-	{
-		MeshCube* meshCube = new MeshCube;
-		meshCube->setSize(0.5);
-		meshCube->setColor(colorDarkBrown);
-		meshCube->setTranslateY(height - 1);
-		meshCube->setTranslateX(0.5 * w);
-		meshCube->setTranslateZ(1);
-
-		model->addMesh(meshCube);
+		model->addMesh(meshCubeFront);
+		model->addMesh(meshCubeBack);
 	}
 
 	for (int d = 2; d < ((depth - 2) * 2); d++)
 	{
-		MeshCube* meshCube = new MeshCube;
-		meshCube->setSize(0.5);
-		meshCube->setColor(colorDarkBrown);
-		meshCube->setTranslateY(height - 1);
-		meshCube->setTranslateX(1.0);
-		meshCube->setTranslateZ(0.5 * d);
+		MeshCube* meshCubeLeft = new MeshCube;
+		meshCubeLeft->setSize(0.5);
+		meshCubeLeft->setColor(COLOR_DARK_BROWN);
+		meshCubeLeft->setTranslateY(height - 1);
+		meshCubeLeft->setTranslateX(1.0);
+		meshCubeLeft->setTranslateZ(d * 0.5);
 
-		model->addMesh(meshCube);
-	}
+		MeshCube* meshCubeRight = new MeshCube;
+		meshCubeRight->setSize(0.5);
+		meshCubeRight->setColor(COLOR_DARK_BROWN);
+		meshCubeRight->setTranslateY(height - 1);
+		meshCubeRight->setTranslateX(width - 2);
+		meshCubeRight->setTranslateZ(d * 0.5);
 
-	for (int d = 2; d < ((depth - 2) * 2); d++)
-	{
-		MeshCube* meshCube = new MeshCube;
-		meshCube->setSize(0.5);
-		meshCube->setColor(colorDarkBrown);
-		meshCube->setTranslateY(height - 1);
-		meshCube->setTranslateX(width - 2);
-		meshCube->setTranslateZ(0.5 * d);
-
-		model->addMesh(meshCube);
+		model->addMesh(meshCubeLeft);
+		model->addMesh(meshCubeRight);
 	}
 
 	for (int i = 0; i < LEG_COUNT; i++)
@@ -115,7 +105,7 @@ Model* createTable(int width, int depth, int height, Transform translate, Rotate
 		{
 			MeshCube* meshCube = new MeshCube;
 			meshCube->setSize(1.0);
-			meshCube->setColor(colorSaddleBrown);
+			meshCube->setColor(COLOR_SADDLE_BROWN);
 			
 			meshCube->setTranslateY(h);
 			switch (i)
@@ -135,6 +125,97 @@ Model* createTable(int width, int depth, int height, Transform translate, Rotate
 				case 3:
 					meshCube->setTranslateX(1.0);
 					meshCube->setTranslateZ(depth - 2);
+					break;
+			}
+
+			model->addMesh(meshCube);
+		}
+	}
+
+	return model;
+}
+
+Model* createChair(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale)
+{
+	const int LEG_COUNT = 4;
+
+	Model* model = new Model();
+	model->setRotate(rotate);
+	model->setTranslate(translate);
+	model->setScale(scale);
+
+	for (int w = 0; w < width; w++)
+	{
+		for (int d = 0; d < depth; d++)
+		{
+			MeshCube* meshCube = new MeshCube;
+			meshCube->setSize(1.0);
+			meshCube->setColor(COLOR_DARK_BROWN);
+			meshCube->setTranslateY(height / 2);
+			meshCube->setTranslateX(w);
+			meshCube->setTranslateZ(d);
+
+			model->addMesh(meshCube);
+		}
+	}
+
+	for (int w = 0; w < width; w++)
+	{
+		for (int h = (height - (height / 4)); h < height; h++)
+		{
+			MeshCube* meshCube = new MeshCube;
+			meshCube->setSize(1.0);
+			meshCube->setColor(COLOR_DARK_BROWN);
+			meshCube->setTranslateY(h);
+			meshCube->setTranslateX(w);
+
+			model->addMesh(meshCube);
+		}
+	}
+
+	for (int h = (height / 2); h < height; h++)
+	{
+		MeshCube* meshCubeLeft = new MeshCube;
+		meshCubeLeft->setSize(1.0);
+		meshCubeLeft->setColor(COLOR_SADDLE_BROWN);
+		meshCubeLeft->setTranslateY(h);
+
+		MeshCube* meshCubeRight = new MeshCube;
+		meshCubeRight->setSize(1.0);
+		meshCubeRight->setColor(COLOR_SADDLE_BROWN);
+		meshCubeRight->setTranslateY(h);
+		meshCubeRight->setTranslateX(width - 1);
+
+		model->addMesh(meshCubeLeft);
+		model->addMesh(meshCubeRight);
+	}
+
+	for (int i = 0; i < LEG_COUNT; i++)
+	{
+		for (int h = 0; h < (height / 2); h++)
+		{
+			MeshCube* meshCube = new MeshCube;
+			meshCube->setSize(1.0);
+			meshCube->setColor(COLOR_SADDLE_BROWN);
+
+			meshCube->setTranslateY(h);
+			switch (i)
+			{
+				case 0:
+					meshCube->setTranslateX(0.0);
+					meshCube->setTranslateZ(0.0);
+					break;
+				case 1:
+					meshCube->setTranslateX(width - 1.0);
+					meshCube->setTranslateZ(0.0);
+					break;
+				case 2:
+					meshCube->setTranslateX(width - 1.0);
+					meshCube->setTranslateZ(depth - 1.0);
+					break;
+				case 3:
+					meshCube->setTranslateX(0.0);
+					meshCube->setTranslateZ(depth - 1.0);
 					break;
 			}
 
