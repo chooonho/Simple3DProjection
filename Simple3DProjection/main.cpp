@@ -8,60 +8,14 @@
 
 #define DEG_TO_RAD 0.0174533
 
+GLfloat pointSource[] = { 5.0, 5.0, 20.0, 1.0 };
+bool isWireFrame = false;
 float eyeX = 0.0;
 float eyeY = 8.0;
 float eyeZ = 50;
 float z = 50;
 float angleX = 0.0;
 std::vector<Model*> models;
-
-void init(void)
-{
-	glClearColor(0.1, 0.1, 0.1, 0.0);
-	glClearDepth(1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60, 1.78, 1.0, 100);
-}
-
-void display(void)
-{
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 15.0, 0.0, 0.0, 1.0, 0.0);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glPushMatrix();
-		for (unsigned int i = 0; i < models.size(); i++)
-		{
-			models[i]->draw();
-		}
-	glPopMatrix();
-
-	glutSwapBuffers();
-}
-
-void MyKeyboard(int Key, int m, int n)
-{
-	switch (Key) {
-
-	case GLUT_KEY_LEFT:
-		angleX -= 1.0;
-		eyeX = z * sin(DEG_TO_RAD * angleX);
-		eyeZ = z * cos(DEG_TO_RAD * angleX);
-		break;
-
-	case GLUT_KEY_RIGHT:
-		angleX += 1.0;
-		eyeX = z * sin(DEG_TO_RAD * angleX);
-		eyeZ = z * cos(DEG_TO_RAD * angleX);
-		break;
-	}
-}
 
 void createRoom()
 {
@@ -76,23 +30,23 @@ void createRoom()
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3D{ 1.0, 1.0, 1.0 }, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, horizontal));
 
 	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3D{0.6, 0.6, 0.6}, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, vertical));
 
 	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3D{ 1.0, 1.0, 1.0 }, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, horizontal));
 
 	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3D{ 0.6, 0.6, 0.6 }, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, vertical));
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3D{ 0.8, 0.8, 0.8 }, vertical));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, vertical));
 }
 
 void createProps()
@@ -149,6 +103,64 @@ void createProps()
 	models.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_KHAKI));
 }
 
+void display(void)
+{
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 15.0, 0.0, 0.0, 1.0, 0.0);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glPushMatrix();
+		for (unsigned int i = 0; i < models.size(); i++)
+		{
+			models[i]->setIsWireFrame(isWireFrame);
+			models[i]->draw();
+		}
+	glPopMatrix();
+
+	glutSwapBuffers();
+}
+
+void MyKeyboard(int Key, int m, int n)
+{
+	switch (Key)
+	{
+		case GLUT_KEY_LEFT:
+			angleX -= 1.0;
+			eyeX = z * sin(DEG_TO_RAD * angleX);
+			eyeZ = z * cos(DEG_TO_RAD * angleX);
+			break;
+		case GLUT_KEY_RIGHT:
+			angleX += 1.0;
+			eyeX = z * sin(DEG_TO_RAD * angleX);
+			eyeZ = z * cos(DEG_TO_RAD * angleX);
+			break;
+		case GLUT_KEY_F1:
+			isWireFrame = !isWireFrame;
+			break;
+		case GLUT_KEY_END:
+			exit(0);
+			break;
+	}
+}
+
+void init(void)
+{
+	glClearColor(0.1, 0.1, 0.1, 0.0);
+	glClearDepth(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glMatrixMode(GL_PROJECTION);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glLightfv(GL_LIGHT0, GL_POSITION, pointSource);
+	glLoadIdentity();
+	gluPerspective(60, 1.78, 1.0, 100);
+}
+
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
@@ -159,7 +171,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("Simple 3D Projection");
 	init();
 
-	//createRoom();
+	createRoom();
 	createProps();
 
 	glutDisplayFunc(display);

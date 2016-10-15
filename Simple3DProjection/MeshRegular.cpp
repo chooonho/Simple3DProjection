@@ -34,24 +34,6 @@ void MeshRegular::draw()
 			switch (mRegularType)
 			{
 				case DODECAHEDRON:
-					glutSolidDodecahedron();
-					break;
-				case OCTAHEDRON:
-					glutSolidOctahedron();
-					break;
-				case TETRAHEDRON:
-					glutSolidTetrahedron();
-					break;
-				case ICOSAHEDRON:
-					glutSolidIcosahedron();
-					break;
-			}
-		}
-		else
-		{
-			switch (mRegularType)
-			{
-				case DODECAHEDRON:
 					glutWireDodecahedron();
 					break;
 				case OCTAHEDRON:
@@ -62,6 +44,24 @@ void MeshRegular::draw()
 					break;
 				case ICOSAHEDRON:
 					glutWireIcosahedron();
+					break;
+			}
+		}
+		else
+		{
+			switch (mRegularType)
+			{
+				case DODECAHEDRON:
+					glutSolidDodecahedron();
+					break;
+				case OCTAHEDRON:
+					glutSolidOctahedron();
+					break;
+				case TETRAHEDRON:
+					glutSolidTetrahedron();
+					break;
+				case ICOSAHEDRON:
+					glutSolidIcosahedron();
 					break;
 			}
 		}
