@@ -49,7 +49,7 @@ class Mesh
 		void setRotateY(GLdouble rotateY) { mRotate.setY(rotateY); }
 		void setRotateZ(GLdouble rotateZ) { mRotate.setZ(rotateZ); }
 		void setScale(Transform scale) { mScale = scale; }
-		void setSclaeX(GLdouble scaleX) { mScale.setX(scaleX); }
+		void setScaleX(GLdouble scaleX) { mScale.setX(scaleX); }
 		void setScaleY(GLdouble scaleY) { mScale.setY(scaleY); }
 		void setScaleZ(GLdouble scaleZ) { mScale.setZ(scaleZ); }
 		void setColor(ColorRGB3D color) { mColor = color; }

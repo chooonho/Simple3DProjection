@@ -3,6 +3,9 @@
 #include "MeshCube.h"
 #include "MeshSphere.h"
 #include "MeshCone.h"
+#include "MeshTeapot.h"
+#include "MeshTorus.h"
+#include "MeshRegular.h"
 
 Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color, Orientation orientation)
 {
@@ -412,6 +415,75 @@ Model* createTree(Transform translate, Rotate rotate, Transform scale)
 	treeStem->setStackCount(10);
 
 	model->addMesh(treeStem);
+
+	return model;
+}
+
+Model* createCone(double base, double height, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+{
+	Model* model = new Model();
+	model->setTranslate(translate);
+	model->setRotate(rotate);
+	model->setScale(scale);
+
+	MeshCone* meshCone = new MeshCone();
+	meshCone->setBase(base);
+	meshCone->setHeight(height);
+	meshCone->setColor(color);
+	meshCone->setSliceCount(10);
+	meshCone->setStackCount(10);
+
+	model->addMesh(meshCone);
+
+	return model;
+}
+
+Model* createTeapot(double size, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+{
+	Model* model = new Model();
+	model->setTranslate(translate);
+	model->setRotate(rotate);
+	model->setScale(scale);
+
+	MeshTeapot* meshTeapot = new MeshTeapot();
+	meshTeapot->setSize(size);
+	meshTeapot->setColor(color);
+
+	model->addMesh(meshTeapot);
+
+	return model;
+}
+
+Model* createTorus(double innerRadius, double outerRadius, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+{
+	Model* model = new Model();
+	model->setTranslate(translate);
+	model->setRotate(rotate);
+	model->setScale(scale);
+
+	MeshTorus* meshTorus = new MeshTorus();
+	meshTorus->setInnerRadius(innerRadius);
+	meshTorus->setOuterRadius(outerRadius);
+	meshTorus->setNSideCount(10);
+	meshTorus->setRingCount(10);
+	meshTorus->setColor(color);
+
+	model->addMesh(meshTorus);
+
+	return model;
+}
+
+Model* createRegular(RegularType regularType, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+{
+	Model* model = new Model();
+	model->setTranslate(translate);
+	model->setRotate(rotate);
+	model->setScale(scale);
+
+	MeshRegular* meshRegular = new MeshRegular(regularType);
+	meshRegular->setColor(color);
+
+	model->addMesh(meshRegular);
 
 	return model;
 }

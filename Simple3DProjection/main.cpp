@@ -9,7 +9,7 @@
 #define DEG_TO_RAD 0.0174533
 
 float eyeX = 0.0;
-float eyeY = 10.0;
+float eyeY = 8.0;
 float eyeZ = 50;
 float z = 50;
 float angleX = 0.0;
@@ -115,6 +115,38 @@ void createProps()
 	rotate = Rotate(270.0, 1.0, 0.0, 0.0);
 	translate = Transform(-25.0, 1.0, 5.0);
 	models.push_back(createTree(translate, rotate, scale));
+
+	rotate = Rotate(270.0, 1.0, 0.0, 0.0);
+	translate = Transform(-6.0, 7.5, 10.0);
+	models.push_back(createCone(2.0, 4.0, translate, rotate, scale, COLOR_BLUE));
+
+	rotate = Rotate(0.0, 1.0, 0.0, 0.0);
+	translate = Transform(-2.0, 9.0, 15.0);
+	models.push_back(createTeapot(2.0, translate, rotate, scale, COLOR_SILVER));
+
+	rotate = Rotate(30.0, 0.0, 1.0, 0.0);
+	translate = Transform(4.0, 9.0, 14.0);
+	models.push_back(createTorus(0.5, 1.0, translate, rotate, scale, COLOR_GREEN));
+
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	translate = Transform(12.0, 10.0, 15.0);
+	scale = Transform(1.5, 2.5, 1.5);
+	models.push_back(createRegular(OCTAHEDRON, translate, rotate, scale, COLOR_ORANGE));
+
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	translate = Transform(2.0, 9.0, 10.0);
+	scale = Transform(1.0, 1.0, 1.0);
+	models.push_back(createRegular(DODECAHEDRON, translate, rotate, scale, COLOR_PURPLE));
+
+	rotate = Rotate(-20.0, 0.0, 0.0, 1.0);
+	translate = Transform(7.0, 8.2, 13.0);
+	scale = Transform(2.0, 2.0, 2.0);
+	models.push_back(createRegular(TETRAHEDRON, translate, rotate, scale, COLOR_YELLOW));
+
+	rotate = Rotate(0.0, 1.0, 0.0, 0.0);
+	translate = Transform(10.0, 9.2, 11.0);
+	scale = Transform(2.0, 2.0, 2.0);
+	models.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_KHAKI));
 }
 
 int main(int argc, char** argv)
@@ -127,7 +159,7 @@ int main(int argc, char** argv)
 	glutCreateWindow("Simple 3D Projection");
 	init();
 
-	createRoom();
+	//createRoom();
 	createProps();
 
 	glutDisplayFunc(display);
