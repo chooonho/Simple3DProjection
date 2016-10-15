@@ -24,7 +24,7 @@ void MeshRegular::setRegularType(RegularType regularType)
 void MeshRegular::draw()
 {
 	glPushMatrix();
-		glColor3f(getColor().red, getColor().green, getColor().blue);
+		glColor3d(getColor().red, getColor().green, getColor().blue);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());

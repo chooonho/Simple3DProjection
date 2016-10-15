@@ -6,7 +6,7 @@
 #include "Transform.h"
 #include "Rotate.h"
 
-struct ColorRGB3F {
+struct ColorRGB3D {
 	double red;
 	double green;
 	double blue;
@@ -19,7 +19,7 @@ class Mesh
 		Transform mTranslate;
 		Rotate mRotate;
 		Transform mScale;
-		ColorRGB3F mColor;
+		ColorRGB3D mColor;
 	public:
 		Mesh() { mScale.setX(1.0); mScale.setY(1.0); mScale.setZ(1.0); }
 		Transform getTranslate() { return mTranslate; }
@@ -35,7 +35,7 @@ class Mesh
 		GLdouble getScaleX() { return mScale.getX(); }
 		GLdouble getScaleY() { return mScale.getY(); }
 		GLdouble getScaleZ() { return mScale.getZ(); }
-		ColorRGB3F getColor() { return mColor;  }
+		ColorRGB3D getColor() { return mColor;  }
 		double getColorR() { return mColor.red; }
 		double getColorG() { return mColor.green; }
 		double getColorB() { return mColor.blue; }
@@ -52,7 +52,7 @@ class Mesh
 		void setSclaeX(GLdouble scaleX) { mScale.setX(scaleX); }
 		void setScaleY(GLdouble scaleY) { mScale.setY(scaleY); }
 		void setScaleZ(GLdouble scaleZ) { mScale.setZ(scaleZ); }
-		void setColor(ColorRGB3F color) { mColor = color; }
+		void setColor(ColorRGB3D color) { mColor = color; }
 		void setColorR(double red) { mColor.red = red; }
 		void setColorG(double green) { mColor.green = green; }
 		void setColorB(double blue) { mColor.blue = blue; }

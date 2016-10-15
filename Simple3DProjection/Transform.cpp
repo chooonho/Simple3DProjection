@@ -45,7 +45,6 @@ void Transform::setZ(GLdouble z)
 	mZ = z;
 }
 
-
 Transform& Transform::operator=(const Transform& rhTransform)
 {
 	if (this != &rhTransform)

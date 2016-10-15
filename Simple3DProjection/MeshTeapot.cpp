@@ -6,7 +6,7 @@ MeshTeapot::MeshTeapot()
 	setIsWireFrame(false);
 }
 
-MeshTeapot::MeshTeapot(GLdouble size, ColorRGB3F color, Transform translate, Rotate rotate, Transform scale, bool isWireFrame)
+MeshTeapot::MeshTeapot(GLdouble size, ColorRGB3D color, Transform translate, Rotate rotate, Transform scale, bool isWireFrame)
 {
 	mSize = size;
 	setColor(color);
@@ -29,10 +29,10 @@ void MeshTeapot::setSize(GLdouble size)
 void MeshTeapot::draw()
 {
 	glPushMatrix();
-	glColor3f(getColor().red, getColor().green, getColor().blue);
-	glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
-	glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
-	glScaled(getScaleX(), getScaleY(), getScaleZ());
+		glColor3d(getColor().red, getColor().green, getColor().blue);
+		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
+		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
+		glScaled(getScaleX(), getScaleY(), getScaleZ());
 
 		if (getIsWireFrame())
 		{

@@ -12,10 +12,10 @@ class Rotate : public Transform
 		GLdouble mAngle;
 	public:
 		Rotate();
-		Rotate(GLdouble, GLdouble, GLdouble, GLdouble);
+		Rotate(GLdouble angle, GLdouble x, GLdouble y, GLdouble z);
 		GLdouble getAngle();
-		void setAngle(GLdouble);
-		Rotate& operator=(const Rotate&);
+		void setAngle(GLdouble angle);
+		Rotate& operator=(const Rotate& rhRotate);
 };
 
 #endif

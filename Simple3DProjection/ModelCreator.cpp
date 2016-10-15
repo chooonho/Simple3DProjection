@@ -4,7 +4,7 @@
 #include "MeshSphere.h"
 #include "MeshCone.h"
 
-Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3F color, Orientation orientation)
+Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color, Orientation orientation)
 {
 	Model* model = new Model();
 	model->setRotate(rotate);

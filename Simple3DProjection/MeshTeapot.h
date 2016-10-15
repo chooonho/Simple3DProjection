@@ -10,9 +10,9 @@ class MeshTeapot : public Mesh {
 		GLdouble mSize;
 	public:
 		MeshTeapot();
-		MeshTeapot(GLdouble, ColorRGB3F, Transform, Rotate, Transform, bool);
+		MeshTeapot(GLdouble size, ColorRGB3D color, Transform translate, Rotate rotate, Transform transform, bool isWireFrame);
 		GLdouble getSize();
-		void setSize(GLdouble);
+		void setSize(GLdouble size);
 		virtual void draw();
 	};
 

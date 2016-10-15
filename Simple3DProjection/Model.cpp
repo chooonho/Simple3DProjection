@@ -137,7 +137,7 @@ void Model::setScale(Transform scale)
 	mScale = scale;
 }
 
-void Model::setSclaeX(GLdouble scaleX)
+void Model::setScaleX(GLdouble scaleX)
 {
 	mScale.setX(scaleX);
 }
@@ -159,7 +159,7 @@ void Model::setMeshes(std::vector<Mesh*> meshes)
 
 void Model::setIsWireFrame(bool isWireFrame)
 {
-	for (int i = 0; i < mMeshes.size(); i++)
+	for (unsigned int i = 0; i < mMeshes.size(); i++)
 	{
 		mMeshes[i]->setIsWireFrame(isWireFrame);
 	}
@@ -182,7 +182,7 @@ void Model::draw()
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());
 
-		for (int i = 0; i < mMeshes.size(); i++)
+		for (unsigned int i = 0; i < mMeshes.size(); i++)
 		{
 			mMeshes[i]->draw();
 		}

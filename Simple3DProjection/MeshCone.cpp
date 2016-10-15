@@ -9,7 +9,7 @@ MeshCone::MeshCone()
 	setIsWireFrame(false);
 }
 
-MeshCone::MeshCone(GLdouble base, GLdouble height, GLint sliceCount, GLint stackCount, ColorRGB3F color,
+MeshCone::MeshCone(GLdouble base, GLdouble height, GLint sliceCount, GLint stackCount, ColorRGB3D color,
 					Transform translate, Rotate rotate, Transform scale, bool isWireFrame)
 {
 	mBase = base;
@@ -66,7 +66,7 @@ void MeshCone::setStackCount(GLint stackCount)
 void MeshCone::draw()
 {
 	glPushMatrix();
-		glColor3f(getColor().red, getColor().green, getColor().blue);
+		glColor3d(getColor().red, getColor().green, getColor().blue);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());

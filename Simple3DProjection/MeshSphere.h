@@ -12,13 +12,14 @@ class MeshSphere : public Mesh {
 		GLint mStackCount;
 	public:
 		MeshSphere();
-		MeshSphere(GLdouble, GLint, GLint, ColorRGB3F, Transform, Rotate, Transform, bool);
+		MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount, ColorRGB3D color,
+						Transform translate, Rotate rotate, Transform scale, bool isWireFrame);
 		GLdouble getRadius();
 		GLint getSliceCount();
 		GLint getStackCount();
-		void setRadius(GLdouble);
-		void setSliceCount(GLint);
-		void setStackCount(GLint);
+		void setRadius(GLdouble radius);
+		void setSliceCount(GLint sliceCount);
+		void setStackCount(GLint stackCount);
 		virtual void draw();
 };
 

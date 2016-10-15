@@ -8,7 +8,7 @@ MeshSphere::MeshSphere()
 	setIsWireFrame(false);
 }
 
-MeshSphere::MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount, ColorRGB3F color,
+MeshSphere::MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount, ColorRGB3D color,
 						Transform translate, Rotate rotate, Transform scale, bool isWireFrame)
 {
 	mRadius = radius;
@@ -54,7 +54,7 @@ void MeshSphere::setStackCount(GLint stackCount)
 void MeshSphere::draw()
 {
 	glPushMatrix();
-		glColor3f(getColor().red, getColor().green, getColor().blue);
+		glColor3d(getColor().red, getColor().green, getColor().blue);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());

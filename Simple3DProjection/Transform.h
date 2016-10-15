@@ -13,14 +13,14 @@ class Transform
 		GLdouble mZ;
 	public:
 		Transform();
-		Transform(GLdouble, GLdouble, GLdouble);
+		Transform(GLdouble x, GLdouble y, GLdouble z);
 		GLdouble getX();
 		GLdouble getY();
 		GLdouble getZ();
-		void setX(GLdouble);
-		void setY(GLdouble);
-		void setZ(GLdouble);
-		Transform& operator=(const Transform&);
+		void setX(GLdouble x);
+		void setY(GLdouble y);
+		void setZ(GLdouble z);
+		Transform& operator=(const Transform& rhTransform);
 };
 
 #endif

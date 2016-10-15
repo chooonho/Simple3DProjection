@@ -36,7 +36,7 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glPushMatrix();
-		for (int i = 0; i < models.size(); i++)
+		for (unsigned int i = 0; i < models.size(); i++)
 		{
 			models[i]->draw();
 		}
@@ -76,23 +76,23 @@ void createRoom()
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 1.0, 1.0 }, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3D{ 1.0, 1.0, 1.0 }, horizontal));
 
 	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{0.6, 0.6, 0.6}, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3D{0.6, 0.6, 0.6}, vertical));
 
 	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 1.0, 1.0, 1.0 }, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3D{ 1.0, 1.0, 1.0 }, horizontal));
 
 	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3F{ 0.6, 0.6, 0.6 }, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, ColorRGB3D{ 0.6, 0.6, 0.6 }, vertical));
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3F{ 0.8, 0.8, 0.8 }, vertical));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, ColorRGB3D{ 0.8, 0.8, 0.8 }, vertical));
 }
 
 void createProps()

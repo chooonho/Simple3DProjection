@@ -10,9 +10,9 @@ class MeshCube : public Mesh {
 		GLdouble mSize;
 	public:
 		MeshCube();
-		MeshCube(GLdouble, ColorRGB3F, Transform, Rotate, Transform, bool);
+		MeshCube(GLdouble size, ColorRGB3D color, Transform translate, Rotate rotate, Transform scale, bool isWireFrame);
 		GLdouble getSize();
-		void setSize(GLdouble);
+		void setSize(GLdouble size);
 		virtual void draw();
 };
 
