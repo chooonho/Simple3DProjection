@@ -35,8 +35,10 @@ Model* createWall(int width, int height, Transform translate, Rotate rotate, Tra
 	return model;
 }
 
-Model* createTable(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3F color)
+Model* createTable(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale)
 {
+	const ColorRGB3F colorSaddleBrown = { 0.545, 0.271, 0.075 };
+	const ColorRGB3F colorDarkBrown = { 0.2, 0.09, 0.0 };
 	const int LEG_COUNT = 4;
 
 	Model* model = new Model();
@@ -50,7 +52,7 @@ Model* createTable(int width, int depth, int height, Transform translate, Rotate
 		{
 			MeshCube* meshCube = new MeshCube;
 			meshCube->setSize(1.0);
-			meshCube->setColor(color);
+			meshCube->setColor(colorSaddleBrown);
 			meshCube->setTranslateY(height);
 			meshCube->setTranslateX(1.0 * w);
 			meshCube->setTranslateZ(1.0 * d);
@@ -59,13 +61,61 @@ Model* createTable(int width, int depth, int height, Transform translate, Rotate
 		}
 	}
 
+	for (int w = 2; w < ((width - 2) * 2); w++)
+	{
+		MeshCube* meshCube = new MeshCube;
+		meshCube->setSize(0.5);
+		meshCube->setColor(colorDarkBrown);
+		meshCube->setTranslateY(height - 1);
+		meshCube->setTranslateX(0.5 * w);
+		meshCube->setTranslateZ(depth - 2);
+
+		model->addMesh(meshCube);
+	}
+
+	for (int w = 2; w < ((width - 2) * 2); w++)
+	{
+		MeshCube* meshCube = new MeshCube;
+		meshCube->setSize(0.5);
+		meshCube->setColor(colorDarkBrown);
+		meshCube->setTranslateY(height - 1);
+		meshCube->setTranslateX(0.5 * w);
+		meshCube->setTranslateZ(1);
+
+		model->addMesh(meshCube);
+	}
+
+	for (int d = 2; d < ((depth - 2) * 2); d++)
+	{
+		MeshCube* meshCube = new MeshCube;
+		meshCube->setSize(0.5);
+		meshCube->setColor(colorDarkBrown);
+		meshCube->setTranslateY(height - 1);
+		meshCube->setTranslateX(1.0);
+		meshCube->setTranslateZ(0.5 * d);
+
+		model->addMesh(meshCube);
+	}
+
+	for (int d = 2; d < ((depth - 2) * 2); d++)
+	{
+		MeshCube* meshCube = new MeshCube;
+		meshCube->setSize(0.5);
+		meshCube->setColor(colorDarkBrown);
+		meshCube->setTranslateY(height - 1);
+		meshCube->setTranslateX(width - 2);
+		meshCube->setTranslateZ(0.5 * d);
+
+		model->addMesh(meshCube);
+	}
+
 	for (int i = 0; i < LEG_COUNT; i++)
 	{
 		for (int h = 0; h < height; h++)
 		{
 			MeshCube* meshCube = new MeshCube;
 			meshCube->setSize(1.0);
-			meshCube->setColor(color);
+			meshCube->setColor(colorSaddleBrown);
 			
 			meshCube->setTranslateY(h);
 			switch (i)

@@ -102,7 +102,7 @@ void createProps()
 	Transform scale = Transform(1.0, 1.0, 1.0);
 
 	translate = Transform(-10.0, 0.0, 5.0);
-	models.push_back(createTable(21, 11, 5, translate, rotate, scale, ColorRGB3F{ 0.545, 0.271, 0.075 }));
+	models.push_back(createTable(21, 11, 5, translate, rotate, scale));
 }
 
 int main(int argc, char** argv)
