@@ -10,8 +10,8 @@
 
 float eyeX = 0.0;
 float eyeY = 10.0;
-float eyeZ = 40;
-float z = 40;
+float eyeZ = 50;
+float z = 50;
 float angleX = 0.0;
 std::vector<Model*> models;
 
@@ -31,7 +31,7 @@ void display(void)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 5.0, 0.0, 0.0, 1.0, 0.0);
+	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 15.0, 0.0, 0.0, 1.0, 0.0);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -104,9 +104,13 @@ void createProps()
 	translate = Transform(-10.0, 0.0, 5.0);
 	models.push_back(createTable(25, 15, 7, translate, rotate, scale));
 
-	rotate = Rotate(45, 0.0, 1.0, 0.0);
+	rotate = Rotate(45.0, 0.0, 1.0, 0.0);
 	translate = Transform(-20.0, 0.0, 12.0);
 	models.push_back(createChair(5, 5, 9, translate, rotate, scale));
+
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	translate = Transform(20.0, 1.0, 20.0);
+	models.push_back(createRobot(translate, rotate, scale));
 }
 
 int main(int argc, char** argv)
