@@ -101,16 +101,20 @@ void createProps()
 	Rotate rotate;
 	Transform scale = Transform(1.0, 1.0, 1.0);
 
-	translate = Transform(-10.0, 0.0, 5.0);
-	models.push_back(createTable(25, 15, 7, translate, rotate, scale));
+	translate = Transform(-10.0, 1.0, 5.0);
+	models.push_back(createTable(25, 15, 6, translate, rotate, scale));
 
 	rotate = Rotate(45.0, 0.0, 1.0, 0.0);
-	translate = Transform(-20.0, 0.0, 12.0);
-	models.push_back(createChair(5, 5, 9, translate, rotate, scale));
+	translate = Transform(-20.0, 1.0, 12.0);
+	models.push_back(createChair(5, 5, 7, translate, rotate, scale));
 
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	translate = Transform(20.0, 1.0, 20.0);
+	translate = Transform(22.0, 1.0, 15.0);
 	models.push_back(createRobot(translate, rotate, scale));
+
+	rotate = Rotate(270.0, 1.0, 0.0, 0.0);
+	translate = Transform(-25.0, 1.0, 5.0);
+	models.push_back(createTree(translate, rotate, scale));
 }
 
 int main(int argc, char** argv)

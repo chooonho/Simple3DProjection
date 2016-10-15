@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include "MeshCube.h"
 #include "MeshSphere.h"
+#include "MeshCone.h"
 
 Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3F color, Orientation orientation)
 {
@@ -161,7 +162,7 @@ Model* createChair(int width, int depth, int height, Transform translate, Rotate
 
 	for (int w = 0; w < width; w++)
 	{
-		for (int h = (height - (height / 4)); h < height; h++)
+		for (int h = (height - (height / 3)); h < (height + 1); h++)
 		{
 			MeshCube* meshCube = new MeshCube;
 			meshCube->setSize(1.0);
@@ -173,7 +174,7 @@ Model* createChair(int width, int depth, int height, Transform translate, Rotate
 		}
 	}
 
-	for (int h = (height / 2); h < height; h++)
+	for (int h = ((height / 2) + 1); h < (height + 1); h++)
 	{
 		MeshCube* meshCubeLeft = new MeshCube;
 		meshCubeLeft->setSize(1.0);
@@ -377,6 +378,40 @@ Model* createRobot(Transform translate, Rotate rotate, Transform scale)
 
 	model->addMesh(head);
 	model->addMesh(body);
+
+	return model;
+}
+
+Model* createTree(Transform translate, Rotate rotate, Transform scale)
+{
+	const int TREE_UPPER_COUNT = 2;
+
+	Model* model = new Model();
+	model->setTranslate(translate);
+	model->setRotate(rotate);
+	model->setScale(scale);
+
+	for (int i = 0; i < TREE_UPPER_COUNT; i++)
+	{
+		MeshCone* treeUpper = new MeshCone();
+		treeUpper->setColor(COLOR_GREEN);
+		treeUpper->setBase(4.0);
+		treeUpper->setHeight(10.0);
+		treeUpper->setSliceCount(10);
+		treeUpper->setStackCount(10);
+		treeUpper->setTranslateZ(5.0 * (i + 1));
+
+		model->addMesh(treeUpper);
+	}
+
+	MeshCone* treeStem = new MeshCone();
+	treeStem->setColor(COLOR_DARK_BROWN);
+	treeStem->setBase(1.0);
+	treeStem->setHeight(10.0);
+	treeStem->setSliceCount(10);
+	treeStem->setStackCount(10);
+
+	model->addMesh(treeStem);
 
 	return model;
 }

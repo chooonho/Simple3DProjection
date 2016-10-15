@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MeshCone.cpp" />
     <ClCompile Include="MeshCube.cpp" />
     <ClCompile Include="MeshSphere.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -119,6 +120,7 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MeshCone.h" />
     <ClInclude Include="ModelCreator.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshCube.h" />
