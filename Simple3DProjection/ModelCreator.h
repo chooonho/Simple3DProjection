@@ -12,8 +12,9 @@ enum Orientation
 {
 	horizontal,
 	vertical,
-}; 
+};
 
+const ColorRGB3D COLOR_GRAY = { 0.5, 0.5, 0.5 };
 const ColorRGB3D COLOR_SLATE_BLUE = { 0.416, 0.353, 0.804 };
 const ColorRGB3D COLOR_WHITE = { 1.0, 1.0, 1.0 };
 const ColorRGB3D COLOR_SADDLE_BROWN = { 0.545, 0.271, 0.075 };

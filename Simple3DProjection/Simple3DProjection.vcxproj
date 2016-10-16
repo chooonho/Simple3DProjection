@@ -110,6 +110,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MeshCone.cpp" />
     <ClCompile Include="MeshCube.cpp" />
     <ClCompile Include="MeshRegular.cpp" />
@@ -123,6 +124,7 @@
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MeshCone.h" />
     <ClInclude Include="MeshRegular.h" />
     <ClInclude Include="MeshTorus.h" />
