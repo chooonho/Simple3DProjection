@@ -10,12 +10,13 @@
 #define DEG_TO_RAD 0.0174533
 
 bool isWireFrame = false;
+bool isLightOn = false;
 float eyeX = 0.0;
 float eyeY = 8.0;
 float eyeZ = 50;
 float z = 50;
 float angleX = 0.0;
-Light light;
+Light light[2];
 std::vector<Model*> models;
 
 void createRoom()
@@ -106,15 +107,86 @@ void createProps()
 
 void setupLight()
 {
-	GLfloat pointSource[4] = { 5.0f, 5.0f, 5.0f, 1.0f };
-	GLfloat ambient[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	GLfloat diffuse[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
-	GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat pointSource[4] = { 0.0f };
+	GLfloat ambient[4] = { 0.0f };
+	GLfloat diffuse[4] = { 0.0f };
+	GLfloat specular[4] = { 0.0f };
 
-	light.setPointSource(pointSource);
-	light.setAmbient(ambient);
-	light.setDiffuse(diffuse);
-	light.setSpecular(specular);
+	for (int i = 0; i < 2; i++)
+	{
+		if (i == 0)
+		{
+			pointSource[0] = 20.0f;
+			pointSource[1] = 20.0f;
+			pointSource[2] = 15.0f;
+			pointSource[3] = 1.0f;
+
+			ambient[0] = 0.4f;
+			ambient[1] = 0.4f;
+			ambient[2] = 0.4f;
+			ambient[3] = 1.0f;
+
+			diffuse[0] = 0.741f;
+			diffuse[1] = 0.718f;
+			diffuse[2] = 0.420f;
+			diffuse[3] = 1.0f;
+
+			specular[0] = 0.0f;
+			specular[1] = 0.0f;
+			specular[2] = 0.0f;
+			specular[3] = 1.0f;
+		}
+		else
+		{
+			pointSource[0] = -20.0f;
+			pointSource[1] = 20.0f;
+			pointSource[2] = 15.0f;
+			pointSource[3] = 1.0f;
+
+			ambient[0] = 0.1f;
+			ambient[1] = 0.1f;
+			ambient[2] = 0.1f;
+			ambient[3] = 1.0f;
+			
+			diffuse[0] = 0.098f;
+			diffuse[1] = 0.098;
+			diffuse[2] = 0.439f;
+			diffuse[3] = 1.0f;
+
+			specular[0] = 0.0f;
+			specular[1] = 0.0f;
+			specular[2] = 0.0f;
+			specular[3] = 1.0f;
+		}
+
+		light[i].setPointSource(pointSource);
+		light[i].setAmbient(ambient);
+		light[i].setDiffuse(diffuse);
+		light[i].setSpecular(specular);
+	}
+}
+
+void switchLight()
+{
+	if (isLightOn)
+	{
+		glEnable(GL_LIGHT0);
+		glLightfv(GL_LIGHT0, GL_POSITION, light[0].getPointSource());
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light[0].getAmbient());
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light[0].getDiffuse());
+		glLightfv(GL_LIGHT0, GL_SPECULAR, light[0].getSpecular());
+
+		glEnable(GL_LIGHT1);
+		glLightfv(GL_LIGHT1, GL_POSITION, light[1].getPointSource());
+		glLightfv(GL_LIGHT1, GL_AMBIENT, light[1].getAmbient());
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, light[1].getDiffuse());
+		glLightfv(GL_LIGHT1, GL_SPECULAR, light[1].getSpecular());
+	}
+	else
+	{
+		glDisable(GL_LIGHT0);
+		glDisable(GL_LIGHT1);
+	}
 }
 
 void display(void)
@@ -153,6 +225,10 @@ void MyKeyboard(int Key, int m, int n)
 		case GLUT_KEY_F1:
 			isWireFrame = !isWireFrame;
 			break;
+		case GLUT_KEY_F2:
+			isLightOn = !isLightOn;
+			switchLight();
+			break;
 		case GLUT_KEY_END:
 			exit(0);
 			break;
@@ -169,11 +245,6 @@ void init(void)
 	glMatrixMode(GL_PROJECTION);
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_POSITION, light.getPointSource());
-	glLightfv(GL_LIGHT0, GL_AMBIENT, light.getAmbient());
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light.getDiffuse());
-	glLightfv(GL_LIGHT0, GL_SPECULAR, light.getSpecular());
 	glLoadIdentity();
 	gluPerspective(60, 1.78, 1.0, 100);
 }
@@ -189,7 +260,7 @@ int main(int argc, char** argv)
 	setupLight();
 	init();
 
-	//createRoom();
+	createRoom();
 	createProps();
 
 	glutDisplayFunc(display);
