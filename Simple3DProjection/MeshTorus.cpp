@@ -9,7 +9,7 @@ MeshTorus::MeshTorus()
 	setIsWireFrame(false);
 }
 
-MeshTorus::MeshTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nSideCount, GLint ringCount, ColorRGB3D color,
+MeshTorus::MeshTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nSideCount, GLint ringCount, ColorRGBA4D color,
 						Transform translate, Rotate rotate, Transform scale, bool isWireFrame)
 {
 	mInnerRadius = innerRadius;
@@ -66,7 +66,7 @@ void MeshTorus::setRingCount(GLint ringCount)
 void MeshTorus::draw()
 {
 	glPushMatrix();
-		glColor3d(getColor().red, getColor().green, getColor().blue);
+		glColor4d(getColor().red, getColor().green, getColor().blue, getColor().alpha);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());

@@ -6,10 +6,12 @@
 #include "Transform.h"
 #include "Rotate.h"
 
-struct ColorRGB3D {
+struct ColorRGBA4D
+{
 	double red;
 	double green;
 	double blue;
+	double alpha;
 };
 
 class Mesh
@@ -19,7 +21,7 @@ class Mesh
 		Transform mTranslate;
 		Rotate mRotate;
 		Transform mScale;
-		ColorRGB3D mColor;
+		ColorRGBA4D mColor;
 	public:
 		Mesh() { mScale.setX(1.0); mScale.setY(1.0); mScale.setZ(1.0); }
 		Transform getTranslate() { return mTranslate; }
@@ -35,7 +37,7 @@ class Mesh
 		GLdouble getScaleX() { return mScale.getX(); }
 		GLdouble getScaleY() { return mScale.getY(); }
 		GLdouble getScaleZ() { return mScale.getZ(); }
-		ColorRGB3D getColor() { return mColor;  }
+		ColorRGBA4D getColor() { return mColor;  }
 		double getColorR() { return mColor.red; }
 		double getColorG() { return mColor.green; }
 		double getColorB() { return mColor.blue; }
@@ -52,10 +54,11 @@ class Mesh
 		void setScaleX(GLdouble scaleX) { mScale.setX(scaleX); }
 		void setScaleY(GLdouble scaleY) { mScale.setY(scaleY); }
 		void setScaleZ(GLdouble scaleZ) { mScale.setZ(scaleZ); }
-		void setColor(ColorRGB3D color) { mColor = color; }
+		void setColor(ColorRGBA4D color) { mColor = color; }
 		void setColorR(double red) { mColor.red = red; }
 		void setColorG(double green) { mColor.green = green; }
 		void setColorB(double blue) { mColor.blue = blue; }
+		void setColorA(double alpha) { mColor.alpha = alpha; }
 		bool getIsWireFrame() { return mIsWireFrame; }
 		void setIsWireFrame(bool isWireFrame) { mIsWireFrame = isWireFrame; }
 		virtual void draw() = 0;

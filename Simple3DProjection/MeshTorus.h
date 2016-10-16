@@ -13,7 +13,7 @@ class MeshTorus : public Mesh {
 		GLint mRingCount;
 	public:
 		MeshTorus();
-		MeshTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nSideCount, GLint ringCount, ColorRGB3D color,
+		MeshTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nSideCount, GLint ringCount, ColorRGBA4D color,
 			Transform translate, Rotate rotate, Transform scale, bool isWireFrame);
 		GLdouble getInnerRadius();
 		GLdouble getOuterRadius();

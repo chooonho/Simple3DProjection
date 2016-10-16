@@ -17,7 +17,7 @@ class MeshRegular : public Mesh
 {
 	public:
 		MeshRegular(RegularType regularType);
-		MeshRegular(RegularType regularType, bool isWireFrame);
+		MeshRegular(RegularType regularType, ColorRGBA4D color, bool isWireFrame);
 		RegularType getRegularType();
 		void setRegularType(RegularType regularType);
 		virtual void draw();

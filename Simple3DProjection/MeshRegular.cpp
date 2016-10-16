@@ -5,9 +5,10 @@ MeshRegular::MeshRegular(RegularType regularType)
 	mRegularType = regularType;
 }
 
-MeshRegular::MeshRegular(RegularType regularType, bool isWireFrame)
+MeshRegular::MeshRegular(RegularType regularType, ColorRGBA4D color, bool isWireFrame)
 {
 	mRegularType = regularType;
+	setColor(color);
 	setIsWireFrame(isWireFrame);
 }
 
@@ -24,7 +25,7 @@ void MeshRegular::setRegularType(RegularType regularType)
 void MeshRegular::draw()
 {
 	glPushMatrix();
-		glColor3d(getColor().red, getColor().green, getColor().blue);
+		glColor4d(getColor().red, getColor().green, getColor().blue, getColor().alpha);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());

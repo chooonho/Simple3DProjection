@@ -5,16 +5,17 @@
 #include <vector>
 #include "Model.h"
 #include "ModelCreator.h"
+#include "Light.h"
 
 #define DEG_TO_RAD 0.0174533
 
-GLfloat pointSource[] = { 5.0, 5.0, 20.0, 1.0 };
 bool isWireFrame = false;
 float eyeX = 0.0;
 float eyeY = 8.0;
 float eyeZ = 50;
 float z = 50;
 float angleX = 0.0;
+Light light;
 std::vector<Model*> models;
 
 void createRoom()
@@ -30,23 +31,23 @@ void createRoom()
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, horizontal));
 
 	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, vertical));
 
 	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, horizontal));
 
 	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, vertical));
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_SLATE_BLUE, vertical));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, vertical));
 }
 
 void createProps()
@@ -103,6 +104,19 @@ void createProps()
 	models.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_KHAKI));
 }
 
+void setupLight()
+{
+	GLfloat pointSource[4] = { 5.0f, 5.0f, 5.0f, 1.0f };
+	GLfloat ambient[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat diffuse[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
+	GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+	light.setPointSource(pointSource);
+	light.setAmbient(ambient);
+	light.setDiffuse(diffuse);
+	light.setSpecular(specular);
+}
+
 void display(void)
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -156,7 +170,10 @@ void init(void)
 	glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glLightfv(GL_LIGHT0, GL_POSITION, pointSource);
+	glLightfv(GL_LIGHT0, GL_POSITION, light.getPointSource());
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light.getAmbient());
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light.getDiffuse());
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light.getSpecular());
 	glLoadIdentity();
 	gluPerspective(60, 1.78, 1.0, 100);
 }
@@ -169,9 +186,10 @@ int main(int argc, char** argv)
 	glutInitWindowSize(960, 540);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Simple 3D Projection");
+	setupLight();
 	init();
 
-	createRoom();
+	//createRoom();
 	createProps();
 
 	glutDisplayFunc(display);

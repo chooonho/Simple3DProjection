@@ -13,7 +13,7 @@ private:
 	GLint mStackCount;
 public:
 	MeshCone();
-	MeshCone(GLdouble base, GLdouble height, GLint sliceCount, GLint stackCount, ColorRGB3D color,
+	MeshCone(GLdouble base, GLdouble height, GLint sliceCount, GLint stackCount, ColorRGBA4D color,
 				Transform translate,Rotate rotate, Transform scale, bool isWireFrame);
 	GLdouble getBase();
 	GLdouble getHeight();

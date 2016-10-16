@@ -7,7 +7,7 @@
 #include "MeshTorus.h"
 #include "MeshRegular.h"
 
-Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color, Orientation orientation)
+Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Orientation orientation)
 {
 	Model* model = new Model();
 	model->setRotate(rotate);
@@ -244,8 +244,6 @@ Model* createRobot(Transform translate, Rotate rotate, Transform scale)
 	model->setTranslate(translate);
 	model->setRotate(rotate);
 	model->setScale(scale);
-
-	// Left leg meshes
 	for (int i = 0; i < LEG_COUNT; i++)
 	{
 		double legOffsetX;
@@ -323,8 +321,8 @@ Model* createRobot(Transform translate, Rotate rotate, Transform scale)
 		eye->setColor(COLOR_RED);
 		eye->setSize(0.5);
 		eye->setTranslateX(eyeOffsetX - (ROBOT_HEAD_SIZE / 4));
-		eye->setTranslateY(ROBOT_HEAD_SIZE * 5.4);
-		eye->setTranslateZ(0.6);
+		eye->setTranslateY(ROBOT_HEAD_SIZE * 5.75);
+		eye->setTranslateZ(1);
 
 		model->addMesh(eye);
 	}
@@ -368,19 +366,41 @@ Model* createRobot(Transform translate, Rotate rotate, Transform scale)
 		model->addMesh(hand);
 	}
 
-	MeshCube* head = new MeshCube();
-	head->setColor(COLOR_YELLOW);
-	head->setSize(ROBOT_HEAD_SIZE);
-	head->setTranslateY(ROBOT_HEAD_SIZE * 5.3);
+	for (int x = 0; x < ROBOT_HEAD_SIZE; x++)
+	{
+		for (int y = 0; y < ROBOT_HEAD_SIZE; y++)
+		{
+			for (int z = 0; z < ROBOT_HEAD_SIZE; z++)
+			{
+				MeshCube* head = new MeshCube();
+				head->setColor(COLOR_YELLOW);
+				head->setSize(1.0);
+				head->setTranslateX(x - 0.5);
+				head->setTranslateY(y + 7.75);
+				head->setTranslateZ(z - 0.5);
 
-	MeshCube* body = new MeshCube();
-	body->setColor(COLOR_RED);
-	body->setSize(ROBOT_BODY_SIZE);
-	body->setTranslateY(ROBOT_BODY_SIZE * 1.3);
-	body->setScaleZ(0.5);
+				model->addMesh(head);
+			}
+		}
+	}
 
-	model->addMesh(head);
-	model->addMesh(body);
+	for (int x = 0; x < ROBOT_BODY_SIZE; x++)
+	{
+		for (int y = 0; y < ROBOT_BODY_SIZE; y++)
+		{
+			for (int z = 0; z < (ROBOT_BODY_SIZE / 2); z++)
+			{
+				MeshCube* body = new MeshCube();
+				body->setColor(COLOR_RED);
+				body->setSize(1.0);
+				body->setTranslateX(x - 1.5);
+				body->setTranslateY(y + ROBOT_BODY_SIZE - 0.25);
+				body->setTranslateZ(z - 0.5);
+
+				model->addMesh(body);
+			}
+		}
+	}
 
 	return model;
 }
@@ -419,7 +439,7 @@ Model* createTree(Transform translate, Rotate rotate, Transform scale)
 	return model;
 }
 
-Model* createCone(double base, double height, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+Model* createCone(double base, double height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color)
 {
 	Model* model = new Model();
 	model->setTranslate(translate);
@@ -438,7 +458,7 @@ Model* createCone(double base, double height, Transform translate, Rotate rotate
 	return model;
 }
 
-Model* createTeapot(double size, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+Model* createTeapot(double size, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color)
 {
 	Model* model = new Model();
 	model->setTranslate(translate);
@@ -454,7 +474,7 @@ Model* createTeapot(double size, Transform translate, Rotate rotate, Transform s
 	return model;
 }
 
-Model* createTorus(double innerRadius, double outerRadius, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+Model* createTorus(double innerRadius, double outerRadius, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color)
 {
 	Model* model = new Model();
 	model->setTranslate(translate);
@@ -473,7 +493,7 @@ Model* createTorus(double innerRadius, double outerRadius, Transform translate, 
 	return model;
 }
 
-Model* createRegular(RegularType regularType, Transform translate, Rotate rotate, Transform scale, ColorRGB3D color)
+Model* createRegular(RegularType regularType, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color)
 {
 	Model* model = new Model();
 	model->setTranslate(translate);
