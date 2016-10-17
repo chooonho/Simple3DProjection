@@ -8,7 +8,7 @@ Light::Light()
 	mSpecular[4] = { 0.0f };
 }
 
-Light::Light(GLfloat pointSource[], GLfloat ambient[], GLfloat diffuse[], GLfloat specular[], ColorRGBA4D color)
+Light::Light(GLfloat pointSource[], GLfloat ambient[], GLfloat diffuse[], GLfloat specular[])
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -37,11 +37,6 @@ const GLfloat* Light::getDiffuse()
 const GLfloat* Light::getSpecular()
 {
 	return mSpecular;
-}
-
-ColorRGBA4D Light::getColor()
-{
-	return mColor;
 }
 
 void Light::setPointSource(GLfloat pointSource[])
@@ -74,9 +69,4 @@ void Light::setSpecular(GLfloat specular[])
 	{
 		mSpecular[i] = specular[i];
 	}
-}
-
-void Light::setColor(ColorRGBA4D color)
-{
-	mColor = color;
 }
