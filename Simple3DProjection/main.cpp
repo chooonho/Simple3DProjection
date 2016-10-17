@@ -205,7 +205,7 @@ void swingSpotLight(int value)
 
 	if (isSpotlightOn)
 	{
-		glutTimerFunc(30, swingSpotLight, 0);
+		glutTimerFunc(10, swingSpotLight, 0);
 	}
 
 	glutPostRedisplay();
@@ -362,9 +362,9 @@ void display(void)
 	glutSwapBuffers();
 }
 
-void MyKeyboard(int Key, int m, int n)
+void specialKeyboard(int key, int m, int n)
 {
-	switch (Key)
+	switch (key)
 	{
 		case GLUT_KEY_LEFT:
 			angleX -= 1.0;
@@ -389,7 +389,7 @@ void MyKeyboard(int Key, int m, int n)
 			isSpotlightOn = !isSpotlightOn;
 			if (isSpotlightOn)
 			{
-				glutTimerFunc(30, swingSpotLight, 0);
+				glutTimerFunc(10, swingSpotLight, 0);
 			}
 			break;
 		case GLUT_KEY_END:
@@ -408,6 +408,25 @@ void MyKeyboard(int Key, int m, int n)
 			{
 				eyeZ += 5;
 				z += 5;
+			}
+			break;
+	}
+}
+
+void charKeyboard(unsigned char key, int x, int y)
+{
+	switch (key)
+	{
+		case '+':
+			if (isSpotlightOn && swingSpeed < 25.0)
+			{
+				swingSpeed += 1.0;
+			}
+			break;
+		case '-':
+			if (isSpotlightOn && swingSpeed > 5.0)
+			{
+				swingSpeed -= 1.0;
 			}
 			break;
 	}
@@ -444,7 +463,8 @@ int main(int argc, char** argv)
 
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
-	glutSpecialFunc(MyKeyboard);
+	glutKeyboardFunc(charKeyboard);
+	glutSpecialFunc(specialKeyboard);
 	glutMainLoop();
 
 	disposeModels();
