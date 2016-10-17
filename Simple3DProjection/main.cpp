@@ -74,7 +74,7 @@ void createProps()
 
 	rotate = Rotate(270.0, 1.0, 0.0, 0.0);
 	translate = Transform(-6.0, 7.5, 10.0);
-	models.push_back(createCone(2.0, 4.0, translate, rotate, scale, COLOR_BLUE));
+	models.push_back(createCone(2.0, 4.0, translate, rotate, scale, COLOR_CYAN));
 
 	rotate = Rotate(0.0, 1.0, 0.0, 0.0);
 	translate = Transform(-2.0, 9.0, 15.0);
@@ -126,9 +126,9 @@ void setupLight()
 			ambient[2] = 0.4f;
 			ambient[3] = 1.0f;
 
-			diffuse[0] = 0.741f;
-			diffuse[1] = 0.718f;
-			diffuse[2] = 0.420f;
+			diffuse[0] = 0.941f;
+			diffuse[1] = 0.502;
+			diffuse[2] = 0.502f;
 			diffuse[3] = 1.0f;
 
 			specular[0] = 0.0f;
@@ -189,6 +189,15 @@ void switchLight()
 	}
 }
 
+void disposeModels()
+{
+	while (!models.empty())
+	{
+		delete models.back();
+		models.pop_back();
+	}
+}
+
 void display(void)
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -230,6 +239,7 @@ void MyKeyboard(int Key, int m, int n)
 			switchLight();
 			break;
 		case GLUT_KEY_END:
+			disposeModels();
 			exit(0);
 			break;
 	}
@@ -267,6 +277,8 @@ int main(int argc, char** argv)
 	glutIdleFunc(display);
 	glutSpecialFunc(MyKeyboard);
 	glutMainLoop();
+
+	disposeModels();
 
 	return 0;
 }

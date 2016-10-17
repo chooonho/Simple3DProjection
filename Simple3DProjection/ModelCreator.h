@@ -27,6 +27,7 @@ const ColorRGBA4D COLOR_SILVER = { 0.753, 0.753, 0.753, 0.0 };
 const ColorRGBA4D COLOR_ORANGE = { 1.000, 0.549, 0.000, 0.0 };
 const ColorRGBA4D COLOR_PURPLE = { 0.502, 0.000, 0.502, 0.0 };
 const ColorRGBA4D COLOR_KHAKI = { 0.741, 0.718, 0.420, 0.0 };
+const ColorRGBA4D COLOR_CYAN = { 0.000, 1.000, 1.000, 0.0 };
 
 Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Orientation orientation);
 Model* createTable(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale);

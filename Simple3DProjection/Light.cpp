@@ -2,10 +2,10 @@
 
 Light::Light()
 {
-	mPointSource[4] = { 0.0 };
-	mAmbient[4] = { 0.0 };
-	mDiffuse[4] = { 0.0 };
-	mSpecular[4] = { 0.0 };
+	mPointSource[4] = { 0.0f };
+	mAmbient[4] = { 0.0f };
+	mDiffuse[4] = { 0.0f };
+	mSpecular[4] = { 0.0f };
 }
 
 Light::Light(GLfloat pointSource[], GLfloat ambient[], GLfloat diffuse[], GLfloat specular[], ColorRGBA4D color)
@@ -17,6 +17,31 @@ Light::Light(GLfloat pointSource[], GLfloat ambient[], GLfloat diffuse[], GLfloa
 		mDiffuse[i] = diffuse[i];
 		mSpecular[i] = specular[i];
 	}
+}
+
+const GLfloat* Light::getPointSource()
+{
+	return mPointSource;
+}
+
+const GLfloat* Light::getAmbient()
+{
+	return mAmbient;
+}
+
+const GLfloat* Light::getDiffuse()
+{
+	return mDiffuse;
+}
+
+const GLfloat* Light::getSpecular()
+{
+	return mSpecular;
+}
+
+ColorRGBA4D Light::getColor()
+{
+	return mColor;
 }
 
 void Light::setPointSource(GLfloat pointSource[])
@@ -54,29 +79,4 @@ void Light::setSpecular(GLfloat specular[])
 void Light::setColor(ColorRGBA4D color)
 {
 	mColor = color;
-}
-
-const GLfloat* Light::getPointSource()
-{
-	return mPointSource;
-}
-
-const GLfloat* Light::getAmbient()
-{
-	return mAmbient;
-}
-
-const GLfloat* Light::getDiffuse()
-{
-	return mDiffuse;
-}
-
-const GLfloat* Light::getSpecular()
-{
-	return mSpecular;
-}
-
-ColorRGBA4D Light::getColor()
-{
-	return mColor;
 }
