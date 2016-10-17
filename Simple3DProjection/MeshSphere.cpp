@@ -53,6 +53,12 @@ void MeshSphere::setStackCount(GLint stackCount)
 
 void MeshSphere::draw()
 {
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, getMaterial().getDiffuse());
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, getMaterial().getSpecular());
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, getMaterial().getShine());
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, getMaterial().getEmission());
+
 	glPushMatrix();
 		glColor4d(getColor().red, getColor().green, getColor().blue, getColor().alpha);
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());

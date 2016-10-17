@@ -5,6 +5,7 @@
 #include <GL/glut.h>
 #include "Transform.h"
 #include "Rotate.h"
+#include "Material.h"
 
 struct ColorRGBA4D
 {
@@ -22,6 +23,7 @@ class Mesh
 		Rotate mRotate;
 		Transform mScale;
 		ColorRGBA4D mColor;
+		Material mMaterial;
 	public:
 		Mesh() { mScale.setX(1.0); mScale.setY(1.0); mScale.setZ(1.0); }
 		Transform getTranslate() { return mTranslate; }
@@ -38,6 +40,7 @@ class Mesh
 		GLdouble getScaleY() { return mScale.getY(); }
 		GLdouble getScaleZ() { return mScale.getZ(); }
 		ColorRGBA4D getColor() { return mColor;  }
+		Material getMaterial() { return mMaterial; }
 		double getColorR() { return mColor.red; }
 		double getColorG() { return mColor.green; }
 		double getColorB() { return mColor.blue; }
@@ -59,6 +62,7 @@ class Mesh
 		void setColorG(double green) { mColor.green = green; }
 		void setColorB(double blue) { mColor.blue = blue; }
 		void setColorA(double alpha) { mColor.alpha = alpha; }
+		void setMaterial(Material material) { mMaterial = material; }
 		bool getIsWireFrame() { return mIsWireFrame; }
 		void setIsWireFrame(bool isWireFrame) { mIsWireFrame = isWireFrame; }
 		virtual void draw() = 0;

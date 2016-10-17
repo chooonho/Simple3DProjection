@@ -2,9 +2,21 @@
 
 Material::Material()
 {
-	mAmbient[4] = { 0.0f };
-	mDiffuse[4] = { 0.0f };
-	mSpecular[4] = { 0.0f };
+	mAmbient[0] = { 0.0f };
+	mDiffuse[0] = { 0.0f };
+	mSpecular[0] = { 0.0f };
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (i < 3)
+		{
+			mEmission[i] = 0.0f;
+		}
+		else
+		{
+			mEmission[i] = 1.0f;
+		}
+	}
 	mShine = 0.0f;
 }
 
@@ -17,6 +29,7 @@ Material::Material( GLfloat ambient[], GLfloat diffuse[], GLfloat specular[], GL
 		mSpecular[i] = specular[i];
 	}
 
+	mEmission[4] = { 0.0f };
 	mShine = shine;
 }
 
@@ -33,6 +46,11 @@ const GLfloat* Material::getDiffuse()
 const GLfloat* Material::getSpecular()
 {
 	return mSpecular;
+}
+
+const GLfloat* Material::getEmission()
+{
+	return mEmission;
 }
 
 GLfloat Material::getShine()
@@ -64,7 +82,33 @@ void Material::setSpecular(GLfloat specular[])
 	}
 }
 
+void Material::setEmission(GLfloat emission[])
+{
+	for (int i = 0; i < 4; i++)
+	{
+		mEmission[i] = emission[i];
+	}
+}
+
 void Material::setShine(GLfloat shine)
 {
 	mShine = shine;
+}
+
+Material& Material::operator=(const Material& rhMaterial)
+{
+	if (this != &rhMaterial)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			this->mAmbient[i] = rhMaterial.mAmbient[i];
+			this->mDiffuse[i] = rhMaterial.mDiffuse[i];
+			this->mSpecular[i] = rhMaterial.mSpecular[i];
+			this->mEmission[i] = rhMaterial.mEmission[i];
+		}
+
+		this->mShine = rhMaterial.mShine;
+	}
+
+	return *this;
 }
