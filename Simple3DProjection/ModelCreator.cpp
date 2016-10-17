@@ -657,12 +657,12 @@ Material createMaterial(MaterialType materialType)
 			}
 
 			break;
-		case BRONZE:
+		case PERL:
 			{
-				GLfloat ambient[4] = { 0.2125f, 0.1275f, 0.054f, 1.0f };
-				GLfloat diffuse[4] = { 0.714f, 0.4284f, 0.18144f, 1.0f };
-				GLfloat specular[4] = { 0.393548f, 0.271906f, 0.166721f, 1.0f };
-				GLfloat shine = 25.6f;
+				GLfloat ambient[4] = { 0.25f, 0.20725f, 0.20725f, 0.922f };
+				GLfloat diffuse[4] = { 1.0f, 0.829f, 0.829f, 0.922f };
+				GLfloat specular[4] = { 0.296648f, 0.296648f, 0.296648f, 0.922f };
+				GLfloat shine = 11.264f;
 
 				material.setAmbient(ambient);
 				material.setDiffuse(diffuse);

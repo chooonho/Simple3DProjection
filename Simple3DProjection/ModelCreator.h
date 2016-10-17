@@ -3,6 +3,8 @@
 #ifndef MODEL_RENDERER_H
 #define MODEL_RENDERER_H
 
+#define DEG_TO_RAD 0.0174533
+
 #include "Transform.h"
 #include "Rotate.h"
 #include "Model.h"
@@ -25,11 +27,13 @@ enum MaterialType
 	EMERALD,
 	GREEN_PLASTIC,
 	BRASS,
-	BRONZE,
+	PERL,
 	POLISHED_BRONZE,
 	RED_PLASTIC,
 	OBSIDIAN
 };
+
+const float MATH_PI = 3.14159265359;
 
 const ColorRGBA4D COLOR_BLACK = { 0.0, 0.0, 0.0, 1.0 };
 const ColorRGBA4D COLOR_GRAY = { 0.5, 0.5, 0.5, 1.0 };

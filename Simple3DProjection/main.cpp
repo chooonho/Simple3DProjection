@@ -6,18 +6,22 @@
 #include "Model.h"
 #include "ModelCreator.h"
 #include "Light.h"
-
-#define DEG_TO_RAD 0.0174533
+#include "Spotlight.h"
+#include <iostream>
 
 bool isWireFrame = false;
 bool isLightLeftOn = false;
 bool isLightRightOn = false;
+bool isSpotlightOn = false;
 float eyeX = 0.0;
-float eyeY = 8.0;
+float eyeY = 15.0;
 float eyeZ = 50;
 float z = 50;
 float angleX = 0.0;
+float swingAngle = 0.0;
+float swingSpeed = 5.0;
 Light light[2];
+Spotlight spotlight;
 GLfloat globalAmbient[4] = {0.7, 0.7, 0.7, 1.0};
 std::vector<Model*> models;
 
@@ -84,12 +88,12 @@ void createProps()
 
 	rotate = Rotate(30.0, 0.0, 1.0, 0.0);
 	translate = Transform(4.0, 9.0, 14.0);
-	models.push_back(createTorus(0.5, 1.0, translate, rotate, scale, COLOR_GREEN, createMaterial(EMERALD)));
+	models.push_back(createTorus(0.5, 1.0, translate, rotate, scale, COLOR_GREEN, createMaterial(GREEN_PLASTIC)));
 
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
 	translate = Transform(12.0, 10.0, 15.0);
 	scale = Transform(1.5, 2.5, 1.5);
-	models.push_back(createRegular(OCTAHEDRON, translate, rotate, scale, COLOR_ORANGE, createMaterial(BRASS)));
+	models.push_back(createRegular(OCTAHEDRON, translate, rotate, scale, COLOR_ORANGE, createMaterial(PERL)));
 
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
 	translate = Transform(2.0, 9.0, 10.0);
@@ -166,6 +170,95 @@ void setupLight()
 		light[i].setDiffuse(diffuse);
 		light[i].setSpecular(specular);
 	}
+}
+
+void setupSpotLight()
+{
+	GLfloat pointSource[4] = { 0.0f, 27.5f, 13.0f, 1.0f };
+	GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat diffuse[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat specular[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat direction[3] = { 0.0f, -1.0f, 0.0f };
+	GLfloat cutOff = 30;
+	GLfloat exponent = 40;
+
+	spotlight.setPointSource(pointSource);
+	spotlight.setAmbient(ambient);
+	spotlight.setDiffuse(diffuse);
+	spotlight.setSpecular(specular);
+	spotlight.setDirection(direction);
+	spotlight.setCutOff(cutOff);
+	spotlight.setExponent(exponent);
+}
+
+void swingSpotLight(int value)
+{
+	static float arc = 0.0;
+	swingAngle = 25.0 * sin(arc);
+
+	arc = arc + ((MATH_PI * 2.0) / 135.0) * swingSpeed;
+
+	if (arc > (MATH_PI * 2.0))
+	{
+		arc = arc - (MATH_PI * 2.0);
+	}
+
+	if (isSpotlightOn)
+	{
+		glutTimerFunc(30, swingSpotLight, 0);
+	}
+
+	glutPostRedisplay();
+}
+
+void drawSpotlight()
+{
+	GLfloat spotlightMaterial[4][4] = {
+		{ 0.5, 0.5, 0.5, 0.8 },
+		{ 0.7, 0.7, 0.7, 0.8 },
+		{ 0.9, 0.9, 0.9, 0.8 },
+		{ 1.0f, 1.0f, 1.0f, 1.0f }
+	};
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_MODELVIEW);
+
+	glPushMatrix();
+		glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 3.5, spotlight.getPointSource()[2]);
+		glRotatef(swingAngle, 0.0, 0.0, 1.0);
+		glPushMatrix();
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			glTranslatef(0.0, 0.0, -3.5);
+			glutSolidCone(1.0, 2.0, 30, 30);
+		glPopMatrix();
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightMaterial[0]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightMaterial[1]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightMaterial[2]);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
+		glTranslatef(0.0, -3.5, 0.0);
+		if (isSpotlightOn) {
+			glPushMatrix();
+				glTranslatef(-spotlight.getPointSource()[0], -spotlight.getPointSource()[1], -spotlight.getPointSource()[2]);
+				glEnable(GL_LIGHT2);
+				glLightfv(GL_LIGHT2, GL_POSITION, spotlight.getPointSource());
+				glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spotlight.getDirection());
+				glLightfv(GL_LIGHT2, GL_AMBIENT, spotlight.getAmbient());
+				glLightfv(GL_LIGHT2, GL_DIFFUSE, spotlight.getDiffuse());
+				glLightfv(GL_LIGHT2, GL_SPECULAR, spotlight.getSpecular());
+				glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, spotlight.getCutOff());
+				glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, spotlight.getExponent());
+			glPopMatrix();
+
+			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, spotlightMaterial[3]);
+		}
+		else {
+			glDisable(GL_LIGHT2);
+		}
+		glutSolidSphere(0.5, 30, 30);
+	glPopMatrix();
+
+	glDisable(GL_BLEND);
 }
 
 void drawLightBulbs()
@@ -257,6 +350,7 @@ void display(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	drawLightBulbs();
+	drawSpotlight();
 	glPushMatrix();
 		for (unsigned int i = 0; i < models.size(); i++)
 		{
@@ -291,6 +385,13 @@ void MyKeyboard(int Key, int m, int n)
 		case GLUT_KEY_F3:
 			isLightRightOn = !isLightRightOn;
 			break;
+		case GLUT_KEY_F4:
+			isSpotlightOn = !isSpotlightOn;
+			if (isSpotlightOn)
+			{
+				glutTimerFunc(30, swingSpotLight, 0);
+			}
+			break;
 		case GLUT_KEY_END:
 			disposeModels();
 			exit(0);
@@ -320,7 +421,6 @@ void init(void)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	glMatrixMode(GL_PROJECTION);
-	//glEnable(GL_COLOR_MATERIAL);
 	glEnable(GL_LIGHTING);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 	glLoadIdentity();
@@ -335,9 +435,10 @@ int main(int argc, char** argv)
 	glutInitWindowSize(960, 540);
 	glutInitWindowPosition(50, 50);
 	glutCreateWindow("Simple 3D Projection");
-	setupLight();
 	init();
 
+	setupLight();
+	setupSpotLight();
 	createRoom();
 	createProps();
 
