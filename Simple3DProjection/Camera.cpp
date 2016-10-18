@@ -3,15 +3,20 @@
 
 Camera::Camera()
 {
+	mInitialPosition = { 0.0, 0.0, 0.0 };
 	mPosition = { 0.0, 0.0, 0.0 };
+	mLookAt = { 0.0, 0.0, 0.0 };
+	mAngle = { 0.0, 0.0, 0.0 };
+	mZoom = 1.0;
 }
 
-Camera::Camera(Point3D position, Point3D lookAt, Point3D angle)
+Camera::Camera(Point3D position, Point3D lookAt, Point3D angle, GLdouble zoom)
 {
 	mInitialPosition = position;
 	mPosition = position;
 	mLookAt = lookAt;
 	mAngle = angle;
+	mZoom = zoom;
 }
 
 Point3D Camera::getInitialPosition()
@@ -94,6 +99,11 @@ GLdouble Camera::getAngleZ()
 	return mAngle.z;
 }
 
+GLdouble Camera::getZoom()
+{
+	return mZoom;
+}
+
 void Camera::setInitialPosition(Point3D initialPosition)
 {
 	mInitialPosition = initialPosition;
@@ -174,25 +184,63 @@ void Camera::setAngleZ(GLdouble z)
 	mAngle.z = z;
 }
 
-void Camera::resetInitialPosition()
+void Camera::zoomIn(GLdouble increment)
 {
-	mInitialPosition = mPosition;
+	if ((mZoom - increment) <= MIN_ZOOM)
+	{
+		return;
+	}
+
+	mZoom -= increment;
+
+	mPosition.x = (mInitialPosition.z * sin(DEG_TO_RAD * mAngle.x)) * mZoom;
+	mPosition.y = (mInitialPosition.y + mInitialPosition.z * sin(DEG_TO_RAD * mAngle.y)) * mZoom;
+	mPosition.z = ((mInitialPosition.z * cos(DEG_TO_RAD * mAngle.x)) * cos(DEG_TO_RAD * mAngle.y)) * mZoom;
+}
+
+void Camera::zoomOut(GLdouble decrement)
+{
+	if ((mZoom + decrement) >= MAX_ZOOM)
+	{
+		return;
+	}
+
+	mZoom += decrement;
+
+	mPosition.x = (mInitialPosition.z * sin(DEG_TO_RAD * mAngle.x)) * mZoom;
+	mPosition.y = (mInitialPosition.y + mInitialPosition.z * sin(DEG_TO_RAD * mAngle.y)) * mZoom;
+	mPosition.z = ((mInitialPosition.z * cos(DEG_TO_RAD * mAngle.x)) * cos(DEG_TO_RAD * mAngle.y)) * mZoom;
+}
+
+void Camera::resetToInitialPosition()
+{
+	mPosition = mInitialPosition;
 }
 
 // Rotate with angle x
 void Camera::rotateX(GLdouble angle)
 {
+	if (angle <= -(MIN_MAX_ROTATE_ANGLE) || angle >= MIN_MAX_ROTATE_ANGLE)
+	{
+		return;
+	}
+
 	mAngle.x = angle;
 
-	mPosition.x = mInitialPosition.z * sin(DEG_TO_RAD * angle);
-	mPosition.z = (mInitialPosition.z * cos(DEG_TO_RAD * mAngle.y)) * cos(DEG_TO_RAD * angle);
+	mPosition.x = (mInitialPosition.z * sin(DEG_TO_RAD * angle)) * mZoom;
+	mPosition.z = ((mInitialPosition.z * cos(DEG_TO_RAD * mAngle.y)) * cos(DEG_TO_RAD * angle)) * mZoom;
 }
 
 // Rotate with angle y
 void Camera::rotateY(GLdouble angle)
 {
+	if (angle <= -(MIN_MAX_ROTATE_ANGLE) || angle >= MIN_MAX_ROTATE_ANGLE)
+	{
+		return;
+	}
+
 	mAngle.y = angle;
 
-	mPosition.y = mInitialPosition.y + mInitialPosition.z * sin(DEG_TO_RAD * angle);
-	mPosition.z = (mInitialPosition.z * cos(DEG_TO_RAD * mAngle.x)) * cos(DEG_TO_RAD * angle);
+	mPosition.y = (mInitialPosition.y + mInitialPosition.z * sin(DEG_TO_RAD * angle)) * mZoom;
+	mPosition.z = ((mInitialPosition.z * cos(DEG_TO_RAD * mAngle.x)) * cos(DEG_TO_RAD * angle)) * mZoom;
 }

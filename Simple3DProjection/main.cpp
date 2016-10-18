@@ -10,6 +10,9 @@
 #include "Spotlight.h"
 #include <iostream>
 
+const float MIN_SWING_SPEED = 5.0f;
+const float MAX_SWING_SPEED = 50.0f;
+
 Camera camera;
 Light light[2];
 Spotlight spotlight;
@@ -19,8 +22,8 @@ bool isWireFrame = false;
 bool isLightLeftOn = false;
 bool isLightRightOn = false;
 bool isSpotlightOn = false;
-float swingAngle = 0.0;
-float swingSpeed = 5.0;
+float swingAngle = 0.0f;
+float swingSpeed = MIN_SWING_SPEED;
 
 /*
 	NOTE:
@@ -215,7 +218,7 @@ void drawSpotlight()
 	glMatrixMode(GL_MODELVIEW);
 
 	glPushMatrix();
-		glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 3.5, spotlight.getPointSource()[2]);
+		glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 2.0, spotlight.getPointSource()[2]);
 		glRotatef(swingAngle, 0.0, 0.0, 1.0);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightHolderMaterial[0]);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightHolderMaterial[1]);
@@ -224,14 +227,14 @@ void drawSpotlight()
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
 		glPushMatrix();
 			glRotatef(-90.0, 1.0, 0.0, 0.0);
-			glTranslatef(0.0, 0.0, -3.5);
+			glTranslatef(0.0, 0.0, -2.0);
 			glutSolidCone(1.0, 2.0, 30, 30);
 		glPopMatrix();
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightMaterial[0]);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightMaterial[1]);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightMaterial[2]);
 		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
-		glTranslatef(0.0, -3.5, 0.0);
+		glTranslatef(0.0, -2.0, 0.0);
 		if (isSpotlightOn) {
 			glPushMatrix();
 				glTranslatef(-spotlight.getPointSource()[0], -spotlight.getPointSource()[1], -spotlight.getPointSource()[2]);
@@ -359,35 +362,26 @@ void display(void)
 
 void processSpecialKey(int key, int m, int n)
 {
+	/*
+		LIMITS:
+		-	Camera rotation angle:
+		--	Max and min is set to be 0.0 +- 45.0 (refer to Camera.h and Camera.cpp)
+		-	Camera zoom in and out:
+		--	Max and min is set to be 1.0 +- 0.5 (refer to Camera.h and Camera.cpp)
+	*/
 	switch (key)
 	{
 		case GLUT_KEY_LEFT:
-			if (camera.getAngleX() > -(MIN_MAX_ROTATE_ANGLE))
-			{
-				camera.rotateX(camera.getAngleX() - 1.0);
-			}
-
+			camera.rotateX(camera.getAngleX() - 2.0);
 			break;
 		case GLUT_KEY_RIGHT:
-			if (camera.getAngleX() < MIN_MAX_ROTATE_ANGLE)
-			{
-				camera.rotateX(camera.getAngleX() + 1.0);
-			}
-
+			camera.rotateX(camera.getAngleX() + 2.0);
 			break;
 		case GLUT_KEY_UP:
-			if (camera.getAngleY() < MIN_MAX_ROTATE_ANGLE)
-			{
-				camera.rotateY(camera.getAngleY() + 1.0);
-			}
-
+			camera.rotateY(camera.getAngleY() + 2.0);
 			break;
 		case GLUT_KEY_DOWN:
-			if (camera.getAngleY() > -(MIN_MAX_ROTATE_ANGLE))
-			{
-				camera.rotateY(camera.getAngleY() - 1.0);
-			}
-
+			camera.rotateY(camera.getAngleY() - 2.0);
 			break;
 		case GLUT_KEY_F1:
 			isWireFrame = !isWireFrame;
@@ -410,18 +404,10 @@ void processSpecialKey(int key, int m, int n)
 			exit(0);
 			break;
 		case GLUT_KEY_PAGE_UP:
-			if (camera.getPositionZ() > 0)
-			{
-				camera.setPositionZ(camera.getPositionZ() - 5);
-			}
-
+			camera.zoomIn();
 			break;
 		case GLUT_KEY_PAGE_DOWN:
-			if (camera.getPositionZ() < 50)
-			{
-				camera.setPositionZ(camera.getPositionZ() + 5);
-			}
-
+			camera.zoomOut();
 			break;
 	}
 }
@@ -431,13 +417,13 @@ void processNormalKey(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case '+':
-			if (isSpotlightOn && swingSpeed < 25.0)
+			if (isSpotlightOn && swingSpeed < MAX_SWING_SPEED)
 			{
 				swingSpeed += 1.0;
 			}
 			break;
 		case '-':
-			if (isSpotlightOn && swingSpeed > 5.0)
+			if (isSpotlightOn && swingSpeed > MIN_SWING_SPEED)
 			{
 				swingSpeed -= 1.0;
 			}

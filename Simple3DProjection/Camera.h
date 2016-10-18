@@ -5,6 +5,8 @@
 
 #define DEG_TO_RAD 0.0174533
 #define MIN_MAX_ROTATE_ANGLE 45.0
+#define MIN_ZOOM 0.5
+#define MAX_ZOOM 1.5
 
 #include <GL/glut.h>
 
@@ -22,9 +24,10 @@ class Camera
 		Point3D mPosition;
 		Point3D mLookAt;
 		Point3D mAngle;
+		GLdouble mZoom;
 	public:
 		Camera();
-		Camera(Point3D position, Point3D lookAt, Point3D angle);
+		Camera(Point3D position, Point3D lookAt, Point3D angle, GLdouble zoom = 1.0);
 		Point3D getInitialPosition();
 		Point3D getPosition();
 		Point3D getLookAt();
@@ -41,6 +44,7 @@ class Camera
 		GLdouble getAngleX();
 		GLdouble getAngleY();
 		GLdouble getAngleZ();
+		GLdouble getZoom();
 		void setInitialPosition(Point3D initialPosition);
 		void setPosition(Point3D position);
 		void setLookAt(Point3D lookAt);
@@ -57,7 +61,9 @@ class Camera
 		void setAngleX(GLdouble x);
 		void setAngleY(GLdouble y);
 		void setAngleZ(GLdouble z);
-		void resetInitialPosition();
+		void zoomIn(GLdouble increment = 0.1);
+		void zoomOut(GLdouble decrement = 0.1);
+		void resetToInitialPosition();
 		void rotateX(GLdouble angle);
 		void rotateY(GLdouble angle);
 };
