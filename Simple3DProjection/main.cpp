@@ -371,6 +371,9 @@ void processSpecialKey(int key, int m, int n)
 	*/
 	switch (key)
 	{
+		case GLUT_KEY_HOME:
+			camera.resetToInitialPosition();
+			break;
 		case GLUT_KEY_LEFT:
 			camera.rotateX(camera.getAngleX() - 2.0);
 			break;

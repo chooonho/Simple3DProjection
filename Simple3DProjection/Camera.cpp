@@ -215,6 +215,8 @@ void Camera::zoomOut(GLdouble decrement)
 void Camera::resetToInitialPosition()
 {
 	mPosition = mInitialPosition;
+	mZoom = 1.0;
+	mAngle = { 0.0, 0.0, 0.0 };
 }
 
 // Rotate with angle x
