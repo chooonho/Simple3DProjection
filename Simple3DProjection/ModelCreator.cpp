@@ -7,7 +7,7 @@
 #include "MeshTorus.h"
 #include "MeshRegular.h"
 
-Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Orientation orientation)
+Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Material material, Orientation orientation)
 {
 	Model* model = new Model();
 	model->setRotate(rotate);
@@ -21,7 +21,7 @@ Model* createWall(int width, int height, Transform translate, Rotate rotate, Tra
 			MeshCube* meshCube = new MeshCube;
 			meshCube->setSize(1.0);
 			meshCube->setColor(color);
-			meshCube->setMaterial(createMaterial(SILVER));
+			meshCube->setMaterial(material);
 
 			meshCube->setTranslateX(w);
 			if (orientation == horizontal)
@@ -543,189 +543,123 @@ Model* createRegular(RegularType regularType, Transform translate, Rotate rotate
 Material createMaterial(MaterialType materialType)
 {
 	Material material;
+	GLfloat* ambientPtr;
+	GLfloat* diffusePtr;
+	GLfloat* specularPtr;
+	GLfloat shine;
 
 	switch (materialType)
 	{
 		case SILVER:
-			{
-				GLfloat ambient[4] = { 0.19225f, 0.19225f, 0.19225f, 1.0f };
-				GLfloat diffuse[4] = { 0.50754f, 0.50754f, 0.50754f, 1.0f };
-				GLfloat specular[4] = { 0.508273f, 0.508273f, 0.508273f, 1.0f };
-				GLfloat shine = 51.2f;
+			ambientPtr = new GLfloat[4] { 0.19225f, 0.19225f, 0.19225f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.50754f, 0.50754f, 0.50754f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.508273f, 0.508273f, 0.508273f, 1.0f };
+			shine = 51.2f;
 
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
 			break;
 		case RUBY:
-			{
-				GLfloat ambient[4] = { 0.1745f, 0.01175f, 0.01175f, 0.55f };
-				GLfloat diffuse[4] = { 0.61424f, 0.04136f, 0.04136f, 0.55f };
-				GLfloat specular[4] = { 0.727811f, 0.626959f, 0.626959f, 0.55f };
-				GLfloat shine = 76.8f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.1745f, 0.01175f, 0.01175f, 0.55f };
+			diffusePtr = new GLfloat[4] { 0.61424f, 0.04136f, 0.04136f, 0.55f };
+			specularPtr = new GLfloat[4] { 0.727811f, 0.626959f, 0.626959f, 0.55f };
+			shine = 76.8f;
 
 			break;
 		case CYAN_PLASTIC:
-			{
-				GLfloat ambient[4] = { 0.0f, 0.1f, 0.06f, 1.0f };
-				GLfloat diffuse[4] = { 0.0f, 0.50980392f, 0.50980392f, 1.0f };
-				GLfloat specular[4] = { 0.50196078f, 0.50196078f, 0.50196078f, 1.0f };
-				GLfloat shine = 32.0f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.0f, 0.1f, 0.06f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.0f, 0.50980392f, 0.50980392f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.50196078f, 0.50196078f, 0.50196078f, 1.0f };
+			shine = 32.0f;
 
 			break;
 		case GOLD:
-			{
-				GLfloat ambient[4] = { 0.24725f, 0.1995f, 0.0745f, 1.0f };
-				GLfloat diffuse[4] = { 0.75164f, 0.60648f, 0.22648f, 1.0f };
-				GLfloat specular[4] = { 0.628281f, 0.555802f, 0.366065f, 1.0f };
-				GLfloat shine = 51.2f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.24725f, 0.1995f, 0.0745f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.75164f, 0.60648f, 0.22648f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.628281f, 0.555802f, 0.366065f, 1.0f };
+			shine = 51.2f;
 
 			break;
 		case YELLOW_RUBBER:
-			{
-				GLfloat ambient[4] = { 0.05f, 0.05f, 0.0f, 1.0f };
-				GLfloat diffuse[4] = { 0.5f, 0.5f, 0.4f, 1.0f };
-				GLfloat specular[4] = { 0.7f, 0.7f, 0.04f, 1.0f };
-				GLfloat shine = 10.0f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.05f, 0.05f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.5f, 0.5f, 0.4f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.7f, 0.7f, 0.04f, 1.0f };
+			shine = 10.0f;
 
 			break;
 		case EMERALD:
-			{
-				GLfloat ambient[4] = { 0.0215f, 0.1745f, 0.0215f, 0.55f };
-				GLfloat diffuse[4] = { 0.07568f, 0.61424f, 0.07568f, 0.55f };
-				GLfloat specular[4] = { 0.633f, 0.727811f, 0.633f, 0.55f };
-				GLfloat shine = 76.8f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.0215f, 0.1745f, 0.0215f, 0.55f };
+			diffusePtr = new GLfloat[4] { 0.07568f, 0.61424f, 0.07568f, 0.55f };
+			specularPtr = new GLfloat[4] { 0.633f, 0.727811f, 0.633f, 0.55f };
+			shine = 76.8f;
 
 			break;
 		case GREEN_PLASTIC:
-			{
-				GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-				GLfloat diffuse[4] = { 0.1f, 0.35f, 0.1f, 1.0f };
-				GLfloat specular[4] = { 0.45f, 0.55f, 0.45f, 1.0f };
-				GLfloat shine = 32.0f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.1f, 0.35f, 0.1f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.45f, 0.55f, 0.45f, 1.0f };
+			shine = 32.0f;
 
 			break;
 		case BRASS:
-			{
-				GLfloat ambient[4] = { 0.329412f, 0.223529f, 0.027451f, 1.0f };
-				GLfloat diffuse[4] = { 0.780392f, 0.568627f, 0.113725f, 1.0f };
-				GLfloat specular[4] = { 0.992157f, 0.941176f, 0.807843f, 1.0f };
-				GLfloat shine = 27.8974f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4]{ 0.329412f, 0.223529f, 0.027451f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 0.780392f, 0.568627f, 0.113725f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.992157f, 0.941176f, 0.807843f, 1.0f };
+			shine = 27.8974f;
 
 			break;
 		case PERL:
-			{
-				GLfloat ambient[4] = { 0.25f, 0.20725f, 0.20725f, 0.922f };
-				GLfloat diffuse[4] = { 1.0f, 0.829f, 0.829f, 0.922f };
-				GLfloat specular[4] = { 0.296648f, 0.296648f, 0.296648f, 0.922f };
-				GLfloat shine = 11.264f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.25f, 0.20725f, 0.20725f, 0.922f };
+			diffusePtr = new GLfloat[4] { 1.0f, 0.829f, 0.829f, 0.922f };
+			specularPtr = new GLfloat[4] { 0.296648f, 0.296648f, 0.296648f, 0.922f };
+			shine = 11.264f;
 
 			break;
 		case POLISHED_BRONZE:
-			{
-				GLfloat ambient[4] = { 0.25f, 0.148f, 0.06475f, 1.0f };
-				GLfloat diffuse[4] = { 0.4f, 0.2368f, 0.1036f, 1.0f };
-				GLfloat specular[4] = { 0.774597f, 0.458561f, 0.200621f, 1.0f };
-				GLfloat shine = 76.8f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.25f, 0.148f, 0.06475f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.4f, 0.2368f, 0.1036f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.774597f, 0.458561f, 0.200621f, 1.0f };
+			shine = 76.8f;
 
 			break;
 		case RED_PLASTIC:
-			{
-				GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-				GLfloat diffuse[4] = { 0.5f, 0.0f, 0.0f, 1.0f };
-				GLfloat specular[4] = { 0.7f, 0.6f, 0.6f, 1.0f };
-				GLfloat shine = 32.0f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.5f, 0.0f, 0.0f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.7f, 0.6f, 0.6f, 1.0f };
+			shine = 32.0f;
 
 			break;
 		case OBSIDIAN:
-			{
-				GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-				GLfloat diffuse[4] = { 0.5f, 0.0f, 0.0f, 1.0f };
-				GLfloat specular[4] = { 0.7f, 0.6f, 0.6f, 1.0f };
-				GLfloat shine = 32.0f;
+			ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.5f, 0.0f, 0.0f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.7f, 0.6f, 0.6f, 1.0f };
+			shine = 32.0f;
 
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			break;
+		case POLISHED_SILVER:
+			ambientPtr = new GLfloat[4] { 0.23125f, 0.23125f, 0.23125f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.2775f, 0.2775f, 0.2775f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.773911f, 0.773911f, 0.773911f, 1.0f };
+			shine = 89.6f;
 
 			break;
 		default:
-			{
-				GLfloat ambient[4] = { 0.05375f, 0.05f, 0.06625f, 0.82f };
-				GLfloat diffuse[4] = { 0.18275f, 0.17f, 0.22525f, 0.82f };
-				GLfloat specular[4] = { 0.332741f, 0.328634f, 0.346435f, 0.82f };
-				GLfloat shine = 38.4f;
-
-				material.setAmbient(ambient);
-				material.setDiffuse(diffuse);
-				material.setSpecular(specular);
-				material.setShine(shine);
-			}
+			ambientPtr = new GLfloat[4] { 0.05375f, 0.05f, 0.06625f, 0.82f };
+			diffusePtr = new GLfloat[4] { 0.18275f, 0.17f, 0.22525f, 0.82f };
+			specularPtr = new GLfloat[4] { 0.332741f, 0.328634f, 0.346435f, 0.82f };
+			shine = 38.4f;
 	}
+
+	material.setAmbient(ambientPtr);
+	material.setDiffuse(diffusePtr);
+	material.setSpecular(specularPtr);
+	material.setShine(shine);
+
+	delete[] ambientPtr;
+	delete[] diffusePtr;
+	delete[] specularPtr;
+
+	ambientPtr = NULL;
+	diffusePtr = NULL;
+	specularPtr = NULL;
 
 	return material;
 }

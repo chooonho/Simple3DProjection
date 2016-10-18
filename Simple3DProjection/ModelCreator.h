@@ -30,7 +30,8 @@ enum MaterialType
 	PERL,
 	POLISHED_BRONZE,
 	RED_PLASTIC,
-	OBSIDIAN
+	OBSIDIAN,
+	POLISHED_SILVER
 };
 
 const float MATH_PI = 3.14159265359;
@@ -51,7 +52,7 @@ const ColorRGBA4D COLOR_PURPLE = { 0.502, 0.000, 0.502, 1.0 };
 const ColorRGBA4D COLOR_KHAKI = { 0.741, 0.718, 0.420, 1.0 };
 const ColorRGBA4D COLOR_CYAN = { 0.000, 1.000, 1.000, 1.0 };
 
-Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Orientation orientation);
+Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Material material, Orientation orientation);
 Model* createTable(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale);
 Model* createChair(int width, int depth, int height, Transform translate, Rotate rotate, Transform scale);
 Model* createRobot(Transform translate, Rotate rotate, Transform scale);

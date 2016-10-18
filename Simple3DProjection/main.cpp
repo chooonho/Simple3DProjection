@@ -38,23 +38,23 @@ void createRoom()
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
 
 	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
 
 	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, horizontal));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
 
 	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, vertical));
+	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, vertical));
+	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
 }
 
 void createProps()
@@ -113,33 +113,43 @@ void createProps()
 
 void setupLight()
 {
+	GLfloat* pointSourcePtr = NULL;
+	GLfloat* ambientPtr = NULL;
+	GLfloat* diffusePtr = NULL;
+	GLfloat* specularPtr = NULL;
+
 	for (int i = 0; i < 2; i++)
 	{
 		if (i == 0)
 		{
-			GLfloat pointSource[4] = { -20.0f, 29.0f, 15.0f, 1.0f };
-			GLfloat ambient[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
-			GLfloat diffuse[4] = { 0.722f, 0.525f, 0.043f, 1.0f };
-			GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-
-			light[i].setPointSource(pointSource);
-			light[i].setAmbient(ambient);
-			light[i].setDiffuse(diffuse);
-			light[i].setSpecular(specular);
+			pointSourcePtr = new GLfloat[4] { -20.0f, 29.0f, 15.0f, 1.0f };
+			ambientPtr = new GLfloat[4] { 0.4f, 0.4f, 0.4f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.722f, 0.525f, 0.043f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
 		}
 		else
 		{
-			GLfloat pointSource[4] = { 20.0f, 29.0f, 15.0f, 1.0f };
-			GLfloat ambient[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
-			GLfloat diffuse[4] = { 0.729f, 0.333f, 0.827f, 1.0f };
-			GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-
-			light[i].setPointSource(pointSource);
-			light[i].setAmbient(ambient);
-			light[i].setDiffuse(diffuse);
-			light[i].setSpecular(specular);
+			pointSourcePtr = new GLfloat[4] { 20.0f, 29.0f, 15.0f, 1.0f };
+			ambientPtr = new GLfloat[4] { 0.6f, 0.6f, 0.6f, 1.0f };
+			diffusePtr = new GLfloat[4] { 0.729f, 0.333f, 0.827f, 1.0f };
+			specularPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
 		}
+
+		light[i].setPointSource(pointSourcePtr);
+		light[i].setAmbient(ambientPtr);
+		light[i].setDiffuse(diffusePtr);
+		light[i].setSpecular(specularPtr);
 	}
+
+	delete[] pointSourcePtr;
+	delete[] ambientPtr;
+	delete[] diffusePtr;
+	delete[] specularPtr;
+
+	pointSourcePtr = NULL;
+	ambientPtr = NULL;
+	diffusePtr = NULL;
+	specularPtr = NULL;
 }
 
 void setupSpotLight()
@@ -183,10 +193,17 @@ void swingSpotLight(int value)
 
 void drawSpotlight()
 {
+	GLfloat spotlightHolderMaterial[4][4] = {
+		{ 0.0f, 0.0f, 0.0f, 1.0f },
+		{ 0.5f, 0.5f, 0.5f, 1.0f },
+		{ 0.9f, 0.9f, 0.9f, 1.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+
 	GLfloat spotlightMaterial[4][4] = {
-		{ 0.5, 0.5, 0.5, 0.8 },
-		{ 0.7, 0.7, 0.7, 0.8 },
-		{ 0.9, 0.9, 0.9, 0.8 },
+		{ 0.5f, 0.5f, 0.5f, 0.8f },
+		{ 0.7f, 0.7f, 0.7f, 0.8f },
+		{ 0.9f, 0.9f, 0.9f, 0.8f },
 		{ 1.0f, 1.0f, 1.0f, 1.0f }
 	};
 
@@ -197,6 +214,11 @@ void drawSpotlight()
 	glPushMatrix();
 		glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 3.5, spotlight.getPointSource()[2]);
 		glRotatef(swingAngle, 0.0, 0.0, 1.0);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightHolderMaterial[0]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightHolderMaterial[1]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightHolderMaterial[2]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, spotlightHolderMaterial[3]);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
 		glPushMatrix();
 			glRotatef(-90.0, 1.0, 0.0, 0.0);
 			glTranslatef(0.0, 0.0, -3.5);
