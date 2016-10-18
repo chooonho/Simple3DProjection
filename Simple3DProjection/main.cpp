@@ -354,7 +354,7 @@ void display(void)
 	glutSwapBuffers();
 }
 
-void specialKeyboard(int key, int m, int n)
+void processSpecialKey(int key, int m, int n)
 {
 	switch (key)
 	{
@@ -405,7 +405,7 @@ void specialKeyboard(int key, int m, int n)
 	}
 }
 
-void charKeyboard(unsigned char key, int x, int y)
+void processNormalKey(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
@@ -455,8 +455,8 @@ int main(int argc, char** argv)
 
 	glutDisplayFunc(display);
 	glutIdleFunc(display);
-	glutKeyboardFunc(charKeyboard);
-	glutSpecialFunc(specialKeyboard);
+	glutKeyboardFunc(processNormalKey);
+	glutSpecialFunc(processSpecialKey);
 	glutMainLoop();
 
 	disposeModels();
