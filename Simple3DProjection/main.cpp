@@ -231,7 +231,14 @@ void drawSpotlight()
 		glPushMatrix();
 			glRotatef(-90.0, 1.0, 0.0, 0.0);
 			glTranslatef(0.0, 0.0, -2.0);
-			glutSolidCone(1.0, 2.0, 30, 30);
+			if (isWireFrame)
+			{
+				glutWireCone(1.0, 2.0, 20, 20);
+			}
+			else
+			{
+				glutSolidCone(1.0, 2.0, 20, 20);
+			}
 		glPopMatrix();
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightMaterial[0]);
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightMaterial[1]);
@@ -256,7 +263,15 @@ void drawSpotlight()
 		else {
 			glDisable(GL_LIGHT2);
 		}
-		glutSolidSphere(0.5, 30, 30);
+
+		if (isWireFrame)
+		{
+			glutWireSphere(0.5, 30, 30);
+		}
+		else
+		{
+			glutSolidSphere(0.5, 30, 30);
+		}
 	glPopMatrix();
 
 	glDisable(GL_BLEND);
@@ -291,7 +306,15 @@ void drawLightBulbs()
 		if (isLightLeftOn) {
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, lightBulbLeftMaterial[3]);
 		}
-		glutSolidSphere(1.0, 30, 30);
+
+		if (isWireFrame)
+		{
+			glutWireSphere(1.0, 20, 20);
+		}
+		else
+		{
+			glutSolidSphere(1.0, 20, 20);
+		}
 	glPopMatrix();
 
 	if (isLightLeftOn)
@@ -315,7 +338,15 @@ void drawLightBulbs()
 		if (isLightRightOn) {
 			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, lightBulbRightMaterial[3]);
 		}
-		glutSolidSphere(1.0, 30, 30);
+
+		if (isWireFrame)
+		{
+			glutWireSphere(1.0, 20, 20);
+		}
+		else
+		{
+			glutSolidSphere(1.0, 20, 20);
+		}
 	glPopMatrix();
 
 	if (isLightRightOn)
