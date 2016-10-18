@@ -21,6 +21,11 @@ Point3D Camera::getLookAt()
 	return mLookAt;
 }
 
+Point3D Camera::getAngle()
+{
+	return mAngle;
+}
+
 GLdouble Camera::getPositionX()
 {
 	return mPosition.x;
@@ -49,6 +54,21 @@ GLdouble Camera::getLookAtY()
 GLdouble Camera::getLookAtZ()
 {
 	return mLookAt.z;
+}
+
+GLdouble Camera::getAngleX()
+{
+	return mAngle.x;
+}
+
+GLdouble Camera::getAngleY()
+{
+	return mAngle.y;
+}
+
+GLdouble Camera::getAngleZ()
+{
+	return mAngle.z;
 }
 
 void Camera::setPosition(Point3D position)
@@ -89,4 +109,19 @@ void Camera::setLookAtY(GLdouble y)
 void Camera::setLookAtZ(GLdouble z)
 {
 	mLookAt.z = z;
+}
+
+void Camera::setAngleX(GLdouble x)
+{
+	mAngle.x = x;
+}
+
+void Camera::setAngleY(GLdouble y)
+{
+	mAngle.y = y;
+}
+
+void Camera::setAngleZ(GLdouble z)
+{
+	mAngle.z = z;
 }

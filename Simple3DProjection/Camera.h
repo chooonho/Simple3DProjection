@@ -17,17 +17,22 @@ class Camera
 	private:
 		Point3D mPosition;
 		Point3D mLookAt;
+		Point3D mAngle;
 	public:
 		Camera();
 		Camera(Point3D position, Point3D lookAt);
 		Point3D getPosition();
 		Point3D getLookAt();
+		Point3D getAngle();
 		GLdouble getPositionX();
 		GLdouble getPositionY();
 		GLdouble getPositionZ();
 		GLdouble getLookAtX();
 		GLdouble getLookAtY();
 		GLdouble getLookAtZ();
+		GLdouble getAngleX();
+		GLdouble getAngleY();
+		GLdouble getAngleZ();
 		void setPosition(Point3D position);
 		void setLookAt(Point3D lookAt);
 		void setPositionX(GLdouble x);
@@ -36,6 +41,9 @@ class Camera
 		void setLookAtX(GLdouble x);
 		void setLookAtY(GLdouble y);
 		void setLookAtZ(GLdouble z);
+		void setAngleX(GLdouble x);
+		void setAngleY(GLdouble y);
+		void setAngleZ(GLdouble z);
 };
 
 #endif
