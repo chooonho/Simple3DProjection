@@ -113,62 +113,32 @@ void createProps()
 
 void setupLight()
 {
-	GLfloat pointSource[4] = { 0.0f };
-	GLfloat ambient[4] = { 0.0f };
-	GLfloat diffuse[4] = { 0.0f };
-	GLfloat specular[4] = { 0.0f };
-
 	for (int i = 0; i < 2; i++)
 	{
 		if (i == 0)
 		{
-			pointSource[0] = -20.0f;
-			pointSource[1] = 29.0f;
-			pointSource[2] = 15.0f;
-			pointSource[3] = 1.0f;
+			GLfloat pointSource[4] = { -20.0f, 29.0f, 15.0f, 1.0f };
+			GLfloat ambient[4] = { 0.4f, 0.4f, 0.4f, 1.0f };
+			GLfloat diffuse[4] = { 0.722f, 0.525f, 0.043f, 1.0f };
+			GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-			ambient[0] = 0.4f;
-			ambient[1] = 0.4f;
-			ambient[2] = 0.4f;
-			ambient[3] = 1.0f;
-
-			diffuse[0] = 0.722f;
-			diffuse[1] = 0.525f;
-			diffuse[2] = 0.043f;
-			diffuse[3] = 1.0f;
-
-			specular[0] = 0.0f;
-			specular[1] = 0.0f;
-			specular[2] = 0.0f;
-			specular[3] = 1.0f;
+			light[i].setPointSource(pointSource);
+			light[i].setAmbient(ambient);
+			light[i].setDiffuse(diffuse);
+			light[i].setSpecular(specular);
 		}
 		else
 		{
-			pointSource[0] = 20.0f;
-			pointSource[1] = 29.0f;
-			pointSource[2] = 15.0f;
-			pointSource[3] = 1.0f;
+			GLfloat pointSource[4] = { 20.0f, 29.0f, 15.0f, 1.0f };
+			GLfloat ambient[4] = { 0.6f, 0.6f, 0.6f, 1.0f };
+			GLfloat diffuse[4] = { 0.729f, 0.333f, 0.827f, 1.0f };
+			GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-			ambient[0] = 0.6f;
-			ambient[1] = 0.6f;
-			ambient[2] = 0.6f;
-			ambient[3] = 1.0f;
-
-			diffuse[0] = 0.729f;
-			diffuse[1] = 0.333f;
-			diffuse[2] = 0.827f;
-			diffuse[3] = 1.0f;
-
-			specular[0] = 0.0f;
-			specular[1] = 0.0f;
-			specular[2] = 0.0f;
-			specular[3] = 1.0f;
+			light[i].setPointSource(pointSource);
+			light[i].setAmbient(ambient);
+			light[i].setDiffuse(diffuse);
+			light[i].setSpecular(specular);
 		}
-
-		light[i].setPointSource(pointSource);
-		light[i].setAmbient(ambient);
-		light[i].setDiffuse(diffuse);
-		light[i].setSpecular(specular);
 	}
 }
 
@@ -193,14 +163,14 @@ void setupSpotLight()
 
 void swingSpotLight(int value)
 {
-	static float arc = 0.0;
-	swingAngle = 25.0 * sin(arc);
+	static float radian = 0.0;
+	swingAngle = 25.0 * sin(radian);
 
-	arc = arc + ((MATH_PI * 2.0) / 135.0) * swingSpeed;
+	radian = radian + ((MATH_PI * 2.0) / 135.0) * swingSpeed;
 
-	if (arc > (MATH_PI * 2.0))
+	if (radian > (MATH_PI * 2.0))
 	{
-		arc = arc - (MATH_PI * 2.0);
+		radian = radian - (MATH_PI * 2.0);
 	}
 
 	if (isSpotlightOn)
