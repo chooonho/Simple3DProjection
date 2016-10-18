@@ -3,27 +3,24 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <vector>
+#include "Camera.h"
 #include "Model.h"
 #include "ModelCreator.h"
 #include "Light.h"
 #include "Spotlight.h"
 #include <iostream>
 
+Camera camera;
+Light light[2];
+Spotlight spotlight;
+std::vector<Model*> models;
+GLfloat globalAmbient[4] = { 0.7, 0.7, 0.7, 1.0 };
 bool isWireFrame = false;
 bool isLightLeftOn = false;
 bool isLightRightOn = false;
 bool isSpotlightOn = false;
-float eyeX = 0.0;
-float eyeY = 15.0;
-float eyeZ = 50;
-float z = 50;
-float angleX = 0.0;
 float swingAngle = 0.0;
 float swingSpeed = 5.0;
-Light light[2];
-Spotlight spotlight;
-GLfloat globalAmbient[4] = {0.7, 0.7, 0.7, 1.0};
-std::vector<Model*> models;
 
 /*
 	NOTE:
@@ -117,7 +114,7 @@ void createProps()
 	models.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_RED, createMaterial(RED_PLASTIC)));
 }
 
-void setupLight()
+void setUpLight()
 {
 	GLfloat* pointSourcePtr = NULL;
 	GLfloat* ambientPtr = NULL;
@@ -158,7 +155,7 @@ void setupLight()
 	specularPtr = NULL;
 }
 
-void setupSpotLight()
+void setUpSpotlight()
 {
 	GLfloat pointSource[4] = { 0.0f, 27.5f, 13.0f, 1.0f };
 	GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -177,7 +174,7 @@ void setupSpotLight()
 	spotlight.setExponent(exponent);
 }
 
-void swingSpotLight(int value)
+void swingSpotlight(int value)
 {
 	static float radian = 0.0;
 	swingAngle = 25.0 * sin(radian);
@@ -191,7 +188,7 @@ void swingSpotLight(int value)
 
 	if (isSpotlightOn)
 	{
-		glutTimerFunc(10, swingSpotLight, 0);
+		glutTimerFunc(10, swingSpotlight, 0);
 	}
 
 	glutPostRedisplay();
@@ -343,8 +340,8 @@ void display(void)
 {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(eyeX, eyeY, eyeZ, 0.0, 15.0, 0.0, 0.0, 1.0, 0.0);
-
+	gluLookAt(camera.getPositionX(), camera.getPositionY(), camera.getPositionZ(),
+				camera.getLookAtX(), camera.getLookAtY(), camera.getLookAtZ(), 0.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	drawLightBulbs();
@@ -365,14 +362,32 @@ void processSpecialKey(int key, int m, int n)
 	switch (key)
 	{
 		case GLUT_KEY_LEFT:
-			angleX -= 1.0;
-			eyeX = z * sin(DEG_TO_RAD * angleX);
-			eyeZ = z * cos(DEG_TO_RAD * angleX);
+			if (camera.getAngleX() > -(MIN_MAX_ROTATE_ANGLE))
+			{
+				camera.rotateX(camera.getAngleX() - 1.0);
+			}
+
 			break;
 		case GLUT_KEY_RIGHT:
-			angleX += 1.0;
-			eyeX = z * sin(DEG_TO_RAD * angleX);
-			eyeZ = z * cos(DEG_TO_RAD * angleX);
+			if (camera.getAngleX() < MIN_MAX_ROTATE_ANGLE)
+			{
+				camera.rotateX(camera.getAngleX() + 1.0);
+			}
+
+			break;
+		case GLUT_KEY_UP:
+			if (camera.getAngleY() < MIN_MAX_ROTATE_ANGLE)
+			{
+				camera.rotateY(camera.getAngleY() + 1.0);
+			}
+
+			break;
+		case GLUT_KEY_DOWN:
+			if (camera.getAngleY() > -(MIN_MAX_ROTATE_ANGLE))
+			{
+				camera.rotateY(camera.getAngleY() - 1.0);
+			}
+
 			break;
 		case GLUT_KEY_F1:
 			isWireFrame = !isWireFrame;
@@ -387,7 +402,7 @@ void processSpecialKey(int key, int m, int n)
 			isSpotlightOn = !isSpotlightOn;
 			if (isSpotlightOn)
 			{
-				glutTimerFunc(10, swingSpotLight, 0);
+				glutTimerFunc(10, swingSpotlight, 0);
 			}
 			break;
 		case GLUT_KEY_END:
@@ -395,18 +410,18 @@ void processSpecialKey(int key, int m, int n)
 			exit(0);
 			break;
 		case GLUT_KEY_PAGE_UP:
-			if (eyeZ > 0)
+			if (camera.getPositionZ() > 0)
 			{
-				eyeZ -= 5;
-				z -= 5;
+				camera.setPositionZ(camera.getPositionZ() - 5);
 			}
+
 			break;
 		case GLUT_KEY_PAGE_DOWN:
-			if (eyeZ < 100)
+			if (camera.getPositionZ() < 50)
 			{
-				eyeZ += 5;
-				z += 5;
+				camera.setPositionZ(camera.getPositionZ() + 5);
 			}
+
 			break;
 	}
 }
@@ -428,6 +443,18 @@ void processNormalKey(unsigned char key, int x, int y)
 			}
 			break;
 	}
+}
+
+void setUpCamera()
+{
+	Point3D position = { 0.0, 15.0, 50 };
+	Point3D lookAt = { 0.0, 15.0, 0.0 };
+	Point3D angle = { 0.0, 0.0, 0.0 };
+
+	camera.setPosition(position);
+	camera.setInitialPosition(position);
+	camera.setLookAt(lookAt);
+	camera.setAngle(angle);
 }
 
 void init(void)
@@ -454,8 +481,9 @@ int main(int argc, char** argv)
 	glutCreateWindow("Simple 3D Projection");
 	init();
 
-	setupLight();
-	setupSpotLight();
+	setUpCamera();
+	setUpLight();
+	setUpSpotlight();
 	createRoom();
 	createProps();
 

@@ -1,14 +1,22 @@
 #include "Camera.h"
+#include <math.h>
 
 Camera::Camera()
 {
 	mPosition = { 0.0, 0.0, 0.0 };
 }
 
-Camera::Camera(Point3D position, Point3D lookAt)
+Camera::Camera(Point3D position, Point3D lookAt, Point3D angle)
 {
+	mInitialPosition = position;
 	mPosition = position;
 	mLookAt = lookAt;
+	mAngle = angle;
+}
+
+Point3D Camera::getInitialPosition()
+{
+	return mInitialPosition;
 }
 
 Point3D Camera::getPosition()
@@ -24,6 +32,21 @@ Point3D Camera::getLookAt()
 Point3D Camera::getAngle()
 {
 	return mAngle;
+}
+
+GLdouble Camera::getInitialPositionX()
+{
+	return mInitialPosition.x;
+}
+
+GLdouble Camera::getInitialPositionY()
+{
+	return mInitialPosition.y;
+}
+
+GLdouble Camera::getInitialPositionZ()
+{
+	return mInitialPosition.z;
 }
 
 GLdouble Camera::getPositionX()
@@ -71,6 +94,11 @@ GLdouble Camera::getAngleZ()
 	return mAngle.z;
 }
 
+void Camera::setInitialPosition(Point3D initialPosition)
+{
+	mInitialPosition = initialPosition;
+}
+
 void Camera::setPosition(Point3D position)
 {
 	mPosition = position;
@@ -79,6 +107,26 @@ void Camera::setPosition(Point3D position)
 void Camera::setLookAt(Point3D lookAt)
 {
 	mLookAt = lookAt;
+}
+
+void Camera::setAngle(Point3D angle)
+{
+	mAngle = angle;
+}
+
+void Camera::setInitialPositionX(GLdouble x)
+{
+	mInitialPosition.x = x;
+}
+
+void Camera::setInitialPositionY(GLdouble y)
+{
+	mInitialPosition.y = y;
+}
+
+void Camera::setInitialPositionZ(GLdouble z)
+{
+	mInitialPosition.z = z;
 }
 
 void Camera::setPositionX(GLdouble x)
@@ -124,4 +172,27 @@ void Camera::setAngleY(GLdouble y)
 void Camera::setAngleZ(GLdouble z)
 {
 	mAngle.z = z;
+}
+
+void Camera::resetInitialPosition()
+{
+	mInitialPosition = mPosition;
+}
+
+// Rotate with angle x
+void Camera::rotateX(GLdouble angle)
+{
+	mAngle.x = angle;
+
+	mPosition.x = mInitialPosition.z * sin(DEG_TO_RAD * angle);
+	mPosition.z = (mInitialPosition.z * cos(DEG_TO_RAD * mAngle.y)) * cos(DEG_TO_RAD * angle);
+}
+
+// Rotate with angle y
+void Camera::rotateY(GLdouble angle)
+{
+	mAngle.y = angle;
+
+	mPosition.y = mInitialPosition.y + mInitialPosition.z * sin(DEG_TO_RAD * angle);
+	mPosition.z = (mInitialPosition.z * cos(DEG_TO_RAD * mAngle.x)) * cos(DEG_TO_RAD * angle);
 }
