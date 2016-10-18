@@ -25,6 +25,12 @@ Spotlight spotlight;
 GLfloat globalAmbient[4] = {0.7, 0.7, 0.7, 1.0};
 std::vector<Model*> models;
 
+/*
+	NOTE:
+	- GL_COLOR_MATERIAL has been disabled fully in this program
+	- However, color can still be set, just that the color effect will not be seen
+*/
+
 void createRoom()
 {
 	// Make sure that:
