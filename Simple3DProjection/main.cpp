@@ -19,11 +19,14 @@ Spotlight spotlight;
 std::vector<Model*> models;
 GLfloat globalAmbient[4] = { 0.7, 0.7, 0.7, 1.0 };
 bool isWireFrame = false;
+bool isSmoothShading = true;
 bool isLightLeftOn = false;
 bool isLightRightOn = false;
 bool isSpotlightOn = false;
+bool isOnScreenHelpOn = true;
 float swingAngle = 0.0f;
 float swingSpeed = MIN_SWING_SPEED;
+int font = (int)GLUT_BITMAP_8_BY_13;
 
 /*
 	NOTE:
@@ -330,6 +333,82 @@ void drawLightBulbs()
 	glDisable(GL_BLEND);
 }
 
+void renderBitmapCharacter(int x, int y, void *font, char *string)
+{
+	char* characterPtr;
+
+	glMatrixMode(GL_PROJECTION);
+	glEnable(GL_COLOR_MATERIAL);
+	glPushMatrix();
+		glLoadIdentity();
+		gluOrtho2D(0, 960, 0, 540);
+		glMatrixMode(GL_MODELVIEW);
+			glPushMatrix();
+			glLoadIdentity();
+			glColor3f(1.0, 1.0, 1.0);
+			glRasterPos2d(x, y);
+			for (characterPtr = string; *characterPtr != '\0'; characterPtr++) {
+				glutBitmapCharacter(font, *characterPtr);
+			}
+		glPopMatrix();
+		glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glDisable(GL_COLOR_MATERIAL);
+}
+
+void printOnScreenHelp()
+{
+	glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT1);
+	glDisable(GL_LIGHT2);
+
+	renderBitmapCharacter(10, 520, (void *)font, "On-Screen Help");
+	renderBitmapCharacter(10, 510, (void *)font, "------------------------------");
+	renderBitmapCharacter(10, 500, (void *)font, "0 - Toggle on-screen help");
+	if (isOnScreenHelpOn)
+	{
+		renderBitmapCharacter(10, 480, (void *)font, "Camera Control");
+		renderBitmapCharacter(10, 470, (void *)font, "------------------------------");
+		renderBitmapCharacter(10, 460, (void *)font, "Left Arrow     - Rotate camera left");
+		renderBitmapCharacter(10, 445, (void *)font, "Right Arrow    - Rotate camera right");
+		renderBitmapCharacter(10, 430, (void *)font, "Up Arrow       - Rotate camera up");
+		renderBitmapCharacter(10, 415, (void *)font, "Down Arrow     - Rotate camera down");
+		renderBitmapCharacter(10, 400, (void *)font, "Pg Up          - Zoom camera in");
+		renderBitmapCharacter(10, 385, (void *)font, "Pg Dn          - Zoom camera out");
+		renderBitmapCharacter(10, 370, (void *)font, "Home           - Reset camera position");
+
+		renderBitmapCharacter(10, 350, (void *)font, "Mode and Shading Control");
+		renderBitmapCharacter(10, 340, (void *)font, "------------------------------");
+		renderBitmapCharacter(10, 330, (void *)font, "1     - Toggle between wireframe/solid mode");
+		renderBitmapCharacter(10, 315, (void *)font, "2     - Toggle between smooth/flat shading");
+
+		renderBitmapCharacter(10, 295, (void *)font, "Lighting Control");
+		renderBitmapCharacter(10, 285, (void *)font, "------------------------------");
+		renderBitmapCharacter(10, 275, (void *)font, "3     - Turn on light on left");
+		renderBitmapCharacter(10, 260, (void *)font, "4     - Turn on light on right");
+		renderBitmapCharacter(10, 245, (void *)font, "5     - Turn on spotlight");
+
+		renderBitmapCharacter(10, 30, (void *)font, "Extras");
+		renderBitmapCharacter(10, 20, (void *)font, "------------------------------");
+		renderBitmapCharacter(10, 10, (void *)font, "End    -  Quit");
+	}
+
+	if (isLightLeftOn)
+	{
+		glEnable(GL_LIGHT0);
+	}
+
+	if (isLightRightOn)
+	{
+		glEnable(GL_LIGHT1);
+	}
+
+	if (isSpotlightOn)
+	{
+		glEnable(GL_LIGHT2);
+	}
+}
+
 void disposeModels()
 {
 	while (!models.empty())
@@ -347,8 +426,18 @@ void display(void)
 				camera.getLookAtX(), camera.getLookAtY(), camera.getLookAtZ(), 0.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	if (isSmoothShading)
+	{
+		glShadeModel(GL_SMOOTH);
+	}
+	else
+	{
+		glShadeModel(GL_FLAT);
+	}
+
 	drawLightBulbs();
 	drawSpotlight();
+
 	glPushMatrix();
 		for (unsigned int i = 0; i < models.size(); i++)
 		{
@@ -356,6 +445,8 @@ void display(void)
 			models[i]->draw();
 		}
 	glPopMatrix();
+
+	printOnScreenHelp();
 
 	glutSwapBuffers();
 }
@@ -386,31 +477,15 @@ void processSpecialKey(int key, int m, int n)
 		case GLUT_KEY_DOWN:
 			camera.rotateY(camera.getAngleY() - 2.0);
 			break;
-		case GLUT_KEY_F1:
-			isWireFrame = !isWireFrame;
-			break;
-		case GLUT_KEY_F2:
-			isLightLeftOn = !isLightLeftOn;
-			break;
-		case GLUT_KEY_F3:
-			isLightRightOn = !isLightRightOn;
-			break;
-		case GLUT_KEY_F4:
-			isSpotlightOn = !isSpotlightOn;
-			if (isSpotlightOn)
-			{
-				glutTimerFunc(10, swingSpotlight, 0);
-			}
-			break;
-		case GLUT_KEY_END:
-			disposeModels();
-			exit(0);
-			break;
 		case GLUT_KEY_PAGE_UP:
 			camera.zoomIn();
 			break;
 		case GLUT_KEY_PAGE_DOWN:
 			camera.zoomOut();
+			break;
+		case GLUT_KEY_END:
+			disposeModels();
+			exit(0);
 			break;
 	}
 }
@@ -419,6 +494,25 @@ void processNormalKey(unsigned char key, int x, int y)
 {
 	switch (key)
 	{
+		case '1':
+			isWireFrame = !isWireFrame;
+			break;
+		case '2':
+			isSmoothShading = !isSmoothShading;
+			break;
+		case '3':
+			isLightLeftOn = !isLightLeftOn;
+			break;
+		case '4':
+			isLightRightOn = !isLightRightOn;
+			break;
+		case '5':
+			isSpotlightOn = !isSpotlightOn;
+			if (isSpotlightOn)
+			{
+				glutTimerFunc(10, swingSpotlight, 0);
+			}
+			break;
 		case '+':
 			if (isSpotlightOn && swingSpeed < MAX_SWING_SPEED)
 			{
@@ -430,6 +524,9 @@ void processNormalKey(unsigned char key, int x, int y)
 			{
 				swingSpeed -= 1.0;
 			}
+			break;
+		case '0':
+			isOnScreenHelpOn = !isOnScreenHelpOn;
 			break;
 	}
 }
