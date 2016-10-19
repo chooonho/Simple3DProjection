@@ -548,6 +548,9 @@ Material createMaterial(MaterialType materialType)
 	GLfloat* specularPtr;
 	GLfloat shine;
 
+	/*
+	*	The values below are some sample materials obtained from an online open source
+	*/
 	switch (materialType)
 	{
 		case SILVER:

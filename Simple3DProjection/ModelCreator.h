@@ -4,6 +4,7 @@
 #define MODEL_RENDERER_H
 
 #define DEG_TO_RAD 0.0174533
+#define MATH_PI 3.14159265359
 
 #include "Transform.h"
 #include "Rotate.h"
@@ -33,8 +34,6 @@ enum MaterialType
 	OBSIDIAN,
 	POLISHED_SILVER
 };
-
-const float MATH_PI = 3.14159265359;
 
 const ColorRGBA4D COLOR_BLACK = { 0.0, 0.0, 0.0, 1.0 };
 const ColorRGBA4D COLOR_GRAY = { 0.5, 0.5, 0.5, 1.0 };
