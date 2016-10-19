@@ -12,12 +12,15 @@
 
 const float MIN_SWING_SPEED = 5.0f;
 const float MAX_SWING_SPEED = 50.0f;
+const float MAX_BRIGHTNESS = 2.0f;
+const float MIN_BRIGHTNESS = 0.0f;
 
 Camera camera;
 Light light[2];
 Spotlight spotlight;
 std::vector<Model*> models;
-GLfloat globalAmbient[4] = { 0.7, 0.7, 0.7, 1.0 };
+GLfloat globalBrightness = 0.7f;
+GLfloat globalAmbient[4] = { globalBrightness, globalBrightness, globalBrightness, 1.0f };
 bool isWireFrame = false;
 bool isSmoothShading = true;
 bool isLightLeftOn = false;
@@ -389,6 +392,7 @@ void renderBitmapCharacter(int x, int y, void *font, char *string)
 
 void printOnScreenHelp()
 {
+	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHT1);
 	glDisable(GL_LIGHT2);
@@ -410,19 +414,23 @@ void printOnScreenHelp()
 
 		renderBitmapCharacter(10, 350, (void *)font, "Mode and Shading Control");
 		renderBitmapCharacter(10, 340, (void *)font, "------------------------------");
-		renderBitmapCharacter(10, 330, (void *)font, "1     - Toggle between wireframe/solid mode");
-		renderBitmapCharacter(10, 315, (void *)font, "2     - Toggle between smooth/flat shading");
+		renderBitmapCharacter(10, 330, (void *)font, "F1     - Toggle between wireframe/solid mode");
+		renderBitmapCharacter(10, 315, (void *)font, "F2     - Toggle between smooth/flat shading");
 
 		renderBitmapCharacter(10, 295, (void *)font, "Lighting Control");
 		renderBitmapCharacter(10, 285, (void *)font, "------------------------------");
-		renderBitmapCharacter(10, 275, (void *)font, "3     - Turn on light on left");
-		renderBitmapCharacter(10, 260, (void *)font, "4     - Turn on light on right");
-		renderBitmapCharacter(10, 245, (void *)font, "5     - Turn on spotlight");
+		renderBitmapCharacter(10, 275, (void *)font, "1     - Increase global ambient lighting");
+		renderBitmapCharacter(10, 260, (void *)font, "2     - Decrease global ambient lighting");
+		renderBitmapCharacter(10, 245, (void *)font, "3     - Turn on light on left");
+		renderBitmapCharacter(10, 230, (void *)font, "4     - Turn on light on right");
+		renderBitmapCharacter(10, 215, (void *)font, "5     - Turn on spotlight");
 
 		renderBitmapCharacter(10, 30, (void *)font, "Extras");
 		renderBitmapCharacter(10, 20, (void *)font, "------------------------------");
 		renderBitmapCharacter(10, 10, (void *)font, "End    -  Quit");
 	}
+
+	glEnable(GL_LIGHTING);
 
 	if (isLightLeftOn)
 	{
@@ -493,6 +501,12 @@ void processSpecialKey(int key, int m, int n)
 	*/
 	switch (key)
 	{
+		case GLUT_KEY_F1:
+			isWireFrame = !isWireFrame;
+			break;
+		case GLUT_KEY_F2:
+			isSmoothShading = !isSmoothShading;
+			break;
 		case GLUT_KEY_HOME:
 			camera.resetToInitialPosition();
 			break;
@@ -526,10 +540,24 @@ void processNormalKey(unsigned char key, int x, int y)
 	switch (key)
 	{
 		case '1':
-			isWireFrame = !isWireFrame;
+			if (globalBrightness < MAX_BRIGHTNESS)
+			{
+				globalBrightness += 0.1;
+				globalAmbient[0] = globalBrightness;
+				globalAmbient[1] = globalBrightness;
+				globalAmbient[2] = globalBrightness;
+				glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+			}
 			break;
 		case '2':
-			isSmoothShading = !isSmoothShading;
+			if (globalBrightness > MIN_BRIGHTNESS)
+			{
+				globalBrightness -= 0.1;
+				globalAmbient[0] = globalBrightness;
+				globalAmbient[1] = globalBrightness;
+				globalAmbient[2] = globalBrightness;
+				glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+			}
 			break;
 		case '3':
 			isLightLeftOn = !isLightLeftOn;
