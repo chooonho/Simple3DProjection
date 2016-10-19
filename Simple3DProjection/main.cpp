@@ -22,7 +22,8 @@ Camera camera;
 Light light[2];
 Spotlight spotlight;
 Spotlight discoLight[MAX_DISCO_LIGHT_COUNT];
-std::vector<Model*> models;
+std::vector<Model*> staticModels;
+std::vector<Model*> variableModels;
 GLfloat globalBrightness = 0.7f;
 GLfloat globalAmbient[4] = { globalBrightness, globalBrightness, globalBrightness, 1.0f };
 bool isWireFrame = false;
@@ -57,23 +58,23 @@ void createRoom()
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
+	staticModels.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
 
 	translate = Transform(-((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
+	staticModels.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
 
 	translate = Transform(-(roomWidth / 2), (roomHeight - 1), 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
+	staticModels.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
 
 	translate = Transform(((roomWidth / 2) + 1), 0.0, 0.0);
 	rotate = Rotate(270.0, 0.0, 1.0, 0.0);
-	models.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
+	staticModels.push_back(createWall(((roomWidth / 2) + 1), roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
 
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	models.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
+	staticModels.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), vertical));
 }
 
 void createProps()
@@ -83,51 +84,51 @@ void createProps()
 	Transform scale = Transform(1.0, 1.0, 1.0);
 
 	translate = Transform(-10.0, 1.0, 5.0);
-	models.push_back(createTable(25, 15, 6, translate, rotate, scale));
+	staticModels.push_back(createTable(25, 15, 6, translate, rotate, scale));
 
 	rotate = Rotate(45.0, 0.0, 1.0, 0.0);
 	translate = Transform(-20.0, 1.0, 12.0);
-	models.push_back(createChair(5, 5, 7, translate, rotate, scale));
-
-	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
-	translate = Transform(22.0, 1.0, 15.0);
-	models.push_back(createRobot(translate, rotate, scale));
+	staticModels.push_back(createChair(5, 5, 7, translate, rotate, scale));
 
 	rotate = Rotate(270.0, 1.0, 0.0, 0.0);
 	translate = Transform(-25.0, 1.0, 5.0);
-	models.push_back(createTree(translate, rotate, scale));
+	staticModels.push_back(createTree(translate, rotate, scale));
+
+	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
+	translate = Transform(22.0, 1.0, 15.0);
+	variableModels.push_back(createRobot(translate, rotate, scale));
 
 	rotate = Rotate(270.0, 1.0, 0.0, 0.0);
 	translate = Transform(-6.0, 7.5, 10.0);
-	models.push_back(createCone(2.0, 4.0, translate, rotate, scale, COLOR_CYAN, createMaterial(CYAN_PLASTIC)));
+	variableModels.push_back(createCone(2.0, 4.0, translate, rotate, scale, COLOR_CYAN, createMaterial(CYAN_PLASTIC)));
 
 	rotate = Rotate(0.0, 1.0, 0.0, 0.0);
 	translate = Transform(-2.0, 9.0, 15.0);
-	models.push_back(createTeapot(2.0, translate, rotate, scale, COLOR_SILVER, createMaterial(SILVER)));
+	variableModels.push_back(createTeapot(2.0, translate, rotate, scale, COLOR_SILVER, createMaterial(SILVER)));
 
 	rotate = Rotate(30.0, 0.0, 1.0, 0.0);
 	translate = Transform(4.0, 9.0, 14.0);
-	models.push_back(createTorus(0.5, 1.0, translate, rotate, scale, COLOR_GREEN, createMaterial(GREEN_PLASTIC)));
+	variableModels.push_back(createTorus(0.5, 1.0, translate, rotate, scale, COLOR_GREEN, createMaterial(GREEN_PLASTIC)));
 
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
 	translate = Transform(12.0, 10.0, 15.0);
 	scale = Transform(1.5, 2.5, 1.5);
-	models.push_back(createRegular(OCTAHEDRON, translate, rotate, scale, COLOR_ORANGE, createMaterial(PERL)));
+	variableModels.push_back(createRegular(OCTAHEDRON, translate, rotate, scale, COLOR_ORANGE, createMaterial(PERL)));
 
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
 	translate = Transform(2.0, 9.0, 10.0);
 	scale = Transform(1.0, 1.0, 1.0);
-	models.push_back(createRegular(DODECAHEDRON, translate, rotate, scale, COLOR_BLACK, createMaterial(OBSIDIAN)));
+	variableModels.push_back(createRegular(DODECAHEDRON, translate, rotate, scale, COLOR_BLACK, createMaterial(OBSIDIAN)));
 
 	rotate = Rotate(-20.0, 0.0, 0.0, 1.0);
 	translate = Transform(7.0, 8.2, 13.0);
 	scale = Transform(2.0, 2.0, 2.0);
-	models.push_back(createRegular(TETRAHEDRON, translate, rotate, scale, COLOR_YELLOW, createMaterial(YELLOW_RUBBER)));
+	variableModels.push_back(createRegular(TETRAHEDRON, translate, rotate, scale, COLOR_YELLOW, createMaterial(YELLOW_RUBBER)));
 
 	rotate = Rotate(0.0, 1.0, 0.0, 0.0);
 	translate = Transform(10.0, 9.2, 11.0);
 	scale = Transform(2.0, 2.0, 2.0);
-	models.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_RED, createMaterial(RED_PLASTIC)));
+	variableModels.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_RED, createMaterial(RED_PLASTIC)));
 }
 
 void setUpLight()
@@ -666,7 +667,6 @@ void printOnScreenHelp()
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHT1);
-	glDisable(GL_LIGHT2);
 
 	renderBitmapCharacter(10, 520, (void *)font, "On-Screen Help");
 	renderBitmapCharacter(10, 510, (void *)font, "------------------------------");
@@ -720,19 +720,20 @@ void printOnScreenHelp()
 	{
 		glEnable(GL_LIGHT1);
 	}
-
-	if (isSpotlightOn)
-	{
-		glEnable(GL_LIGHT2);
-	}
 }
 
 void disposeModels()
 {
-	while (!models.empty())
+	while (!staticModels.empty())
 	{
-		delete models.back();
-		models.pop_back();
+		delete staticModels.back();
+		staticModels.pop_back();
+	}
+
+	while (!variableModels.empty())
+	{
+		delete variableModels.back();
+		variableModels.pop_back();
 	}
 }
 
@@ -758,10 +759,16 @@ void display(void)
 	drawDiscoLight();
 
 	glPushMatrix();
-		for (unsigned int i = 0; i < models.size(); i++)
+		for (unsigned int i = 0; i < staticModels.size(); i++)
 		{
-			models[i]->setIsWireFrame(isWireFrame);
-			models[i]->draw();
+			staticModels[i]->setIsWireFrame(isWireFrame);
+			staticModels[i]->draw();
+		}
+
+		for (unsigned int i = 0; i < variableModels.size(); i++)
+		{
+			variableModels[i]->setIsWireFrame(isWireFrame);
+			variableModels[i]->draw();
 		}
 	glPopMatrix();
 
