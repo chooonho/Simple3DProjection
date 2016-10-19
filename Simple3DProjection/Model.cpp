@@ -67,6 +67,31 @@ GLdouble Model::getRotateZ()
 	return mRotate.getZ();
 }
 
+Rotate Model::getAnimateRotate()
+{
+	return mAnimateRotate;
+}
+
+GLdouble Model::getAnimateRotateAngle()
+{
+	return mAnimateRotate.getAngle();
+}
+
+GLdouble Model::getAnimateRotateX()
+{
+	return mAnimateRotate.getX();
+}
+
+GLdouble Model::getAnimateRotateY()
+{
+	return mAnimateRotate.getY();
+}
+
+GLdouble Model::getAnimateRotateZ()
+{
+	return mAnimateRotate.getZ();
+}
+
 Transform Model::getScale()
 {
 	return mScale;
@@ -132,6 +157,31 @@ void Model::setRotateZ(GLdouble rotateZ)
 	mRotate.setZ(rotateZ);
 }
 
+void Model::setAnimateRotate(Rotate rotate)
+{
+	mAnimateRotate = rotate;
+}
+
+void Model::setAnimateRotateAngle(GLdouble angle)
+{
+	mAnimateRotate.setAngle(angle);
+}
+
+void Model::setAnimateRotateX(GLdouble rotateX)
+{
+	mAnimateRotate.setX(rotateX);
+}
+
+void Model::setAnimateRotateY(GLdouble rotateY)
+{
+	mAnimateRotate.setY(rotateY);
+}
+
+void Model::setAnimateRotateZ(GLdouble rotateZ)
+{
+	mAnimateRotate.setZ(rotateZ);
+}
+
 void Model::setScale(Transform scale)
 {
 	mScale = scale;
@@ -180,6 +230,7 @@ void Model::draw()
 	glPushMatrix();
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());
+		glRotated(getAnimateRotateAngle(), getAnimateRotateX(), getAnimateRotateY(), getAnimateRotateZ());
 		glScaled(getScaleX(), getScaleY(), getScaleZ());
 
 		for (unsigned int i = 0; i < mMeshes.size(); i++)

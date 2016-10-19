@@ -11,6 +11,7 @@ class Model
 	private:
 		Transform mTranslate;
 		Rotate mRotate;
+		Rotate mAnimateRotate;
 		Transform mScale;
 		std::vector<Mesh*> mMeshes;
 	public:
@@ -26,6 +27,11 @@ class Model
 		GLdouble getRotateX();
 		GLdouble getRotateY();
 		GLdouble getRotateZ();
+		Rotate getAnimateRotate();
+		GLdouble getAnimateRotateAngle();
+		GLdouble getAnimateRotateX();
+		GLdouble getAnimateRotateY();
+		GLdouble getAnimateRotateZ();
 		Transform getScale();
 		GLdouble getScaleX();
 		GLdouble getScaleY();
@@ -39,6 +45,11 @@ class Model
 		void setRotateX(GLdouble rotateX);
 		void setRotateY(GLdouble rotateY);
 		void setRotateZ(GLdouble rotateZ);
+		void setAnimateRotate(Rotate rotate);
+		void setAnimateRotateAngle(GLdouble rotateAngle);
+		void setAnimateRotateX(GLdouble rotateX);
+		void setAnimateRotateY(GLdouble rotateY);
+		void setAnimateRotateZ(GLdouble rotateZ);
 		void setScale(Transform scale);
 		void setScaleX(GLdouble scaleX);
 		void setScaleY(GLdouble scaleY);

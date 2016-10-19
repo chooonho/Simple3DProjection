@@ -15,6 +15,8 @@ const float MIN_SWING_SPEED = 5.0f;
 const float MAX_SWING_SPEED = 50.0f;
 const float MIN_SPIN_SPEED = 10.0f;
 const float MAX_SPIN_SPEED = 30.0f;
+const float MIN_JUMP_SHAKE_SPEED = 15.0f;
+const float MAX_JUMP_SHAKE_SPEED = 35.0f;
 const float MAX_BRIGHTNESS = 2.0f;
 const float MIN_BRIGHTNESS = 0.0f;
 
@@ -37,6 +39,9 @@ float swingAngle = 0.0f;
 float spinAngle[2] = { 0.0f };
 float swingSpeed = MIN_SWING_SPEED;
 float spinSpeed = MIN_SPIN_SPEED;
+float jumpShakeSpeed = MIN_JUMP_SHAKE_SPEED;
+float jumpHeight = 0.0;
+float shakeAngle = 0.0;
 int font = (int)GLUT_BITMAP_8_BY_13;
 
 /*
@@ -298,6 +303,40 @@ void spinDiscoLight(int value)
 	if(isDiscoLightOn)
 	{
 		glutTimerFunc(10, spinDiscoLight, 0);
+	}
+
+	glutPostRedisplay();
+}
+
+void modelDance(int value)
+{
+	static float radianHeight = 0.0f;
+	static float radianAngle = 0.0f;
+
+	jumpHeight = 3.0f * sin(radianHeight);
+	radianHeight = radianHeight + (MATH_PI / 60.0f) * jumpShakeSpeed;
+	if (radianHeight > MATH_PI)
+	{
+		radianHeight = radianHeight - MATH_PI;
+	}
+
+	shakeAngle = 20.0f * sin(radianAngle);
+	radianAngle = radianAngle + (MATH_PI * 2 / 135.0f) * jumpShakeSpeed;
+	if (radianAngle > (MATH_PI * 2))
+	{
+		radianAngle = radianAngle - (MATH_PI * 2);
+	}
+
+	if (isDiscoLightOn)
+	{
+		glutTimerFunc(10, modelDance, 0);
+	}
+	else
+	{
+		radianHeight = 0.0f;
+		radianAngle = 0.0f;
+		jumpHeight = 0.0f;
+		shakeAngle = 0.0f;
 	}
 
 	glutPostRedisplay();
@@ -701,8 +740,8 @@ void printOnScreenHelp()
 		renderBitmapCharacter(10, 165, (void *)font, "Disco Control");
 		renderBitmapCharacter(10, 155, (void *)font, "------------------------------");
 		renderBitmapCharacter(10, 145, (void *)font, "6     - Toggle disco mode on/off");
-		renderBitmapCharacter(10, 130, (void *)font, "+     - Increase disco light spin speed");
-		renderBitmapCharacter(10, 115, (void *)font, "-     - Decrease disco light spin speed");
+		renderBitmapCharacter(10, 130, (void *)font, "+     - Increase disco light spin speed | model movement speed");
+		renderBitmapCharacter(10, 115, (void *)font, "-     - Decrease disco light spin speed | model movement speed");
 
 		renderBitmapCharacter(10, 30, (void *)font, "Extras");
 		renderBitmapCharacter(10, 20, (void *)font, "------------------------------");
@@ -761,12 +800,15 @@ void display(void)
 	glPushMatrix();
 		for (unsigned int i = 0; i < staticModels.size(); i++)
 		{
-			staticModels[i]->setIsWireFrame(isWireFrame);
-			staticModels[i]->draw();
+				staticModels[i]->setIsWireFrame(isWireFrame);
+				staticModels[i]->draw();
 		}
 
+		glTranslatef(0.0, jumpHeight, 0.0);
 		for (unsigned int i = 0; i < variableModels.size(); i++)
 		{
+			variableModels[i]->setAnimateRotateAngle(shakeAngle);
+			variableModels[i]->setAnimateRotateZ(1.0);
 			variableModels[i]->setIsWireFrame(isWireFrame);
 			variableModels[i]->draw();
 		}
@@ -829,7 +871,7 @@ void processNormalKey(unsigned char key, int x, int y)
 		case '1':
 			if (globalBrightness < MAX_BRIGHTNESS)
 			{
-				globalBrightness += 0.1;
+				globalBrightness += 0.1f;
 				globalAmbient[0] = globalBrightness;
 				globalAmbient[1] = globalBrightness;
 				globalAmbient[2] = globalBrightness;
@@ -839,7 +881,7 @@ void processNormalKey(unsigned char key, int x, int y)
 		case '2':
 			if (globalBrightness > MIN_BRIGHTNESS)
 			{
-				globalBrightness -= 0.1;
+				globalBrightness -= 0.1f;
 				globalAmbient[0] = globalBrightness;
 				globalAmbient[1] = globalBrightness;
 				globalAmbient[2] = globalBrightness;
@@ -864,17 +906,26 @@ void processNormalKey(unsigned char key, int x, int y)
 			if (isDiscoLightOn)
 			{
 				glutTimerFunc(10, spinDiscoLight, 0);
+				glutTimerFunc(10, modelDance, 0);
 			}
 			break;
 		case '+':
 			if (isSpotlightOn && swingSpeed < MAX_SWING_SPEED)
 			{
-				swingSpeed += 1.0;
+				swingSpeed += 1.0f;
 			}
 
-			if (isDiscoLightOn && spinSpeed < MAX_SPIN_SPEED)
+			if (isDiscoLightOn)
 			{
-				spinSpeed += 1.0;
+				if (spinSpeed < MAX_SPIN_SPEED)
+				{
+					spinSpeed += 1.0f;
+				}
+				
+				if (jumpShakeSpeed < MAX_JUMP_SHAKE_SPEED)
+				{
+					jumpShakeSpeed += 1.0f;
+				}
 			}
 			break;
 		case '-':
@@ -883,9 +934,17 @@ void processNormalKey(unsigned char key, int x, int y)
 				swingSpeed -= 1.0;
 			}
 
-			if (isDiscoLightOn && spinSpeed > MIN_SPIN_SPEED)
+			if (isDiscoLightOn)
 			{
-				spinSpeed -= 1.0;
+				if (spinSpeed > MIN_SPIN_SPEED)
+				{
+					spinSpeed -= 1.0f;
+				}
+
+				if (jumpShakeSpeed > MIN_JUMP_SHAKE_SPEED)
+				{
+					jumpShakeSpeed -= 1.0f;
+				}
 			}
 			break;
 		case '0':
