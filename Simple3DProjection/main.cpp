@@ -205,28 +205,28 @@ void setUpDiscoLight()
 		switch (i)
 		{
 			case 0:
-				pointSourcePtr = new GLfloat[4] { -18.0f, 28.0f, 25.0f, 1.0f };
+				pointSourcePtr = new GLfloat[4] { -20.0f, 28.0f, 20.0f, 1.0f };
 				ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
 				diffusePtr = new GLfloat[4] { 1.0f, 0.0f, 0.0f, 1.0f };
 				specularPtr = new GLfloat[4] { 0.8f, 0.0f, 0.0f, 1.0f };
 				directionPtr = new GLfloat[4] { 0.0f, 0.0f, -1.0f };
 				break;
 			case 1:
-				pointSourcePtr = new GLfloat[4] { -18.0f, 28.0f, 25.0f, 1.0f };
+				pointSourcePtr = new GLfloat[4] { -20.0f, 28.0f, 20.0f, 1.0f };
 				ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
 				diffusePtr = new GLfloat[4] { 0.0f, 1.0f, 0.0f, 1.0f };
 				specularPtr = new GLfloat[4] { 0.0f, 0.8f, 0.0f, 1.0f };
 				directionPtr = new GLfloat[4] { 0.0f, 0.0f, -1.0f };
 				break;
 			case 2:
-				pointSourcePtr = new GLfloat[4] { -18.0f, 28.0f, 25.0f, 1.0f };
+				pointSourcePtr = new GLfloat[4] { -20.0f, 28.0f, 20.0f, 1.0f };
 				ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
 				diffusePtr = new GLfloat[4] { 0.0f, 0.0f, 1.0f, 1.0f };
 				specularPtr = new GLfloat[4] { 0.0f, 0.0f, 0.8f, 1.0f };
 				directionPtr = new GLfloat[4] { 0.0f, 0.0f, -1.0f };
 				break;
 			case 3:
-				pointSourcePtr = new GLfloat[4]{ -18.0f, 28.0f, 25.0f, 1.0f };
+				pointSourcePtr = new GLfloat[4]{ -20.0f, 28.0f, 20.0f, 1.0f };
 				ambientPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
 				diffusePtr = new GLfloat[4]{ 1.0f, 1.0f, 0.0f, 1.0f };
 				specularPtr = new GLfloat[4]{ 0.8f, 0.8f, 0.0f, 1.0f };
