@@ -10,6 +10,8 @@
 #include "Spotlight.h"
 #include <iostream>
 
+#pragma comment (linker,"/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+
 const int MAX_DISCO_LIGHT_COUNT = 4;
 const float MIN_SWING_SPEED = 5.0f;
 const float MAX_SWING_SPEED = 50.0f;
@@ -49,6 +51,548 @@ int font = (int)GLUT_BITMAP_8_BY_13;
 	- GL_COLOR_MATERIAL has been disabled fully in this program
 	- However, color can still be set, just that the color effect will not be seen
 */
+
+void setUpLight()
+{
+	GLfloat* pointSourcePtr = NULL;
+	GLfloat* ambientPtr = NULL;
+	GLfloat* diffusePtr = NULL;
+	GLfloat* specularPtr = NULL;
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (i == 0)
+		{
+			pointSourcePtr = new GLfloat[4]{ -20.0f, 29.0f, 15.0f, 1.0f };
+			ambientPtr = new GLfloat[4]{ 0.4f, 0.4f, 0.4f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 0.722f, 0.525f, 0.043f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+		}
+		else
+		{
+			pointSourcePtr = new GLfloat[4]{ 20.0f, 29.0f, 15.0f, 1.0f };
+			ambientPtr = new GLfloat[4]{ 0.6f, 0.6f, 0.6f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 0.729f, 0.333f, 0.827f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+		}
+
+		light[i].setPointSource(pointSourcePtr);
+		light[i].setAmbient(ambientPtr);
+		light[i].setDiffuse(diffusePtr);
+		light[i].setSpecular(specularPtr);
+
+		delete[] pointSourcePtr;
+		delete[] ambientPtr;
+		delete[] diffusePtr;
+		delete[] specularPtr;
+
+		pointSourcePtr = NULL;
+		ambientPtr = NULL;
+		diffusePtr = NULL;
+		specularPtr = NULL;
+	}
+}
+
+void setUpSpotlight()
+{
+	GLfloat pointSource[4] = { 0.0f, 27.5f, 13.0f, 1.0f };
+	GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat diffuse[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat specular[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat direction[3] = { 0.0f, -1.0f, 0.0f };
+	GLfloat cutOff = 30.0f;
+	GLfloat exponent = 40.0f;
+
+	spotlight.setPointSource(pointSource);
+	spotlight.setAmbient(ambient);
+	spotlight.setDiffuse(diffuse);
+	spotlight.setSpecular(specular);
+	spotlight.setDirection(direction);
+	spotlight.setCutOff(cutOff);
+	spotlight.setExponent(exponent);
+}
+
+void setUpDiscoLight()
+{
+	GLfloat* pointSourcePtr = NULL;
+	GLfloat* ambientPtr = NULL;
+	GLfloat* diffusePtr = NULL;
+	GLfloat* specularPtr = NULL;
+	GLfloat* directionPtr = NULL;
+	GLfloat cutOff = 5.0f;
+	GLfloat exponent = 1.0f;
+
+	for (int i = 0; i < MAX_DISCO_LIGHT_COUNT; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			pointSourcePtr = new GLfloat[4]{ -20.0f, 28.0f, 20.0f, 1.0f };
+			ambientPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 1.0f, 0.0f, 0.0f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.8f, 0.0f, 0.0f, 1.0f };
+			directionPtr = new GLfloat[4]{ 0.0f, 0.0f, -1.0f };
+			break;
+		case 1:
+			pointSourcePtr = new GLfloat[4]{ -20.0f, 28.0f, 20.0f, 1.0f };
+			ambientPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 0.0f, 1.0f, 0.0f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.0f, 0.8f, 0.0f, 1.0f };
+			directionPtr = new GLfloat[4]{ 0.0f, 0.0f, -1.0f };
+			break;
+		case 2:
+			pointSourcePtr = new GLfloat[4]{ -20.0f, 28.0f, 20.0f, 1.0f };
+			ambientPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 0.0f, 0.0f, 1.0f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.8f, 1.0f };
+			directionPtr = new GLfloat[4]{ 0.0f, 0.0f, -1.0f };
+			break;
+		case 3:
+			pointSourcePtr = new GLfloat[4]{ -20.0f, 28.0f, 20.0f, 1.0f };
+			ambientPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
+			diffusePtr = new GLfloat[4]{ 1.0f, 1.0f, 0.0f, 1.0f };
+			specularPtr = new GLfloat[4]{ 0.8f, 0.8f, 0.0f, 1.0f };
+			directionPtr = new GLfloat[4]{ 0.0f, 0.0f, -1.0f };
+			break;
+		}
+
+		discoLight[i].setPointSource(pointSourcePtr);
+		discoLight[i].setAmbient(ambientPtr);
+		discoLight[i].setDiffuse(diffusePtr);
+		discoLight[i].setSpecular(specularPtr);
+		discoLight[i].setDirection(directionPtr);
+		discoLight[i].setCutOff(cutOff);
+		discoLight[i].setExponent(exponent);
+
+		delete[] pointSourcePtr;
+		delete[] ambientPtr;
+		delete[] diffusePtr;
+		delete[] specularPtr;
+		delete[] directionPtr;
+
+		pointSourcePtr = NULL;
+		ambientPtr = NULL;
+		diffusePtr = NULL;
+		specularPtr = NULL;
+		directionPtr = NULL;
+	}
+}
+
+void drawLightBulbs()
+{
+	GLfloat lightBulbLeftMaterial[4][4] = {
+		{ 0.822f, 0.625f, 0.143f, 0.8f },
+		{ 0.722f, 0.525f, 0.043f, 0.8f },
+		{ 0.9f, 0.9f, 0.9f, 0.8f },
+		{ 0.722f, 0.525f, 0.043f, 1.0f }
+	};
+
+	GLfloat lightBulbRightMaterial[4][4] = {
+		{ 0.829f, 0.433f, 0.927f, 0.8f },
+		{ 0.729f, 0.333f, 0.827f, 0.8f },
+		{ 0.9f, 0.9f, 0.9f, 0.8f },
+		{ 0.729f, 0.333f, 0.827f, 1.0f }
+	};
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_MODELVIEW);
+
+	glPushMatrix();
+	glTranslatef(light[0].getPointSource()[0], light[0].getPointSource()[1], light[0].getPointSource()[2]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, lightBulbLeftMaterial[0]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, lightBulbLeftMaterial[1]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, lightBulbLeftMaterial[2]);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+	if (isLightLeftOn) {
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, lightBulbLeftMaterial[3]);
+	}
+
+	if (isWireFrame)
+	{
+		glutWireSphere(1.0f, 20, 20);
+	}
+	else
+	{
+		glutSolidSphere(1.0f, 20, 20);
+	}
+	glPopMatrix();
+
+	if (isLightLeftOn)
+	{
+		glEnable(GL_LIGHT0);
+		glLightfv(GL_LIGHT0, GL_POSITION, light[0].getPointSource());
+		glLightfv(GL_LIGHT0, GL_AMBIENT, light[0].getAmbient());
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, light[0].getDiffuse());
+		glLightfv(GL_LIGHT0, GL_SPECULAR, light[0].getSpecular());
+	}
+	else {
+		glDisable(GL_LIGHT0);
+	}
+
+	glPushMatrix();
+	glTranslatef(light[1].getPointSource()[0], light[1].getPointSource()[1], light[1].getPointSource()[2]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, lightBulbRightMaterial[0]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, lightBulbRightMaterial[1]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, lightBulbRightMaterial[2]);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+	if (isLightRightOn) {
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, lightBulbRightMaterial[3]);
+	}
+
+	if (isWireFrame)
+	{
+		glutWireSphere(1.0f, 20, 20);
+	}
+	else
+	{
+		glutSolidSphere(1.0f, 20, 20);
+	}
+	glPopMatrix();
+
+	if (isLightRightOn)
+	{
+		glEnable(GL_LIGHT1);
+		glLightfv(GL_LIGHT1, GL_POSITION, light[1].getPointSource());
+		glLightfv(GL_LIGHT1, GL_AMBIENT, light[1].getAmbient());
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, light[1].getDiffuse());
+		glLightfv(GL_LIGHT1, GL_SPECULAR, light[1].getSpecular());
+	}
+	else {
+		glDisable(GL_LIGHT1);
+	}
+
+	glDisable(GL_BLEND);
+}
+
+void drawSpotlight()
+{
+	GLfloat spotlightHolderMaterial[4][4] = {
+		{ 0.0f, 0.0f, 0.0f, 1.0f },
+		{ 0.5f, 0.5f, 0.5f, 1.0f },
+		{ 0.9f, 0.9f, 0.9f, 1.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+
+	GLfloat spotlightMaterial[4][4] = {
+		{ 0.5f, 0.5f, 0.5f, 0.8f },
+		{ 0.7f, 0.7f, 0.7f, 0.8f },
+		{ 0.9f, 0.9f, 0.9f, 0.8f },
+		{ 1.0f, 1.0f, 1.0f, 1.0f }
+	};
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_MODELVIEW);
+
+	glPushMatrix();
+	glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 2.0, spotlight.getPointSource()[2]);
+	glRotatef(swingAngle, 0.0f, 0.0f, 1.0f);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightHolderMaterial[0]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightHolderMaterial[1]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightHolderMaterial[2]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, spotlightHolderMaterial[3]);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+	glPushMatrix();
+	glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+	glTranslatef(0.0f, 0.0f, -2.0f);
+	if (isWireFrame)
+	{
+		glutWireCone(1.0f, 2.0f, 20, 20);
+	}
+	else
+	{
+		glutSolidCone(1.0f, 2.0f, 20, 20);
+	}
+	glPopMatrix();
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightMaterial[0]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightMaterial[1]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightMaterial[2]);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+	glTranslatef(0.0f, -2.0f, 0.0f);
+	if (isSpotlightOn) {
+		glPushMatrix();
+		glTranslatef(-spotlight.getPointSource()[0], -spotlight.getPointSource()[1], -spotlight.getPointSource()[2]);
+		glEnable(GL_LIGHT2);
+		glLightfv(GL_LIGHT2, GL_POSITION, spotlight.getPointSource());
+		glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spotlight.getDirection());
+		glLightfv(GL_LIGHT2, GL_AMBIENT, spotlight.getAmbient());
+		glLightfv(GL_LIGHT2, GL_DIFFUSE, spotlight.getDiffuse());
+		glLightfv(GL_LIGHT2, GL_SPECULAR, spotlight.getSpecular());
+		glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, spotlight.getCutOff());
+		glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, spotlight.getExponent());
+		glPopMatrix();
+
+		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, spotlightMaterial[3]);
+	}
+	else {
+		glDisable(GL_LIGHT2);
+	}
+
+	if (isWireFrame)
+	{
+		glutWireSphere(0.5f, 30, 30);
+	}
+	else
+	{
+		glutSolidSphere(0.5f, 30, 30);
+	}
+	glPopMatrix();
+
+	glDisable(GL_BLEND);
+}
+
+void drawDiscoLight()
+{
+	GLfloat discoLightHolderMaterial[4][4] = {
+		{ 0.0f, 0.0f, 0.0f, 1.0f },
+		{ 0.5f, 0.5f, 0.5f, 1.0f },
+		{ 0.9f, 0.9f, 0.9f, 1.0f },
+		{ 0.0f, 0.0f, 0.0f, 1.0f }
+	};
+
+	GLfloat discoLightMaterial[4][4][4] = {
+		{
+			{ 0.3f, 0.0f, 0.0f, 0.8f },
+			{ 0.5f, 0.0f, 0.0f, 0.8f },
+			{ 0.7f, 0.0f, 0.0f, 0.8f },
+			{ 1.0f, 0.0f, 0.0f, 1.0f }
+		},
+		{
+			{ 0.0f, 0.3f, 0.0f, 0.8f },
+			{ 0.0f, 0.5f, 0.0f, 0.8f },
+			{ 0.0f, 0.7f, 0.0f, 0.8f },
+			{ 0.0f, 1.0f, 0.0f, 1.0f }
+		},
+		{
+			{ 0.0f, 0.0f, 0.3f, 0.8f },
+			{ 0.0f, 0.0f, 0.5f, 0.8f },
+			{ 0.0f, 0.0f, 0.7f, 0.8f },
+			{ 0.0f, 0.0f, 1.0f, 1.0f }
+		},
+		{
+			{ 0.3f, 0.3f, 0.0f, 0.8f },
+			{ 0.5f, 0.5f, 0.0f, 0.8f },
+			{ 0.7f, 0.7f, 0.0f, 0.8f },
+			{ 1.0f, 1.0f, 0.0f, 1.0f }
+		}
+	};
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_MODELVIEW);
+
+	glPushMatrix();
+	glTranslatef(discoLight[0].getPointSource()[0], discoLight[0].getPointSource()[1], discoLight[0].getPointSource()[2] + 0.75);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, discoLightHolderMaterial[0]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, discoLightHolderMaterial[1]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, discoLightHolderMaterial[2]);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightHolderMaterial[3]);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
+	if (isWireFrame)
+	{
+		glPushMatrix();
+		glTranslatef(0.0, 1.0, 0.0);
+		glScalef(1.0, 5.0, 1.0);
+		glutWireCube(0.5);
+		glPopMatrix();
+		glutWireSphere(1.0, 20, 20);
+	}
+	else
+	{
+		glPushMatrix();
+		glTranslatef(0.0, 1.0, 0.0);
+		glScalef(1.0, 5.0, 1.0);
+		glutSolidCube(0.5);
+		glPopMatrix();
+		glutSolidSphere(1.0, 20, 20);
+	}
+
+	for (int i = 0; i < MAX_DISCO_LIGHT_COUNT; i++)
+	{
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, discoLightMaterial[i][0]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, discoLightMaterial[i][1]);
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, discoLightMaterial[i][2]);
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
+
+		glPushMatrix();
+		glRotatef(spinAngle[1], 0.0f, 0.0f, 1.0f);
+		switch (i)
+		{
+		case 0:
+			glRotatef(spinAngle[0], 0.0f, 1.0f, 0.0f);
+			break;
+		case 1:
+			glRotatef(spinAngle[0] + 90.0f, 0.0f, 1.0f, 0.0f);
+			break;
+		case 2:
+			glRotatef(spinAngle[0] + 180.0f, 0.0f, 1.0f, 0.0f);
+			break;
+		case 3:
+			glRotatef(spinAngle[0] + 270.0f, 0.0f, 1.0f, 0.0f);
+			break;
+		}
+		glTranslatef(0.0f, 0.0f, -0.75f);
+
+		if (isDiscoLightOn)
+		{
+			glPushMatrix();
+			glTranslatef(-discoLight[0].getPointSource()[0], -discoLight[0].getPointSource()[1], -(discoLight[0].getPointSource()[2] + 0.75f));
+			switch (i)
+			{
+			case 0:
+				glEnable(GL_LIGHT3);
+				glLightfv(GL_LIGHT3, GL_POSITION, discoLight[0].getPointSource());
+				glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, discoLight[0].getDirection());
+				glLightfv(GL_LIGHT3, GL_AMBIENT, discoLight[0].getAmbient());
+				glLightfv(GL_LIGHT3, GL_DIFFUSE, discoLight[0].getDiffuse());
+				glLightfv(GL_LIGHT3, GL_SPECULAR, discoLight[0].getSpecular());
+				glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, discoLight[0].getCutOff());
+				glLightf(GL_LIGHT3, GL_SPOT_EXPONENT, discoLight[0].getExponent());
+
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[0][3]);
+				break;
+			case 1:
+				glEnable(GL_LIGHT4);
+				glLightfv(GL_LIGHT4, GL_POSITION, discoLight[1].getPointSource());
+				glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, discoLight[1].getDirection());
+				glLightfv(GL_LIGHT4, GL_AMBIENT, discoLight[1].getAmbient());
+				glLightfv(GL_LIGHT4, GL_DIFFUSE, discoLight[1].getDiffuse());
+				glLightfv(GL_LIGHT4, GL_SPECULAR, discoLight[1].getSpecular());
+				glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, discoLight[1].getCutOff());
+				glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, discoLight[1].getExponent());
+
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[1][3]);
+				break;
+			case 2:
+				glEnable(GL_LIGHT5);
+				glLightfv(GL_LIGHT5, GL_POSITION, discoLight[2].getPointSource());
+				glLightfv(GL_LIGHT5, GL_SPOT_DIRECTION, discoLight[2].getDirection());
+				glLightfv(GL_LIGHT5, GL_AMBIENT, discoLight[2].getAmbient());
+				glLightfv(GL_LIGHT5, GL_DIFFUSE, discoLight[2].getDiffuse());
+				glLightfv(GL_LIGHT5, GL_SPECULAR, discoLight[2].getSpecular());
+				glLightf(GL_LIGHT5, GL_SPOT_CUTOFF, discoLight[2].getCutOff());
+				glLightf(GL_LIGHT5, GL_SPOT_EXPONENT, discoLight[2].getExponent());
+
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[2][3]);
+				break;
+			case 3:
+				glEnable(GL_LIGHT6);
+				glLightfv(GL_LIGHT6, GL_POSITION, discoLight[3].getPointSource());
+				glLightfv(GL_LIGHT6, GL_SPOT_DIRECTION, discoLight[3].getDirection());
+				glLightfv(GL_LIGHT6, GL_AMBIENT, discoLight[3].getAmbient());
+				glLightfv(GL_LIGHT6, GL_DIFFUSE, discoLight[3].getDiffuse());
+				glLightfv(GL_LIGHT6, GL_SPECULAR, discoLight[3].getSpecular());
+				glLightf(GL_LIGHT6, GL_SPOT_CUTOFF, discoLight[3].getCutOff());
+				glLightf(GL_LIGHT6, GL_SPOT_EXPONENT, discoLight[3].getExponent());
+
+				glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[3][3]);
+				break;
+			}
+			glPopMatrix();
+		}
+		else
+		{
+			glDisable(GL_LIGHT3);
+			glDisable(GL_LIGHT4);
+			glDisable(GL_LIGHT5);
+			glDisable(GL_LIGHT6);
+		}
+
+		if (isWireFrame)
+		{
+			glutWireSphere(0.5f, 20, 20);
+		}
+		else
+		{
+			glutSolidSphere(0.5f, 20, 20);
+		}
+		glPopMatrix();
+	}
+	glPopMatrix();
+
+	glDisable(GL_BLEND);
+}
+
+void swingSpotlight(int value)
+{
+	static float radian = 0.0f;
+	swingAngle = 25.0f * sin(radian);
+
+	radian = radian + ((MATH_PI * 2.0f) / 135.0f) * swingSpeed;
+
+	if (radian > (MATH_PI * 2.0f))
+	{
+		radian = radian - (MATH_PI * 2.0f);
+	}
+
+	if (isSpotlightOn)
+	{
+		glutTimerFunc(10, swingSpotlight, 0);
+	}
+
+	glutPostRedisplay();
+}
+
+void spinDiscoLight(int value)
+{
+	static float radian = 0.0f;
+	spinAngle[0] += spinSpeed;
+	spinAngle[1] = 140.0f * sin(radian);
+
+	if (spinAngle[0] > 360.0f)
+	{
+		spinAngle[0] -= 360.0f;
+	}
+
+	radian = radian + ((MATH_PI * 2.0f) / 135.0f) * (spinSpeed / 2.0f);
+
+	if (radian > (MATH_PI * 2.0f))
+	{
+		radian = radian - (MATH_PI * 2.0f);
+	}
+
+	if(isDiscoLightOn)
+	{
+		glutTimerFunc(10, spinDiscoLight, 0);
+	}
+
+	glutPostRedisplay();
+}
+
+void modelDance(int value)
+{
+	static float radianHeight = 0.0f;
+	static float radianAngle = 0.0f;
+
+	jumpHeight = 3.0f * sin(radianHeight);
+	radianHeight = radianHeight + (MATH_PI / 60.0f) * jumpShakeSpeed;
+	if (radianHeight > MATH_PI)
+	{
+		radianHeight = radianHeight - MATH_PI;
+	}
+
+	shakeAngle = 20.0f * sin(radianAngle);
+	radianAngle = radianAngle + (MATH_PI * 2 / 135.0f) * jumpShakeSpeed;
+	if (radianAngle > (MATH_PI * 2))
+	{
+		radianAngle = radianAngle - (MATH_PI * 2);
+	}
+
+	if (isDiscoLightOn)
+	{
+		glutTimerFunc(10, modelDance, 0);
+	}
+	else
+	{
+		radianHeight = 0.0f;
+		radianAngle = 0.0f;
+		jumpHeight = 0.0f;
+		shakeAngle = 0.0f;
+	}
+
+	glutPostRedisplay();
+}
 
 void createRoom()
 {
@@ -134,548 +678,6 @@ void createProps()
 	translate = Transform(10.0, 9.2, 11.0);
 	scale = Transform(2.0, 2.0, 2.0);
 	variableModels.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_RED, createMaterial(RED_PLASTIC)));
-}
-
-void setUpLight()
-{
-	GLfloat* pointSourcePtr = NULL;
-	GLfloat* ambientPtr = NULL;
-	GLfloat* diffusePtr = NULL;
-	GLfloat* specularPtr = NULL;
-
-	for (int i = 0; i < 2; i++)
-	{
-		if (i == 0)
-		{
-			pointSourcePtr = new GLfloat[4] { -20.0f, 29.0f, 15.0f, 1.0f };
-			ambientPtr = new GLfloat[4] { 0.4f, 0.4f, 0.4f, 1.0f };
-			diffusePtr = new GLfloat[4] { 0.722f, 0.525f, 0.043f, 1.0f };
-			specularPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
-		}
-		else
-		{
-			pointSourcePtr = new GLfloat[4] { 20.0f, 29.0f, 15.0f, 1.0f };
-			ambientPtr = new GLfloat[4] { 0.6f, 0.6f, 0.6f, 1.0f };
-			diffusePtr = new GLfloat[4] { 0.729f, 0.333f, 0.827f, 1.0f };
-			specularPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
-		}
-
-		light[i].setPointSource(pointSourcePtr);
-		light[i].setAmbient(ambientPtr);
-		light[i].setDiffuse(diffusePtr);
-		light[i].setSpecular(specularPtr);
-
-		delete[] pointSourcePtr;
-		delete[] ambientPtr;
-		delete[] diffusePtr;
-		delete[] specularPtr;
-
-		pointSourcePtr = NULL;
-		ambientPtr = NULL;
-		diffusePtr = NULL;
-		specularPtr = NULL;
-	}
-}
-
-void setUpSpotlight()
-{
-	GLfloat pointSource[4] = { 0.0f, 27.5f, 13.0f, 1.0f };
-	GLfloat ambient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	GLfloat diffuse[4] = { 0.8f, 0.8f, 0.8f, 1.0f };
-	GLfloat specular[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	GLfloat direction[3] = { 0.0f, -1.0f, 0.0f };
-	GLfloat cutOff = 30.0f;
-	GLfloat exponent = 40.0f;
-
-	spotlight.setPointSource(pointSource);
-	spotlight.setAmbient(ambient);
-	spotlight.setDiffuse(diffuse);
-	spotlight.setSpecular(specular);
-	spotlight.setDirection(direction);
-	spotlight.setCutOff(cutOff);
-	spotlight.setExponent(exponent);
-}
-
-void setUpDiscoLight()
-{
-	GLfloat* pointSourcePtr = NULL;
-	GLfloat* ambientPtr = NULL;
-	GLfloat* diffusePtr = NULL;
-	GLfloat* specularPtr = NULL;
-	GLfloat* directionPtr = NULL;
-	GLfloat cutOff = 5.0f;
-	GLfloat exponent = 1.0f;
-
-	for (int i = 0; i < MAX_DISCO_LIGHT_COUNT; i++)
-	{
-		switch (i)
-		{
-			case 0:
-				pointSourcePtr = new GLfloat[4] { -20.0f, 28.0f, 20.0f, 1.0f };
-				ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
-				diffusePtr = new GLfloat[4] { 1.0f, 0.0f, 0.0f, 1.0f };
-				specularPtr = new GLfloat[4] { 0.8f, 0.0f, 0.0f, 1.0f };
-				directionPtr = new GLfloat[4] { 0.0f, 0.0f, -1.0f };
-				break;
-			case 1:
-				pointSourcePtr = new GLfloat[4] { -20.0f, 28.0f, 20.0f, 1.0f };
-				ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
-				diffusePtr = new GLfloat[4] { 0.0f, 1.0f, 0.0f, 1.0f };
-				specularPtr = new GLfloat[4] { 0.0f, 0.8f, 0.0f, 1.0f };
-				directionPtr = new GLfloat[4] { 0.0f, 0.0f, -1.0f };
-				break;
-			case 2:
-				pointSourcePtr = new GLfloat[4] { -20.0f, 28.0f, 20.0f, 1.0f };
-				ambientPtr = new GLfloat[4] { 0.0f, 0.0f, 0.0f, 1.0f };
-				diffusePtr = new GLfloat[4] { 0.0f, 0.0f, 1.0f, 1.0f };
-				specularPtr = new GLfloat[4] { 0.0f, 0.0f, 0.8f, 1.0f };
-				directionPtr = new GLfloat[4] { 0.0f, 0.0f, -1.0f };
-				break;
-			case 3:
-				pointSourcePtr = new GLfloat[4]{ -20.0f, 28.0f, 20.0f, 1.0f };
-				ambientPtr = new GLfloat[4]{ 0.0f, 0.0f, 0.0f, 1.0f };
-				diffusePtr = new GLfloat[4]{ 1.0f, 1.0f, 0.0f, 1.0f };
-				specularPtr = new GLfloat[4]{ 0.8f, 0.8f, 0.0f, 1.0f };
-				directionPtr = new GLfloat[4]{ 0.0f, 0.0f, -1.0f };
-				break;
-		}
-
-		discoLight[i].setPointSource(pointSourcePtr);
-		discoLight[i].setAmbient(ambientPtr);
-		discoLight[i].setDiffuse(diffusePtr);
-		discoLight[i].setSpecular(specularPtr);
-		discoLight[i].setDirection(directionPtr);
-		discoLight[i].setCutOff(cutOff);
-		discoLight[i].setExponent(exponent);
-
-		delete [] pointSourcePtr;
-		delete [] ambientPtr;
-		delete [] diffusePtr;
-		delete [] specularPtr;
-		delete [] directionPtr;
-
-		pointSourcePtr = NULL;
-		ambientPtr = NULL;
-		diffusePtr = NULL;
-		specularPtr = NULL;
-		directionPtr = NULL;
-	}
-}
-
-void swingSpotlight(int value)
-{
-	static float radian = 0.0f;
-	swingAngle = 25.0f * sin(radian);
-
-	radian = radian + ((MATH_PI * 2.0f) / 135.0f) * swingSpeed;
-
-	if (radian > (MATH_PI * 2.0f))
-	{
-		radian = radian - (MATH_PI * 2.0f);
-	}
-
-	if (isSpotlightOn)
-	{
-		glutTimerFunc(10, swingSpotlight, 0);
-	}
-
-	glutPostRedisplay();
-}
-
-void spinDiscoLight(int value)
-{
-	static float radian = 0.0f;
-	spinAngle[0] += spinSpeed;
-	spinAngle[1] = 140.0f * sin(radian);
-
-	if (spinAngle[0] > 360.0f)
-	{
-		spinAngle[0] -= 360.0f;
-	}
-
-	radian = radian + ((MATH_PI * 2.0f) / 135.0f) * (spinSpeed / 2.0f);
-
-	if (radian > (MATH_PI * 2.0f))
-	{
-		radian = radian - (MATH_PI * 2.0f);
-	}
-
-	if(isDiscoLightOn)
-	{
-		glutTimerFunc(10, spinDiscoLight, 0);
-	}
-
-	glutPostRedisplay();
-}
-
-void modelDance(int value)
-{
-	static float radianHeight = 0.0f;
-	static float radianAngle = 0.0f;
-
-	jumpHeight = 3.0f * sin(radianHeight);
-	radianHeight = radianHeight + (MATH_PI / 60.0f) * jumpShakeSpeed;
-	if (radianHeight > MATH_PI)
-	{
-		radianHeight = radianHeight - MATH_PI;
-	}
-
-	shakeAngle = 20.0f * sin(radianAngle);
-	radianAngle = radianAngle + (MATH_PI * 2 / 135.0f) * jumpShakeSpeed;
-	if (radianAngle > (MATH_PI * 2))
-	{
-		radianAngle = radianAngle - (MATH_PI * 2);
-	}
-
-	if (isDiscoLightOn)
-	{
-		glutTimerFunc(10, modelDance, 0);
-	}
-	else
-	{
-		radianHeight = 0.0f;
-		radianAngle = 0.0f;
-		jumpHeight = 0.0f;
-		shakeAngle = 0.0f;
-	}
-
-	glutPostRedisplay();
-}
-
-void drawDiscoLight()
-{
-	GLfloat discoLightHolderMaterial[4][4] = {
-		{ 0.0f, 0.0f, 0.0f, 1.0f },
-		{ 0.5f, 0.5f, 0.5f, 1.0f },
-		{ 0.9f, 0.9f, 0.9f, 1.0f },
-		{ 0.0f, 0.0f, 0.0f, 1.0f }
-	};
-
-	GLfloat discoLightMaterial[4][4][4] = {
-		{
-			{ 0.3f, 0.0f, 0.0f, 0.8f },
-			{ 0.5f, 0.0f, 0.0f, 0.8f },
-			{ 0.7f, 0.0f, 0.0f, 0.8f },
-			{ 1.0f, 0.0f, 0.0f, 1.0f }
-		},
-		{
-			{ 0.0f, 0.3f, 0.0f, 0.8f },
-			{ 0.0f, 0.5f, 0.0f, 0.8f },
-			{ 0.0f, 0.7f, 0.0f, 0.8f },
-			{ 0.0f, 1.0f, 0.0f, 1.0f }
-		},
-		{
-			{ 0.0f, 0.0f, 0.3f, 0.8f },
-			{ 0.0f, 0.0f, 0.5f, 0.8f },
-			{ 0.0f, 0.0f, 0.7f, 0.8f },
-			{ 0.0f, 0.0f, 1.0f, 1.0f }
-		},
-		{
-			{ 0.3f, 0.3f, 0.0f, 0.8f },
-			{ 0.5f, 0.5f, 0.0f, 0.8f },
-			{ 0.7f, 0.7f, 0.0f, 0.8f },
-			{ 1.0f, 1.0f, 0.0f, 1.0f }
-		}
-	};
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_MODELVIEW);
-
-	glPushMatrix();
-		glTranslatef(discoLight[0].getPointSource()[0], discoLight[0].getPointSource()[1], discoLight[0].getPointSource()[2] + 0.75);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, discoLightHolderMaterial[0]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, discoLightHolderMaterial[1]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, discoLightHolderMaterial[2]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightHolderMaterial[3]);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100);
-		if (isWireFrame)
-		{
-			glPushMatrix();
-				glTranslatef(0.0, 1.0, 0.0);
-				glScalef(1.0, 5.0, 1.0);
-				glutWireCube(0.5);
-			glPopMatrix();
-			glutWireSphere(1.0, 20, 20);
-		}
-		else
-		{
-			glPushMatrix();
-				glTranslatef(0.0, 1.0, 0.0);
-				glScalef(1.0, 5.0, 1.0);
-				glutSolidCube(0.5);
-			glPopMatrix();
-			glutSolidSphere(1.0, 20, 20);
-		}
-
-		for (int i = 0; i < MAX_DISCO_LIGHT_COUNT; i++)
-		{
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, discoLightMaterial[i][0]);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, discoLightMaterial[i][1]);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, discoLightMaterial[i][2]);
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
-
-			glPushMatrix();
-				glRotatef(spinAngle[1], 0.0f, 0.0f, 1.0f);
-				switch (i)
-				{
-					case 0:
-						glRotatef(spinAngle[0], 0.0f, 1.0f, 0.0f);
-						break;
-					case 1:
-						glRotatef(spinAngle[0] + 90.0f, 0.0f, 1.0f, 0.0f);
-						break;
-					case 2:
-						glRotatef(spinAngle[0] + 180.0f, 0.0f, 1.0f, 0.0f);
-						break;
-					case 3:
-						glRotatef(spinAngle[0] + 270.0f, 0.0f, 1.0f, 0.0f);
-						break;
-				}
-				glTranslatef(0.0f, 0.0f, -0.75f);
-
-				if (isDiscoLightOn)
-				{
-					glPushMatrix();
-					glTranslatef(-discoLight[0].getPointSource()[0], -discoLight[0].getPointSource()[1], -(discoLight[0].getPointSource()[2] + 0.75f));
-					switch (i)
-					{
-						case 0:
-							glEnable(GL_LIGHT3);
-							glLightfv(GL_LIGHT3, GL_POSITION, discoLight[0].getPointSource());
-							glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, discoLight[0].getDirection());
-							glLightfv(GL_LIGHT3, GL_AMBIENT, discoLight[0].getAmbient());
-							glLightfv(GL_LIGHT3, GL_DIFFUSE, discoLight[0].getDiffuse());
-							glLightfv(GL_LIGHT3, GL_SPECULAR, discoLight[0].getSpecular());
-							glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, discoLight[0].getCutOff());
-							glLightf(GL_LIGHT3, GL_SPOT_EXPONENT, discoLight[0].getExponent());
-
-							glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[0][3]);
-							break;
-						case 1:
-							glEnable(GL_LIGHT4);
-							glLightfv(GL_LIGHT4, GL_POSITION, discoLight[1].getPointSource());
-							glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, discoLight[1].getDirection());
-							glLightfv(GL_LIGHT4, GL_AMBIENT, discoLight[1].getAmbient());
-							glLightfv(GL_LIGHT4, GL_DIFFUSE, discoLight[1].getDiffuse());
-							glLightfv(GL_LIGHT4, GL_SPECULAR, discoLight[1].getSpecular());
-							glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, discoLight[1].getCutOff());
-							glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, discoLight[1].getExponent());
-
-							glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[1][3]);
-							break;
-						case 2:
-							glEnable(GL_LIGHT5);
-							glLightfv(GL_LIGHT5, GL_POSITION, discoLight[2].getPointSource());
-							glLightfv(GL_LIGHT5, GL_SPOT_DIRECTION, discoLight[2].getDirection());
-							glLightfv(GL_LIGHT5, GL_AMBIENT, discoLight[2].getAmbient());
-							glLightfv(GL_LIGHT5, GL_DIFFUSE, discoLight[2].getDiffuse());
-							glLightfv(GL_LIGHT5, GL_SPECULAR, discoLight[2].getSpecular());
-							glLightf(GL_LIGHT5, GL_SPOT_CUTOFF, discoLight[2].getCutOff());
-							glLightf(GL_LIGHT5, GL_SPOT_EXPONENT, discoLight[2].getExponent());
-
-							glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[2][3]);
-							break;
-						case 3:
-							glEnable(GL_LIGHT6);
-							glLightfv(GL_LIGHT6, GL_POSITION, discoLight[3].getPointSource());
-							glLightfv(GL_LIGHT6, GL_SPOT_DIRECTION, discoLight[3].getDirection());
-							glLightfv(GL_LIGHT6, GL_AMBIENT, discoLight[3].getAmbient());
-							glLightfv(GL_LIGHT6, GL_DIFFUSE, discoLight[3].getDiffuse());
-							glLightfv(GL_LIGHT6, GL_SPECULAR, discoLight[3].getSpecular());
-							glLightf(GL_LIGHT6, GL_SPOT_CUTOFF, discoLight[3].getCutOff());
-							glLightf(GL_LIGHT6, GL_SPOT_EXPONENT, discoLight[3].getExponent());
-
-							glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, discoLightMaterial[3][3]);
-							break;
-					}
-					glPopMatrix();
-				}
-				else
-				{
-					glDisable(GL_LIGHT3);
-					glDisable(GL_LIGHT4);
-					glDisable(GL_LIGHT5);
-					glDisable(GL_LIGHT6);
-				}
-
-				if (isWireFrame)
-				{
-					glutWireSphere(0.5f, 20, 20);
-				}
-				else
-				{
-					glutSolidSphere(0.5f, 20, 20);
-				}
-			glPopMatrix();
-		}
-	glPopMatrix();
-
-	glDisable(GL_BLEND);
-}
-
-void drawSpotlight()
-{
-	GLfloat spotlightHolderMaterial[4][4] = {
-		{ 0.0f, 0.0f, 0.0f, 1.0f },
-		{ 0.5f, 0.5f, 0.5f, 1.0f },
-		{ 0.9f, 0.9f, 0.9f, 1.0f },
-		{ 0.0f, 0.0f, 0.0f, 1.0f }
-	};
-
-	GLfloat spotlightMaterial[4][4] = {
-		{ 0.5f, 0.5f, 0.5f, 0.8f },
-		{ 0.7f, 0.7f, 0.7f, 0.8f },
-		{ 0.9f, 0.9f, 0.9f, 0.8f },
-		{ 1.0f, 1.0f, 1.0f, 1.0f }
-	};
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_MODELVIEW);
-
-	glPushMatrix();
-		glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 2.0, spotlight.getPointSource()[2]);
-		glRotatef(swingAngle, 0.0f, 0.0f, 1.0f);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightHolderMaterial[0]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightHolderMaterial[1]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightHolderMaterial[2]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, spotlightHolderMaterial[3]);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
-		glPushMatrix();
-			glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
-			glTranslatef(0.0f, 0.0f, -2.0f);
-			if (isWireFrame)
-			{
-				glutWireCone(1.0f, 2.0f, 20, 20);
-			}
-			else
-			{
-				glutSolidCone(1.0f, 2.0f, 20, 20);
-			}
-		glPopMatrix();
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightMaterial[0]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightMaterial[1]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spotlightMaterial[2]);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
-		glTranslatef(0.0f, -2.0f, 0.0f);
-		if (isSpotlightOn) {
-			glPushMatrix();
-				glTranslatef(-spotlight.getPointSource()[0], -spotlight.getPointSource()[1], -spotlight.getPointSource()[2]);
-				glEnable(GL_LIGHT2);
-				glLightfv(GL_LIGHT2, GL_POSITION, spotlight.getPointSource());
-				glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, spotlight.getDirection());
-				glLightfv(GL_LIGHT2, GL_AMBIENT, spotlight.getAmbient());
-				glLightfv(GL_LIGHT2, GL_DIFFUSE, spotlight.getDiffuse());
-				glLightfv(GL_LIGHT2, GL_SPECULAR, spotlight.getSpecular());
-				glLightf(GL_LIGHT2, GL_SPOT_CUTOFF, spotlight.getCutOff());
-				glLightf(GL_LIGHT2, GL_SPOT_EXPONENT, spotlight.getExponent());
-			glPopMatrix();
-
-			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, spotlightMaterial[3]);
-		}
-		else {
-			glDisable(GL_LIGHT2);
-		}
-
-		if (isWireFrame)
-		{
-			glutWireSphere(0.5f, 30, 30);
-		}
-		else
-		{
-			glutSolidSphere(0.5f, 30, 30);
-		}
-	glPopMatrix();
-
-	glDisable(GL_BLEND);
-}
-
-void drawLightBulbs()
-{
-	GLfloat lightBulbLeftMaterial[4][4] = {
-		{ 0.822f, 0.625f, 0.143f, 0.8f },
-		{ 0.722f, 0.525f, 0.043f, 0.8f },
-		{ 0.9f, 0.9f, 0.9f, 0.8f },
-		{ 0.722f, 0.525f, 0.043f, 1.0f }
-	};
-
-	GLfloat lightBulbRightMaterial[4][4] = {
-		{ 0.829f, 0.433f, 0.927f, 0.8f },
-		{ 0.729f, 0.333f, 0.827f, 0.8f },
-		{ 0.9f, 0.9f, 0.9f, 0.8f },
-		{ 0.729f, 0.333f, 0.827f, 1.0f }
-	};
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glMatrixMode(GL_MODELVIEW);
-
-	glPushMatrix();
-		glTranslatef(light[0].getPointSource()[0], light[0].getPointSource()[1], light[0].getPointSource()[2]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, lightBulbLeftMaterial[0]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, lightBulbLeftMaterial[1]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, lightBulbLeftMaterial[2]);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
-		if (isLightLeftOn) {
-			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, lightBulbLeftMaterial[3]);
-		}
-
-		if (isWireFrame)
-		{
-			glutWireSphere(1.0f, 20, 20);
-		}
-		else
-		{
-			glutSolidSphere(1.0f, 20, 20);
-		}
-	glPopMatrix();
-
-	if (isLightLeftOn)
-	{
-		glEnable(GL_LIGHT0);
-		glLightfv(GL_LIGHT0, GL_POSITION, light[0].getPointSource());
-		glLightfv(GL_LIGHT0, GL_AMBIENT, light[0].getAmbient());
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, light[0].getDiffuse());
-		glLightfv(GL_LIGHT0, GL_SPECULAR, light[0].getSpecular());
-	}
-	else {
-		glDisable(GL_LIGHT0);
-	}
-
-	glPushMatrix();
-		glTranslatef(light[1].getPointSource()[0], light[1].getPointSource()[1], light[1].getPointSource()[2]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, lightBulbRightMaterial[0]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, lightBulbRightMaterial[1]);
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, lightBulbRightMaterial[2]);
-		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 100.0f);
-		if (isLightRightOn) {
-			glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, lightBulbRightMaterial[3]);
-		}
-
-		if (isWireFrame)
-		{
-			glutWireSphere(1.0f, 20, 20);
-		}
-		else
-		{
-			glutSolidSphere(1.0f, 20, 20);
-		}
-	glPopMatrix();
-
-	if (isLightRightOn)
-	{
-		glEnable(GL_LIGHT1);
-		glLightfv(GL_LIGHT1, GL_POSITION, light[1].getPointSource());
-		glLightfv(GL_LIGHT1, GL_AMBIENT, light[1].getAmbient());
-		glLightfv(GL_LIGHT1, GL_DIFFUSE, light[1].getDiffuse());
-		glLightfv(GL_LIGHT1, GL_SPECULAR, light[1].getSpecular());
-	}
-	else {
-		glDisable(GL_LIGHT1);
-	}
-
-	glDisable(GL_BLEND);
 }
 
 void renderBitmapCharacter(int x, int y, void *font, char *string)
@@ -774,6 +776,18 @@ void disposeModels()
 		delete variableModels.back();
 		variableModels.pop_back();
 	}
+}
+
+void setUpCamera()
+{
+	Point3D position = { 0.0, 15.0, 50 };
+	Point3D lookAt = { 0.0, 15.0, 0.0 };
+	Point3D angle = { 0.0, 0.0, 0.0 };
+
+	camera.setPosition(position);
+	camera.setInitialPosition(position);
+	camera.setLookAt(lookAt);
+	camera.setAngle(angle);
 }
 
 void display(void)
@@ -951,18 +965,6 @@ void processNormalKey(unsigned char key, int x, int y)
 			isOnScreenHelpOn = !isOnScreenHelpOn;
 			break;
 	}
-}
-
-void setUpCamera()
-{
-	Point3D position = { 0.0, 15.0, 50 };
-	Point3D lookAt = { 0.0, 15.0, 0.0 };
-	Point3D angle = { 0.0, 0.0, 0.0 };
-
-	camera.setPosition(position);
-	camera.setInitialPosition(position);
-	camera.setLookAt(lookAt);
-	camera.setAngle(angle);
 }
 
 void init(void)
