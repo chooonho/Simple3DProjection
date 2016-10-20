@@ -1,3 +1,8 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #pragma once
 
 #ifndef MESH_H
@@ -7,6 +12,7 @@
 #include "Rotate.h"
 #include "Material.h"
 
+// Structure which stores a set of values for color (r, g, b, a)
 struct ColorRGBA4D
 {
 	double red;
@@ -18,6 +24,7 @@ struct ColorRGBA4D
 class Mesh
 {
 	private:
+		//Attributes
 		bool mIsWireFrame;
 		Transform mTranslate;
 		Rotate mRotate;
@@ -25,7 +32,9 @@ class Mesh
 		ColorRGBA4D mColor;
 		Material mMaterial;
 	public:
+		// Constructor
 		Mesh() { mScale.setX(1.0); mScale.setY(1.0); mScale.setZ(1.0); }
+		// Getter function
 		Transform getTranslate() { return mTranslate; }
 		GLdouble getTranslateX() { return mTranslate.getX(); }
 		GLdouble getTranslateY() { return mTranslate.getY(); }
@@ -44,6 +53,7 @@ class Mesh
 		double getColorR() { return mColor.red; }
 		double getColorG() { return mColor.green; }
 		double getColorB() { return mColor.blue; }
+		// Setter function
 		void setTranslate(Transform translate) { mTranslate = translate; }
 		void setTranslateX(GLdouble translateX) { mTranslate.setX(translateX); }
 		void setTranslateY(GLdouble translateY) { mTranslate.setY(translateY); }
@@ -65,6 +75,7 @@ class Mesh
 		void setMaterial(Material material) { mMaterial = material; }
 		bool getIsWireFrame() { return mIsWireFrame; }
 		void setIsWireFrame(bool isWireFrame) { mIsWireFrame = isWireFrame; }
+		// Virtual function
 		virtual void draw() = 0;
 };
 

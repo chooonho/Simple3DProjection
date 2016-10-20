@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "MeshTeapot.h"
 
+// Constructor
 MeshTeapot::MeshTeapot()
 {
 	mSize = 0.0;
@@ -16,6 +22,7 @@ MeshTeapot::MeshTeapot(GLdouble size, ColorRGBA4D color, Transform translate, Ro
 	setIsWireFrame(isWireFrame);
 }
 
+// Getter function
 GLdouble MeshTeapot::getSize()
 {
 	return mSize;
@@ -26,6 +33,7 @@ void MeshTeapot::setSize(GLdouble size)
 	mSize = size;
 }
 
+// Overriden virtual draw function
 void MeshTeapot::draw()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());

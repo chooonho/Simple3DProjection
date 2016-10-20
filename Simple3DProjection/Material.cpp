@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "Material.h"
 
+// Constructor
 Material::Material()
 {
 	mAmbient[0] = { 0.0f };
@@ -33,6 +39,7 @@ Material::Material( GLfloat ambient[], GLfloat diffuse[], GLfloat specular[], GL
 	mShine = shine;
 }
 
+// Getter function
 const GLfloat* Material::getAmbient()
 {
 	return mAmbient;
@@ -58,6 +65,7 @@ GLfloat Material::getShine()
 	return mShine;
 }
 
+// Setter function
 void Material::setAmbient(GLfloat ambient[])
 {
 	for (int i = 0; i < 4; i++)
@@ -95,6 +103,7 @@ void Material::setShine(GLfloat shine)
 	mShine = shine;
 }
 
+// Overloaded assignment operator to allow direct assignment of object
 Material& Material::operator=(const Material& rhMaterial)
 {
 	if (this != &rhMaterial)

@@ -1,3 +1,8 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #pragma once
 
 #ifndef MODEL_H
@@ -9,15 +14,19 @@
 class Model
 {
 	private:
+		// Attribute
 		Transform mTranslate;
 		Rotate mRotate;
 		Rotate mAnimateRotate;
 		Transform mScale;
 		std::vector<Mesh*> mMeshes;
 	public:
+		// Constructor
 		Model();
 		Model(Transform translate, Rotate rotate, Transform scale, std::vector<Mesh*> meshes);
+		// Destructor
 		~Model();
+		// Getter function
 		Transform getTranslate();
 		GLdouble getTranslateX();
 		GLdouble getTranslateY();
@@ -36,6 +45,7 @@ class Model
 		GLdouble getScaleX();
 		GLdouble getScaleY();
 		GLdouble getScaleZ();
+		// Setter function
 		void setTranslate(Transform translate);
 		void setTranslateX(GLdouble translateX);
 		void setTranslateY(GLdouble translateY);
@@ -56,8 +66,11 @@ class Model
 		void setScaleZ(GLdouble scaleZ);
 		void setMeshes(std::vector<Mesh*> meshes);
 		void setIsWireFrame(bool isWireFrame);
+		// Function that adds mesh to the model
 		void addMesh(Mesh* mesh);
+		// Function that removes all the mesh from the model
 		void clearMesh();
+		// Function that render the model
 		void draw();
 };
 

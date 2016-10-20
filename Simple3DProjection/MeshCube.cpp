@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "MeshCube.h"
 
+// Constructor
 MeshCube::MeshCube()
 {
 	mSize = 0.0;
@@ -16,16 +22,19 @@ MeshCube::MeshCube(GLdouble size, ColorRGBA4D color, Transform translate, Rotate
 	setIsWireFrame(isWireFrame);
 }
 
+// Getter function
 GLdouble MeshCube::getSize()
 {
 	return mSize;
 }
 
+// Setter function
 void MeshCube::setSize(GLdouble size)
 {
 	mSize = size;
 }
 
+// Overriden virtual draw function
 void MeshCube::draw()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());

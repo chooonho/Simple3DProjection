@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "MeshRegular.h"
 
+// Constructor
 MeshRegular::MeshRegular(RegularType regularType)
 {
 	mRegularType = regularType;
@@ -12,16 +18,19 @@ MeshRegular::MeshRegular(RegularType regularType, ColorRGBA4D color, bool isWire
 	setIsWireFrame(isWireFrame);
 }
 
+// Getter function
 RegularType MeshRegular::getRegularType()
 {
 	return mRegularType;
 }
 
+// Setter function
 void MeshRegular::setRegularType(RegularType regularType)
 {
 	mRegularType = regularType;
 }
 
+// Overloaded virtual draw function
 void MeshRegular::draw()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());

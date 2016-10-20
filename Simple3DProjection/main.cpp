@@ -1,3 +1,10 @@
+/*******************************************************************************
+*	Name				: OOI CHOON HO
+*	Student ID			: 4805604
+*	Coursework Title	: CSCI336 Assignment 2
+*	Objecttive			: Develop a simple 3D scene
+*******************************************************************************/
+
 #include <math.h>
 #include <GL/glut.h>
 #include <GL/glu.h>
@@ -10,8 +17,10 @@
 #include "Spotlight.h"
 #include <iostream>
 
+// Hide the console window
 #pragma comment (linker,"/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
+// Constant variables
 const int MAX_DISCO_LIGHT_COUNT = 4;
 const float MIN_SWING_SPEED = 5.0f;
 const float MAX_SWING_SPEED = 50.0f;
@@ -22,6 +31,7 @@ const float MAX_JUMP_SHAKE_SPEED = 35.0f;
 const float MAX_BRIGHTNESS = 2.0f;
 const float MIN_BRIGHTNESS = 0.0f;
 
+// Global variables
 Camera camera;
 Light light[2];
 Spotlight spotlight;
@@ -52,6 +62,7 @@ int font = (int)GLUT_BITMAP_8_BY_13;
 	- However, color can still be set, just that the color effect will not be seen
 */
 
+// Initialize the values (position, ambient, diffuse and specular) of lights
 void setUpLight()
 {
 	GLfloat* pointSourcePtr = NULL;
@@ -93,6 +104,7 @@ void setUpLight()
 	}
 }
 
+// Initialize the values(position, ambient, diffuse, specular, direction, cutoff, expoenent) of spotlight
 void setUpSpotlight()
 {
 	GLfloat pointSource[4] = { 0.0f, 27.5f, 13.0f, 1.0f };
@@ -112,6 +124,7 @@ void setUpSpotlight()
 	spotlight.setExponent(exponent);
 }
 
+// Initialize the values(position, ambient, diffuse, specular, direction, cutoff, expoenent) of disco light
 void setUpDiscoLight()
 {
 	GLfloat* pointSourcePtr = NULL;
@@ -178,8 +191,10 @@ void setUpDiscoLight()
 	}
 }
 
+// Draws the light bulbs and enable/disable the lights
 void drawLightBulbs()
 {
+	// Variable declaration and initialization
 	GLfloat lightBulbLeftMaterial[4][4] = {
 		{ 0.822f, 0.625f, 0.143f, 0.8f },
 		{ 0.722f, 0.525f, 0.043f, 0.8f },
@@ -194,6 +209,10 @@ void drawLightBulbs()
 		{ 0.729f, 0.333f, 0.827f, 1.0f }
 	};
 
+	// Lights are wrapped with sphere to indicate its position
+	// If the light is lit, sets the material emission 
+	// Draw a sphere wrapping the light
+	// Then enable the light if it is lit, disable it if it is not
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
@@ -265,8 +284,10 @@ void drawLightBulbs()
 	glDisable(GL_BLEND);
 }
 
+// Draw the spotlight and its holder and enable/disable the spotlight
 void drawSpotlight()
 {
+	// Variable declaration and initialization
 	GLfloat spotlightHolderMaterial[4][4] = {
 		{ 0.0f, 0.0f, 0.0f, 1.0f },
 		{ 0.5f, 0.5f, 0.5f, 1.0f },
@@ -281,12 +302,16 @@ void drawSpotlight()
 		{ 1.0f, 1.0f, 1.0f, 1.0f }
 	};
 
+	// Draws the spotlight holder (a cone)
+	// If the spotlight is lit, sets the material emission
+	// Enable the spotlight if it is lit, disable it if it is not
+	// Draw a sphere wrapping the spotlight
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 
 	glPushMatrix();
-	glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 2.0, spotlight.getPointSource()[2]);
+	glTranslatef(spotlight.getPointSource()[0], spotlight.getPointSource()[1] + 2.0f, spotlight.getPointSource()[2]);
 	glRotatef(swingAngle, 0.0f, 0.0f, 1.0f);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, spotlightHolderMaterial[0]);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, spotlightHolderMaterial[1]);
@@ -342,8 +367,10 @@ void drawSpotlight()
 	glDisable(GL_BLEND);
 }
 
+// Draw the disco light and its holder and enable/disable the disco light
 void drawDiscoLight()
 {
+	// Vairable declaration and initialization
 	GLfloat discoLightHolderMaterial[4][4] = {
 		{ 0.0f, 0.0f, 0.0f, 1.0f },
 		{ 0.5f, 0.5f, 0.5f, 1.0f },
@@ -378,12 +405,18 @@ void drawDiscoLight()
 		}
 	};
 
+	// This disco light is actually made up of 4 spotlights,
+	// each with different color (red, green, blue, yellow)
+	// First, draw the disco light holder (a cube and a sphere)
+	// Enable each of the spotlights if it is lit, disable them if it is not
+	// If the spotlights are lit, sets the material emission
+	// Draw spheres wrapping the spotlights
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glMatrixMode(GL_MODELVIEW);
 
 	glPushMatrix();
-	glTranslatef(discoLight[0].getPointSource()[0], discoLight[0].getPointSource()[1], discoLight[0].getPointSource()[2] + 0.75);
+	glTranslatef(discoLight[0].getPointSource()[0], discoLight[0].getPointSource()[1], discoLight[0].getPointSource()[2] + 0.75f);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, discoLightHolderMaterial[0]);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, discoLightHolderMaterial[1]);
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, discoLightHolderMaterial[2]);
@@ -514,9 +547,18 @@ void drawDiscoLight()
 	glDisable(GL_BLEND);
 }
 
+// Calculates the swinging angle for the spotlight
 void swingSpotlight(int value)
 {
+	// Variable declaration and initialization
+	// Static variable is used here to keep the value from resetting
 	static float radian = 0.0f;
+
+	// Swing angle is calculated using sin, adjusted by a constant value,
+	// in this case is 25.0f
+	// To make the swing goes left and right (e.g. -1 to 1), the radian (angle in radian)
+	// has to go one whole round (using the nature of sin),
+	// which is why the MATH_PI is multiplied by 2
 	swingAngle = 25.0f * sin(radian);
 
 	radian = radian + ((MATH_PI * 2.0f) / 135.0f) * swingSpeed;
@@ -534,9 +576,20 @@ void swingSpotlight(int value)
 	glutPostRedisplay();
 }
 
+// Calculates the spinning angle for the discolight
 void spinDiscoLight(int value)
 {
+	// Variable declaration and initialization
+	// Static variable is used here to keep the value from resetting
 	static float radian = 0.0f;
+
+	// Two spinning angles are used to make the disco light spin in different directions
+	// First spin angle is adjusted by constant value
+	// Second spin angle is calculated using sin, adjusted by a constant value,
+	// in this case is 140.0f
+	// To make the spin goes left and right (e.g. -1 to 1), the radian (angle in radian)
+	// has to go one whole round (using the nature of sin),
+	// which is why the MATH_PI is multiplied by 2
 	spinAngle[0] += spinSpeed;
 	spinAngle[1] = 140.0f * sin(radian);
 
@@ -560,11 +613,20 @@ void spinDiscoLight(int value)
 	glutPostRedisplay();
 }
 
+// Calculates the shake angle and the jumping height of the variable models
 void modelDance(int value)
 {
+	// Variable declaration and initialization
+	// Static variables are used here to keep the values from resetting
 	static float radianHeight = 0.0f;
 	static float radianAngle = 0.0f;
 
+	// Both the jumping height and shake angle is calculated using sin,
+	// but the adjustment values are different
+	// Jumping height does not go below 0.0f,
+	// thus it only use half a round (using nature of sin)
+	// Shake angle has to shake left and right (e.g. -1 to 1),
+	// thus it has to use one full round (using nature of sin)
 	jumpHeight = 3.0f * sin(radianHeight);
 	radianHeight = radianHeight + (MATH_PI / 60.0f) * jumpShakeSpeed;
 	if (radianHeight > MATH_PI)
@@ -573,10 +635,10 @@ void modelDance(int value)
 	}
 
 	shakeAngle = 20.0f * sin(radianAngle);
-	radianAngle = radianAngle + (MATH_PI * 2 / 135.0f) * jumpShakeSpeed;
-	if (radianAngle > (MATH_PI * 2))
+	radianAngle = radianAngle + (MATH_PI * 2.0f / 135.0f) * jumpShakeSpeed;
+	if (radianAngle > (MATH_PI * 2.0f))
 	{
-		radianAngle = radianAngle - (MATH_PI * 2);
+		radianAngle = radianAngle - (MATH_PI * 2.0f);
 	}
 
 	if (isDiscoLightOn)
@@ -605,6 +667,7 @@ void createRoom()
 	Rotate rotate;
 	Transform scale = Transform(1.0, 1.0, 1.0);
 
+	// Calls model creator functions to create the models
 	translate = Transform(-(roomWidth / 2), 0.0, 0.0);
 	rotate = Rotate(0.0, 0.0, 0.0, 0.0);
 	staticModels.push_back(createWall(roomWidth, roomHeight, translate, rotate, scale, COLOR_GRAY, createMaterial(POLISHED_SILVER), horizontal));
@@ -628,10 +691,12 @@ void createRoom()
 
 void createProps()
 {
+	// Variable declaration and intialization
 	Transform translate;
 	Rotate rotate;
 	Transform scale = Transform(1.0, 1.0, 1.0);
 
+	// Calls model creator functions to create the models
 	translate = Transform(-10.0, 1.0, 5.0);
 	staticModels.push_back(createTable(25, 15, 6, translate, rotate, scale));
 
@@ -680,6 +745,7 @@ void createProps()
 	variableModels.push_back(createRegular(ICOSAHEDRON, translate, rotate, scale, COLOR_RED, createMaterial(RED_PLASTIC)));
 }
 
+// Renders a string onto the screen
 void renderBitmapCharacter(int x, int y, void *font, char *string)
 {
 	char* characterPtr;
@@ -703,8 +769,12 @@ void renderBitmapCharacter(int x, int y, void *font, char *string)
 	glDisable(GL_COLOR_MATERIAL);
 }
 
+// Displays on screen help to assist users
 void printOnScreenHelp()
 {
+	// Lights has to be disabled before rendering the texts to prevent it
+	// from blending the color of the texts
+	// Lights shall be re-enabled after the texts are rendered
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
 	glDisable(GL_LIGHT1);
@@ -763,6 +833,7 @@ void printOnScreenHelp()
 	}
 }
 
+// Takes care of releasing the pointers assigned to models
 void disposeModels()
 {
 	while (!staticModels.empty())
@@ -778,6 +849,7 @@ void disposeModels()
 	}
 }
 
+// Initializes the position, lookat and angle of the camera
 void setUpCamera()
 {
 	Point3D position = { 0.0, 15.0, 50 };
@@ -790,6 +862,7 @@ void setUpCamera()
 	camera.setAngle(angle);
 }
 
+// Callback function for display
 void display(void)
 {
 	glMatrixMode(GL_MODELVIEW);
@@ -798,6 +871,10 @@ void display(void)
 				camera.getLookAtX(), camera.getLookAtY(), camera.getLookAtZ(), 0.0, 1.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	// Determine the shade model used
+	// Draw the lights
+	// Draw the models
+	// Print on screen help
 	if (isSmoothShading)
 	{
 		glShadeModel(GL_SMOOTH);
@@ -810,7 +887,6 @@ void display(void)
 	drawLightBulbs();
 	drawSpotlight();
 	drawDiscoLight();
-
 	glPushMatrix();
 		for (unsigned int i = 0; i < staticModels.size(); i++)
 		{
@@ -827,12 +903,12 @@ void display(void)
 			variableModels[i]->draw();
 		}
 	glPopMatrix();
-
 	printOnScreenHelp();
 
 	glutSwapBuffers();
 }
 
+// Special key callback function
 void processSpecialKey(int key, int m, int n)
 {
 	/*
@@ -841,6 +917,20 @@ void processSpecialKey(int key, int m, int n)
 		--	Max and min is set to be 0.0 +- 45.0 (refer to Camera.h and Camera.cpp)
 		-	Camera zoom in and out:
 		--	Max and min is set to be 1.0 +- 0.5 (refer to Camera.h and Camera.cpp)
+	*/
+
+	/*
+	*	Instructions are as below:
+	*	F1 - Toggle between wireframe/solid
+	*	F2 - Toggle between smooth/flat shading
+	*	Home - Reset camera position
+	*	Left - Rotate camera left
+	*	Right - Rotate camera right
+	*	Up - Rotate camera up
+	*	Down - Rotate camera down
+	*	Pg up - Zoom in camera
+	*	Pg dn - Zoom out camera
+	*	End - Quit program
 	*/
 	switch (key)
 	{
@@ -878,8 +968,25 @@ void processSpecialKey(int key, int m, int n)
 	}
 }
 
+// Normal key callback function
 void processNormalKey(unsigned char key, int x, int y)
 {
+	/*
+	*	Instructions are as below:
+	*	1 - Increase global ambient
+	*	2 - Decrease global ambient
+	*	3 - Toggle left light (yellow) on/off
+	*	4 - Toggle right light (purple) on/off
+	*	5 - Toggle spotlight on/off
+	*	6 - Toggle disco mode on/off
+	*	+ - Increase swing speed of spotlight (if on)
+	*	  - Increase spin speed of disco light (if on)
+	*	  - Increase shake speed of models (if on)
+	*	- - Decrease swing speed of spotlight (if on)
+	*	  - Decrease spin speed of disco light (if on)
+	*	  - Decrease shake speed of models (if on)
+	*/
+
 	switch (key)
 	{
 		case '1':
@@ -967,9 +1074,10 @@ void processNormalKey(unsigned char key, int x, int y)
 	}
 }
 
+// Initialization for glut
 void init(void)
 {
-	glClearColor(0.1, 0.1, 0.1, 0.0);
+	glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
@@ -978,11 +1086,18 @@ void init(void)
 	glEnable(GL_LIGHTING);
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 	glLoadIdentity();
-	gluPerspective(60, 1.78, 1.0, 100);
+	gluPerspective(60.0, 1.78, 1.0, 100.0);
 }
 
 int main(int argc, char** argv)
 {
+	// Creates a window and position it
+	// Setup camera
+	// Setup lights
+	// Create room
+	// Create prop models
+	// Register callback functions
+	// Release pointer if the program terminated
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 

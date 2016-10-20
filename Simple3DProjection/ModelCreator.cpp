@@ -1,3 +1,8 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "ModelCreator.h"
 #include "Mesh.h"
 #include "MeshCube.h"
@@ -7,6 +12,7 @@
 #include "MeshTorus.h"
 #include "MeshRegular.h"
 
+// Function that creates and return a model (name of model created are specified on the function name)
 Model* createWall(int width, int height, Transform translate, Rotate rotate, Transform scale, ColorRGBA4D color, Material material, Orientation orientation)
 {
 	Model* model = new Model();
@@ -540,6 +546,7 @@ Model* createRegular(RegularType regularType, Transform translate, Rotate rotate
 	return model;
 }
 
+// Function that creates material based on the material types specified in parameter
 Material createMaterial(MaterialType materialType)
 {
 	Material material;

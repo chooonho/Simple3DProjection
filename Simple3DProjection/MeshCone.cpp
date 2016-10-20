@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "MeshCone.h"
 
+// Constructor
 MeshCone::MeshCone()
 {
 	mBase = 0;
@@ -23,6 +29,7 @@ MeshCone::MeshCone(GLdouble base, GLdouble height, GLint sliceCount, GLint stack
 	setIsWireFrame(isWireFrame);
 }
 
+// Getter function
 GLdouble MeshCone::getBase()
 {
 	return mBase;
@@ -43,6 +50,7 @@ GLint MeshCone::getStackCount()
 	return mStackCount;
 }
 
+// Setter function
 void MeshCone::setBase(GLdouble base)
 {
 	mBase = base;
@@ -63,6 +71,7 @@ void MeshCone::setStackCount(GLint stackCount)
 	mStackCount = stackCount;
 }
 
+// Overriden virtual draw function
 void MeshCone::draw()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());

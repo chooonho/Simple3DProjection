@@ -1,6 +1,12 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "Camera.h"
 #include <math.h>
 
+// Constructor
 Camera::Camera()
 {
 	mInitialPosition = { 0.0, 0.0, 0.0 };
@@ -19,6 +25,7 @@ Camera::Camera(Point3D position, Point3D lookAt, Point3D angle, GLdouble zoom)
 	mZoom = zoom;
 }
 
+// Getter function
 Point3D Camera::getInitialPosition()
 {
 	return mInitialPosition;
@@ -104,6 +111,7 @@ GLdouble Camera::getZoom()
 	return mZoom;
 }
 
+// Setter function
 void Camera::setInitialPosition(Point3D initialPosition)
 {
 	mInitialPosition = initialPosition;
@@ -184,8 +192,10 @@ void Camera::setAngleZ(GLdouble z)
 	mAngle.z = z;
 }
 
+// Function that zooms the camera in
 void Camera::zoomIn(GLdouble increment)
 {
+	// Zooming in causes the distance to be reduced (as if we move nearer to the object)
 	if ((mZoom - increment) <= MIN_ZOOM)
 	{
 		return;
@@ -198,8 +208,10 @@ void Camera::zoomIn(GLdouble increment)
 	mPosition.z = ((mInitialPosition.z * cos(DEG_TO_RAD * mAngle.x)) * cos(DEG_TO_RAD * mAngle.y)) * mZoom;
 }
 
+// Function that zooms the camera out
 void Camera::zoomOut(GLdouble decrement)
 {
+	// Zooming out causes the distance to be increased (as if we move further away from the object)
 	if ((mZoom + decrement) >= MAX_ZOOM)
 	{
 		return;

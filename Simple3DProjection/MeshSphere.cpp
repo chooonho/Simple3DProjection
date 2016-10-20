@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "MeshSphere.h"
 
+// Constructor
 MeshSphere::MeshSphere()
 {
 	mRadius = 0.0;
@@ -21,6 +27,7 @@ MeshSphere::MeshSphere(GLdouble radius, GLint sliceCount, GLint stackCount, Colo
 	setIsWireFrame(isWireFrame);
 }
 
+// Getter function
 GLdouble MeshSphere::getRadius()
 {
 	return mRadius;
@@ -36,6 +43,7 @@ GLint MeshSphere::getStackCount()
 	return mStackCount;
 }
 
+// Setter function
 void MeshSphere::setRadius(GLdouble radius)
 {
 	mRadius = radius;
@@ -51,6 +59,7 @@ void MeshSphere::setStackCount(GLint stackCount)
 	mStackCount = stackCount;
 }
 
+// Overloaded virtual draw function
 void MeshSphere::draw()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());

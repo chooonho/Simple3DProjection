@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "Spotlight.h"
 
+// Constructor
 Spotlight::Spotlight()
 {
 	mDirection[0] = { 0.0f };
@@ -18,6 +24,8 @@ Spotlight::Spotlight(GLfloat pointSource[], GLfloat ambient[], GLfloat diffuse[]
 	mCutOff = cutOff;
 	mExponent = exponent;
 }
+
+// Getter function
 const GLfloat* Spotlight::getDirection()
 {
 	return mDirection;
@@ -33,6 +41,7 @@ GLfloat Spotlight::getExponent()
 	return mExponent;
 }
 
+// Setter function
 void Spotlight::setDirection(GLfloat direction[])
 {
 	for (int i = 0; i < 3; i++)

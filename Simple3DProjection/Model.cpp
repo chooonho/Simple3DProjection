@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "Model.h"
 
+// Constructor
 Model::Model()
 { 
 	mScale = Transform(1.0, 1.0, 1.0);
@@ -13,6 +19,7 @@ Model::Model(Transform translate, Rotate rotate, Transform scale, std::vector<Me
 	mMeshes = meshes;
 }
 
+// Destructor
 Model::~Model()
 {
 	while (!mMeshes.empty())
@@ -22,6 +29,7 @@ Model::~Model()
 	}
 }
 
+// Getter function
 Transform Model::getTranslate()
 {
 	return mTranslate;
@@ -112,6 +120,7 @@ GLdouble Model::getScaleZ()
 	return mScale.getZ();
 }
 
+// Setter function
 void Model::setTranslate(Transform translate)
 {
 	mTranslate = translate;
@@ -215,18 +224,23 @@ void Model::setIsWireFrame(bool isWireFrame)
 	}
 }
 
+// Function for adding mesh to the model
 void Model::addMesh(Mesh* mesh)
 {
 	mMeshes.push_back(mesh);
 }
 
+// Function for clearing all the meshes in the model
 void Model::clearMesh()
 {
 	mMeshes.clear();
 }
 
+// Function that draws the model
 void Model::draw()
 {
+	// Loops through each mesh
+	// Calls the mesh draw function to render the mesh
 	glPushMatrix();
 		glTranslated(getTranslateX(), getTranslateY(), getTranslateZ());
 		glRotated(getRotateAngle(), getRotateX(), getRotateY(), getRotateZ());

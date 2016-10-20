@@ -1,5 +1,11 @@
+/*******************************************************************************
+*	Author				: OOI CHOON HO
+*	Date				: 20/10/2016
+*******************************************************************************/
+
 #include "MeshTorus.h"
 
+// Constructor
 MeshTorus::MeshTorus()
 {
 	mInnerRadius = 0;
@@ -23,6 +29,7 @@ MeshTorus::MeshTorus(GLdouble innerRadius, GLdouble outerRadius, GLint nSideCoun
 	setIsWireFrame(isWireFrame);
 }
 
+// Getter function
 GLdouble MeshTorus::getInnerRadius()
 {
 	return mInnerRadius;
@@ -43,6 +50,7 @@ GLint MeshTorus::getRingCount()
 	return mRingCount;
 }
 
+// Setter function
 void MeshTorus::setInnerRadius(GLdouble innerRadius)
 {
 	mInnerRadius = innerRadius;
@@ -63,6 +71,7 @@ void MeshTorus::setRingCount(GLint ringCount)
 	mRingCount = ringCount;
 }
 
+// Overriden virtual draw function
 void MeshTorus::draw()
 {
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, getMaterial().getAmbient());
